@@ -91,7 +91,7 @@ CREATE TABLE userGroup (
 
 CREATE TABLE groupPosts (
     post_id int not null,
-    group_id int not null
+    group_id int noat null
     
 );
 
