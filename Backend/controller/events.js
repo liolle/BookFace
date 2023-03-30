@@ -27,15 +27,29 @@ const db = mysql.createConnection({
     var params = req.body;
     console.log(params);
 
-    db.query("INSERT INTO events SET ? ", params,
-        function (error, results, fields) {
-            if (error) throw error;
-            return res.send({
-                data: results,
-                message: 'New todo has been created successfully.'
-            });
+
+
+db.query("INSERT INTO events SET ? ", params, function (error, results, fields) {
+    if (error) throw error;
+
+    // Insertion dans la table tag
+    const eventId = results.insertId; // récupère l'identifiant de l'événement inséré
+    const tagParams = {
+        context_id: eventId,
+        tag: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+        type: 'event'
+    };
+    db.query("INSERT INTO tags SET ?", tagParams, function (error, results, fields) {
+        if (error) throw error;
+        return res.send({
+            data: results,
+            message: 'New todo has been created successfully.'
         });
-};
+    });
+});
+
+}
+
 
 // Retrieve and return all todos from the database.
  const findAll = (req, res) => {
@@ -94,6 +108,7 @@ module.exports = {
     update,
     deletes
 }
+
 
 
 

@@ -5,14 +5,9 @@ const mysql = require("mysql2");
 
 
 
-
-
-
-
 //parse application/json
 app.use(bodyParser.json());
 app.use('/events',require('./routes/events'));
-
 
 
 //Qui permet de tfaiter les donnees de la requette
