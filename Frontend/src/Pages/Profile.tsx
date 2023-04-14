@@ -5,14 +5,24 @@ import { FaHome, FaMapMarkerAlt } from "react-icons/fa";
 import classNames from 'classnames';
 import Publication from '../Components/Publication/Publication';
 import SideBarStat from '../Components/SideBar/SideBarStat';
+import GalleryCard from '../Components/GalleryCard/GalleryCard';
+import GreenWave2 from '../images/GreenWave2.jpg'
 
 
-interface ProfileCardProps {
+
+const backgroundImageStyle = {
+    backgroundImage: `url("${GreenWave2}")`,
+    backgroundSize: 'cover', 
+
+  };
+
+
+interface ProfileProps {
     data: PostData;
   }
 
     
-    const Profile: React.FC <ProfileCardProps> = ({data}) => { 
+    const Profile: React.FC <ProfileProps> = ({data}) => { 
         
     const [active, setActive] = useState(0);
 
@@ -56,7 +66,7 @@ interface ProfileCardProps {
     
     return (
 
-        <div className="flex flex-col md:flex-row md:gap-5">
+        <div className="flex flex-col md:flex-row md:gap-5" style={backgroundImageStyle}>
         <div className="md:flex-grow-2 h-full fixed left-0 top-0">
          < SideBarStat />
         </div>
@@ -136,8 +146,8 @@ interface ProfileCardProps {
 </div>
 </div>
 <div className="md:flex-grow">
-<div className="max-w-lg">
-    {/* <GalleryCard /> */}
+<div className="max-w-">
+    <GalleryCard />
 </div>
 </div>
 </div>

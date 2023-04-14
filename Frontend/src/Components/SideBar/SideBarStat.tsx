@@ -13,13 +13,13 @@ import { useMediaQuery } from 'react-responsive';
     if (isDesktopOrLaptop) {
 
   return (
-    <div className="bg-green-50 text-green-900 h-screen px-4 duration-500 ease-in-out">
-      <div className="px-16 py-12">
+    <div className="bg-green-100 text-green-900 h-screen px-4">
+      <div className="px-12 py-12">
         <div className="flex justify-between items-center pt-20 mb-10 mr-14"><FaHome />
           <Link to="/Home" className="text-xl font-semibold text-gray-700 hover:text-green-500">Home</Link>
         </div>
         <div className="flex justify-between items-center mb-10 mr-14"><FaUser />
-          <Link to="/ProfileCard" className="text-xl font-semibold text-gray-700 hover:text-green-500">Profile</Link>
+          <Link to="/Profile" className="text-xl font-semibold text-gray-700 hover:text-green-500">Profile</Link>
         </div>
         <div className="flex justify-between items-center mb-10"><FaBell className="inline-block mr-3" />
           <Link to="/Notifications" className="text-xl font-semibold text-gray-700 hover:text-green-500">Notifications</Link>

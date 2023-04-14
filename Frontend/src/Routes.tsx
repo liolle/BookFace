@@ -4,12 +4,10 @@ import people from "./Components/Followings/people"
 import PostCard from "./Components/Postcard/Postcard"
 import SideBar from "./Components/SideBar/SideBar"
 import VCard from "./Components/VCard/VCard"
-import ModalCookies from "./Components/ModalCookies/ModalCookies"
 import LandingPage from './Pages/LandingPage'
 import Register from "./Pages/Register"
 import Login from "./Pages/Login"
-import ProfileCard from "./Components/ProfileCard/ProfileCard"
-
+import ProfileCard from "./Pages/Profile"
 
 import NatureCard from "./Components/GalleryCard/GalleryCard"
 import NatureTrendCard from "./Components/NatureTrendCard/NatureTrendCard"
@@ -51,29 +49,8 @@ export function routes() {
             <Route path='/Followings' element={<Followings suggestions={people} />} />
             <Route path='/post' element={<PostCard profilePictureUrl="https://randomuser.me/api/portraits/women/8.jpg" />} />
             <Route path='NatureCard/' element={<NatureCard />} />
-            <Route path='Profile/' element={<Profile data={{
-            id: 0,
-            author: {
-                name: "",
-                username: "",
-                avatarUrl: ""
-            },
-            profileDescription: undefined,
-            address: undefined,
-            country: undefined,
-            content: undefined,
-            imageUrl: undefined,
-            videoUrl: undefined,
-            postedAt: "",
-            following: 0,
-            followedBy: undefined,
-            followers: 0,
-            likes: 0,
-            shares: 0,
-            comments: 0
-        }} />} />
             <Route path='NatureTrendCard/' element={<NatureTrendCard />} />
-            <Route path='/ProfileCard' element={<ProfileCard data={{
+            <Route path='/Profile' element={<Profile data={{
                 id: 0,
                 author: {
                 name: "John Doe",

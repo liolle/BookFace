@@ -1,9 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import GreenWave2 from '../images/GreenWave2.jpg'
 import GlobeImage from '../images/GlobeImage.png'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const fetchRegister =  (email:string,pwd:string)=> {
+
+  let url ="https://book-face-backend.vercel.app/register"
+
+  
+  return new Promise<boolean>((resolve, reject) => {
+
+    let option = {
+      method: "POST",
+      Headers:{
+        'accept':'application/json',
+        'content': 'application/json'
+      },
+      body: JSON.stringify({
+        email:email,
+        pwd:pwd
+      })
+    }
+    
+    fetch(url,option)
+    .then((response)=>{
+      return response.json()
+    })
+    .then((data)=>{
+      console.log(data);
+      
+     resolve(false)
+    })
+    .catch((err)=>{
+      console.log(err);
+      resolve(false)
+    })
+  })
+
+  
+
+}
 
 
 function Register (){
@@ -22,7 +60,11 @@ function Register (){
     const [PasswordError, setPasswordError] = useState('')
     const [formError, setFormError] = useState('')
     const [checkBoxChecked, setCheckBoxChecked] = useState(false);
+    const [registerOk, setRegisterOk] = useState(false)
 
+    useEffect(()=>{
+
+    },[])
 
 
     const handleCheckBoxChange = (e:any) => {
@@ -45,15 +87,30 @@ function Register (){
           })
           setFormError('Please accept the terms of use and privacy policy.')
         }else {
+          console.log("Formulaire envoyé");
+
+          
+          
           setFormError('')
           toast.success('Sign in successful!', {
           position: "top-center",
           autoClose: 1000,
         onClose: () => {
-          window.location.href = "/Login";
+          // window.location.href = "/Login";
+
         }})
-          
-          console.log("Formulaire envoyé");
+
+          fetchRegister(Email,Password)
+          .then((result)=>{
+            if (result){
+              console.log('OK');
+              
+            }
+            else{
+              console.log('Not ok');
+              
+            }
+          })
           // setIsSubmitted(true)
         }
       
@@ -95,7 +152,7 @@ function Register (){
 
             <p className="mb-4 w-48 text-green-800">Create your account.</p>
                 
-            <form action="" onSubmit={handleSubmit}>
+            {/* <form action="" onSubmit={handleSubmit}> */}
                 
                 <div className="mt-5">
                     <input type="email" placeholder="Email" name="Email" onChange={e => setEmail(e.target.value)} className="border border-gray-400 py-1 px-2 w-full" />
@@ -113,9 +170,9 @@ function Register (){
                    <div className = "text-green-900"><span> I accept the <a href="#" className="font-semibold"> Terms of Use</a> & <a href="#" className=" font-semibold">Privacy Policy</a></span></div>
                 </div>
                 <div className="mt-5">
-                <button type="submit" className="bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mr-4">Register Now</button>
+                <button  onClick={handleSubmit} className="bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mr-4">Register Now</button>
                 </div>
-            </form>
+            {/* </form> */}
             
           </div>
         </div>
