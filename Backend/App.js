@@ -8,6 +8,10 @@ const mysql = require("mysql2");
 //parse application/json
 app.use(bodyParser.json());
 app.use('/events',require('./routes/events'));
+app.use('/user',require('./routes/user'));
+app.use('/follow',require('./routes/follow'));
+app.use('/group',require('./routes/group'));
+app.use('/list',require('./routes/list'));
 
 
 //Qui permet de tfaiter les donnees de la requette

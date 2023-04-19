@@ -11,8 +11,8 @@ const events = require('../controller/events')
 router.post('/', events.create) ;  // Récupérer tous les todos
 router.get('/', events.findAll) ;  // Récupérer une seule tâche par identifiant
 router.get('/:id', events.findOne) ;  // Mettre à jour un Todo avec id
-router.put('/:id', events.update) ;  // Supprimer un Todo par id
-// router.delete('/:id', events.delete) ; 
+router.put('/:id', events.update) ;  // Ajouter un Todo par id
+router.delete('/:id', events.deletes) ; //Supprimer un id
 
 module.exports = router
 

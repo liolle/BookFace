@@ -14,44 +14,54 @@ const db = mysql.createConnection({
 
 });
 
-  const create = (req, res) => {
-    // Validate request
-    if (!req.body.description) {
-        return res.status(400).send({
-            message: "Todo description can not be empty"
-        });
-    }
 
-    var params = req.body;
+const create = (req, res) => {
+
+
+    var params = req.body
     console.log(params);
+    // Validate request
+    if(!params.follow || !params.user){ 
+        res.send("error");
+        return 
+    }
+    console.log(params.tag);
+   db.query(`SELECT id FROM tags where tag = '${params.follow}'`,(error1,results1,fields1)=>{
+     if(error1){
+        res.send('error');
+        return
+     }
+     
+     
+     db.query(`SELECT id FROM tags where tag = '${params.user}'`,(error2,results2,fields2)=>{
+        if(error2){
+            res.send('error');
+            return
+         }
+     
+     let id =results1[0]['id'];
+     
+     let id2 = results2[0]['id']
+    
 
+         db.query(`INSERT into userFollow (user_id,follower_id)
+         values (${id2},${id})`,(err3,res3)=>{
+            if (err3) {
+                res.send("error")
+                return
+            }
+            res.send("success")
 
+         });
 
-db.query("INSERT INTO events SET ? ", params, function (error, results, fields) {
-    if (error) throw error;
+   });  
 
-    // Insertion dans la table tag
-    const eventId = results.insertId; // récupère l'identifiant de l'événement inséré
-    const tagParams = {
-        context_id: eventId,
-        tag: '@'+(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
-        type: 'event'
-    };
-    db.query("INSERT INTO tags SET ?", tagParams, function (error, results, fields) {
-        if (error) throw error;
-        return res.send({
-            data: results,
-            message: 'New todo has been created successfully.'
-        });
-    });
-});
-
+})
 }
-
 
 // Retrieve and return all todos from the database.
  const findAll = (req, res) => {
-    db.query('select * from events',
+    db.query('select * from userFollow',
         function (error, results, fields) {
             if (error) throw error;
             res.end(JSON.stringify(results));
@@ -61,7 +71,7 @@ db.query("INSERT INTO events SET ? ", params, function (error, results, fields) 
 // Find a single todo with a id
  const findOne = (req, res) => {
 
-    db.query('select * from events where Id=?',
+    db.query('select * from userFollow where user_id=?',
         [req.params.id],
         function (error, results, fields) {
             if (error) throw error;
@@ -81,7 +91,7 @@ db.query("INSERT INTO events SET ? ", params, function (error, results, fields) 
 
     console.log(req.params.id);
     console.log(req.body.description);
-    db.query('UPDATE `events` SET `name`=?,`description`=? where `id`=?',
+    db.query('UPDATE `userFollow` SET `name`=?',
         [req.body.name, req.body.description, req.params.id],
         function (error, results, fields) {
             if (error) throw error;
@@ -90,14 +100,18 @@ db.query("INSERT INTO events SET ? ", params, function (error, results, fields) 
 };
 
 // Delete a todo with the specified id in the request
- const deletes = (req, res) => {
+const deletes = (req, res) => {
     console.log(req.body);
-    db.query('DELETE FROM `events` WHERE `Id`=?', 
-        [req.body.id], function (error, results, fields) {
-            if (error) throw error;
+    db.query('DELETE FROM `userFollow` WHERE `follower_id` = ?',
+        [req.params.id], function (error, results, fields) {
+            if (error){
+                console.log(error);
+            } 
             res.end('Record has been deleted!');
     });
-}; 
+};
+
+
 
 module.exports = {
     create,

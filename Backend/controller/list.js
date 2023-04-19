@@ -9,49 +9,42 @@ const db = mysql.createConnection({
     user:"root",
     password:"root",
     database:"bookface",
-    port: 8889
-
+    port: 8889,
+    
 
 });
 
-  const create = (req, res) => {
+
+// Create and Save a new Todo
+const create = (req, res) => {
     // Validate request
-    if (!req.body.description) {
+    if (!req.body.name) {
         return res.status(400).send({
-            message: "Todo description can not be empty"
+            message: "Todo name can not be empty"
         });
     }
 
     var params = req.body;
     console.log(params);
 
-
-
-db.query("INSERT INTO events SET ? ", params, function (error, results, fields) {
-    if (error) throw error;
-
-    // Insertion dans la table tag
-    const eventId = results.insertId; // récupère l'identifiant de l'événement inséré
-    const tagParams = {
-        context_id: eventId,
-        tag: '@'+(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
-        type: 'event'
-    };
-    db.query("INSERT INTO tags SET ?", tagParams, function (error, results, fields) {
-        if (error) throw error;
-        return res.send({
-            data: results,
-            message: 'New todo has been created successfully.'
+    db.query("INSERT INTO grouplist SET ? ", params,
+        function (error, results, fields) {
+            if (error){
+                res.send({
+                    message: error
+                });
+                return
+            } 
+             res.send({
+                message: 'New todo has been created successfully.'
+            });
         });
-    });
-});
-
-}
-
+       
+};
 
 // Retrieve and return all todos from the database.
- const findAll = (req, res) => {
-    db.query('select * from events',
+const findAll = (req, res) => {
+    db.query('select * from grouplist',
         function (error, results, fields) {
             if (error) throw error;
             res.end(JSON.stringify(results));
@@ -59,19 +52,26 @@ db.query("INSERT INTO events SET ? ", params, function (error, results, fields) 
 };
 
 // Find a single todo with a id
- const findOne = (req, res) => {
+const findOne = (req, res) => {
 
-    db.query('select * from events where Id=?',
-        [req.params.id],
-        function (error, results, fields) {
-            if (error) throw error;
-            res.end(JSON.stringify(results));
-        });
+    
+    db.query('SELECT * FROM grouplist WHERE Id = ?', [req.params.id], function (error, results, fields) {
+        if (error) throw error;
+        if (results.length === 0) {
+            res.status(404).send('User not found');
+        } else {
+            // L'ID existe, on peut exécuter la requête d'origine
+            db.query('SELECT * FROM grouplist WHERE Id = ?', [req.params.id], function (error, results, fields) {
+                if (error) throw error;
+                res.end(JSON.stringify(results));
+            });
+        }
+    });
+    
 };
 
-
 // Update a todo identified by the id in the request
- const update = (req, res) => {
+const update = (req, res) => {
     // Validate Request
     if (!req.body.description) {
         return res.status(400).send({
@@ -81,7 +81,7 @@ db.query("INSERT INTO events SET ? ", params, function (error, results, fields) 
 
     console.log(req.params.id);
     console.log(req.body.description);
-    db.query('UPDATE `events` SET `name`=?,`description`=? where `id`=?',
+    db.query('UPDATE `grouplist` SET `name`=?,`description`=? where `id`=?',
         [req.body.name, req.body.description, req.params.id],
         function (error, results, fields) {
             if (error) throw error;
@@ -90,14 +90,14 @@ db.query("INSERT INTO events SET ? ", params, function (error, results, fields) 
 };
 
 // Delete a todo with the specified id in the request
- const deletes = (req, res) => {
+const deletes = (req, res) => {
     console.log(req.body);
-    db.query('DELETE FROM `events` WHERE `Id`=?', 
+    db.query('DELETE FROM `grouplist` WHERE `Id`=?', 
         [req.body.id], function (error, results, fields) {
             if (error) throw error;
             res.end('Record has been deleted!');
     });
-}; 
+};
 
 module.exports = {
     create,
