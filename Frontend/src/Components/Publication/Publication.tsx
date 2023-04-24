@@ -40,7 +40,7 @@ const Publication: React.FC<Props> = ({ data}) => {
   };
 
   return (
-    <div className="  w-96   md:w-auto lg:w-4/5 xl:w-auto mx-auto rounded-md overflow-hidden shadow-md bg-white">
+    <div className="  w-96 md:w-auto lg:w-4/5 xl:w-auto mx-auto rounded-md overflow-hidden shadow-md bg-white">
       <div className="flex items-center justify-between mb-4 mr-1 ml-1">
         <div className="flex items-center">
           <img src={data.author.avatarUrl} alt="Avatar" className="w-10 h-10 rounded-full mr-2" />
