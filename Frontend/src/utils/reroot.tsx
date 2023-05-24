@@ -11,7 +11,7 @@ const LandingCheck = () => {
 
   useEffect(() => {
     const fetchAuth = async () => {
-      const authRoute = DEVELOP+"/login/auth";
+      const authRoute = PRODUCTION+"/login/auth";
       let options = {
         method: 'POST',
         headers: {
