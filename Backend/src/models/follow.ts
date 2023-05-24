@@ -173,7 +173,6 @@ export class Follow extends DbConnect {
                     })
                     return
                 }
-                console.log(rows);
                 
                 resolve({
                     status:100,

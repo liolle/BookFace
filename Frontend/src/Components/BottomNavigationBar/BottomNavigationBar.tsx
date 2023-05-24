@@ -13,16 +13,20 @@ const PRODUCTION = "https://book-face-backend.vercel.app"
 const fetchDisconnect = ()=>{
   let url = `${DEVELOP}/logout`
 
-  let option = {
+  let options = {
     method: 'POST',
-    credentials: "include" as RequestCredentials,
-  }
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+  } 
   
   return new Promise<ResponseMsg>(async (resolve, reject) => {
 
     try {
 
-      let response = await fetch(url,option)
+      let response = await fetch(url,options)
       let data:ResponseMsg = await response.json()
 
       resolve(data) 

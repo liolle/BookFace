@@ -282,7 +282,6 @@ class Post extends dbConnect_1.default {
                 }
                 let output = [];
                 for (let x of rows) {
-                    console.log(x);
                     output.push({
                         post_id: x['id'],
                         publisher: x['publisher'],

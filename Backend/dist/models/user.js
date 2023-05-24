@@ -392,10 +392,8 @@ class User extends dbConnect_1.default {
                 });
                 return;
             }
-            console.log(resSession);
             resSession = await session.getUId(id);
             let content = resSession.content;
-            console.log(resSession);
             resolve({
                 status: 100,
                 message: Type.StatusTypes[100],

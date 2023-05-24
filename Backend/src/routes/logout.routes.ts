@@ -4,7 +4,7 @@ import { logout } from '../controllers/logout';
 import verifyJwt from '../middlewares/auth';
 import unwrapCookies from '../middlewares/unwrapCookies';
 
-router.post('/',unwrapCookies,logout)
+router.post('/',verifyJwt,logout)
 
 
 module.exports = router

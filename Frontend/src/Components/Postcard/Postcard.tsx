@@ -18,27 +18,25 @@ const PRODUCTION = "https://book-face-backend.vercel.app"
 const sendPost = async (content:string, media=0)=>{
   let url = `${DEVELOP}/posts/add`
 
-  let option = {
-    method: 'POST',
+  let options = {
+    method: 'GET',
     headers: {
-      'accept': 'application/json',
-      'Content-Type': 'application/json',
-      
+        'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
     },
-    credentials: "include" as RequestCredentials,
     body: JSON.stringify({
       content: content,
       media: media
     }),
-    
-  }
+  } 
 
   
   return new Promise<ResponseMsg>(async (resolve, reject) => {
 
     try {
 
-      let response = await fetch(url,option)
+      let response = await fetch(url,options)
       let data:ResponseMsg = await response.json()
 
       resolve(data) 

@@ -59,10 +59,15 @@ const fetchPost = async (type:FeedType,tag:string)=>{
     let URL_USER = `${DEVELOP}/posts/registered`
     let URL_GROUP_ALL = `${DEVELOP}/posts/group_all`
 
-    let option = {
+    let options = {
         method: 'GET',
-        credentials: "include" as RequestCredentials
-    }
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        
+      } 
     
     return new Promise<PostType[]>(async (resolve, reject) => {
         let URL = URL_PUBLIC
@@ -85,7 +90,7 @@ const fetchPost = async (type:FeedType,tag:string)=>{
                 break;
         }
 
-        let response = await fetch(URL,option)
+        let response = await fetch(URL,options)
         let data = await response.json() as ResponseMsg
 
         if (data.status == 100){

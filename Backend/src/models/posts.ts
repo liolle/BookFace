@@ -333,7 +333,6 @@ export class Post extends DbConnect{
                 let output = []
 
                 for( let x of rows){
-                    console.log(x);
                     
                     output.push(
                         {

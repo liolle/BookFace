@@ -152,7 +152,6 @@ export class Group extends DbConnect {
             INSERT INTO bf_grouplist (user_id,name,created_at)
             VALUES('${creator_id}','${name}',TIMESTAMP('${timestamp}','0:0:0'))
             `
-            console.log("TAG1");    
             if (!tagname){
                 resolve({
                     status:400,
@@ -161,7 +160,6 @@ export class Group extends DbConnect {
                 })
                 return
             }
-            console.log("TAG11");
             this.connection.query(sql_register, async (err:any, rows:any, fields:any)=>{
                 if (err){
                     let {code} = err
@@ -182,7 +180,6 @@ export class Group extends DbConnect {
 
                 }
 
-                console.log("TAG2");
                 let group = await this.get(name)
                 
                 if (group.status != 100){
@@ -197,12 +194,10 @@ export class Group extends DbConnect {
                 let {id} = group.content as {
                     id:number
                 }
-                console.log("TAG3");
                 let tag = new Tags()
                 tag.addTag(id,"@"+name,Type.TagTypes.GROUP)
                 tag.close()
                 
-                console.log("TAG4");
 
                 resolve({
                     status:100,

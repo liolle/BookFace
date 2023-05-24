@@ -18,9 +18,12 @@ const PRODUCTION = "https://book-face-backend.vercel.app"
 const fetchReg = async (email:string,pwd:string)=>{
   let url = `${DEVELOP}/register/`
 
-  let option = {
+  
+
+  let options = {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
       'accept': 'application/json',
       'Content-Type': 'application/json',
       
@@ -38,7 +41,7 @@ const fetchReg = async (email:string,pwd:string)=>{
 
     try {
 
-      let response = await fetch(url,option)
+      let response = await fetch(url,options)
       let data:ResponseMsg = await response.json()
 
       resolve(data) 

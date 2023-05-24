@@ -460,7 +460,6 @@ export class User extends DbConnect {
                 })
                 return
             }
-            console.log(resSession);
             
             resSession = await session.getUId(id) 
             
@@ -470,7 +469,6 @@ export class User extends DbConnect {
                 tag:string
             }]
 
-            console.log(resSession);
             
             
             resolve({

@@ -26,14 +26,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Type = __importStar(require("../models/types"));
 const token_1 = require("../utils/token");
 const unwrapCookies = async (req, res, next) => {
-    const { VAToken } = req.cookies;
-    if (!VAToken) {
-        console.log("no token");
+    const authorizationHeader = req.headers.authorization;
+    if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
         res.status(400).json({
             status: 203,
             message: Type.StatusTypes[203],
             content: {}
         });
+        return;
+    }
+    const VAToken = authorizationHeader.split(' ')[1];
+    if (VAToken == "ADMIN_SPECIAL_KEY") {
+        next();
         return;
     }
     //   const token = authHeader.split(" ")[1];

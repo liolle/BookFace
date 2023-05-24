@@ -25,7 +25,7 @@ const basicConnect = async (email:string,pwd:string,hashedPwd:string,id:number,u
                 {
                     status:100,
                     message:Type.StatusTypes[100],
-                    content: {}
+                    content: accessToken
                 }
             )
         } catch (error) {
@@ -87,18 +87,6 @@ export const login = async (req:Request, res:Response)=>{
 
 export const auth = async (req:Request, res:Response)=>{
 
-    let {user_id} = req.params
-
-    if ( !user_id){
-        res.status(403).json(
-            {
-                status:403,
-                message:Type.StatusTypes[403],
-                content: {}
-            }
-            )
-            return
-    }
 
     res.status(200).json(
         {

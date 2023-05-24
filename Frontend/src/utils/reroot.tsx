@@ -12,11 +12,17 @@ const LandingCheck = () => {
   useEffect(() => {
     const fetchAuth = async () => {
       const authRoute = DEVELOP+"/login/auth";
-      let option = {
+      let options = {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          
+        },
         credentials: 'include' as RequestCredentials
       }
-      const res = await fetch(authRoute, option);
+      const res = await fetch(authRoute, options);
       res.status === 200 ? setAuth(true) : setAuth(false)
     };
     

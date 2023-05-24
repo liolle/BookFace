@@ -9,7 +9,8 @@
     "ts.check": "tsc --project tsconfig.json",
     "build": "rimraf dist && tsc",
     "add-build": "git add dist",
-    "deploy": "npm run ts.check && npm run build && npm run add-build",
+    "push-build": "git commit -m 'Vercel' && git push",
+    "deploy": "npm run ts.check && npm run build && npm run add-build && npm run push-build",
     "test": "jest --detectOpenHandles"
   },
   "author": "",

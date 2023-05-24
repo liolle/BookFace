@@ -30,8 +30,7 @@ export class Like extends DbConnect{
              
              this.connection.query(like_query, 
                 (err:any, rows:any, fields:any)=>{
-                    console.log("R",rows);
-                    console.log("F",fields);
+
                     let {affectedRows} = rows
 
                     

@@ -193,24 +193,6 @@ class Comment extends dbConnect_1.default {
             });
         });
     }
-    // async getSpecific(user_id:number,timestamp:string){
-    //     let comment:Type.CommentType = {
-    //         user:"@xyz",
-    //         content:"",
-    //         responses: [],
-    //         created_at:"",
-    //         likes:0
-    //     }
-    //     return new Promise<Type.ResponseMsg>((resolve, reject) => {
-    //         resolve({
-    //             status:100,
-    //             message:"TODO",
-    //             content: {
-    //                 comment: comment
-    //             }
-    //         })
-    //     })
-    // }
     async delete(id) {
         return new Promise((resolve, reject) => {
             resolve({

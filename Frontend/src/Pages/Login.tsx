@@ -20,13 +20,16 @@ const PRODUCTION = "https://book-face-backend.vercel.app"
 const fetchReg = async (email:string,pwd:string)=>{
   let url = `${DEVELOP}/login/`
 
-  let option = {
+
+
+
+  let options = {
     method: 'POST',
     headers: {
+      
       'accept': 'application/json',
       'Content-Type': 'application/json',
-      
-    },
+  },
     credentials: "include" as RequestCredentials,
     body: JSON.stringify({
       email: email,
@@ -40,7 +43,7 @@ const fetchReg = async (email:string,pwd:string)=>{
 
     try {
 
-      let response = await fetch(url,option)
+      let response = await fetch(url,options)
       let data:ResponseMsg = await response.json()
 
       resolve(data) 
@@ -95,6 +98,10 @@ function Login (){
           
           let response = await fetchReg(Email,Password)
           if (response.status == 100){
+            
+            //
+            localStorage.setItem('VAToken', response.content as unknown as string || "");
+
             toast.success('Sign in successful!', {
               position: "top-center",
               autoClose: 1000,

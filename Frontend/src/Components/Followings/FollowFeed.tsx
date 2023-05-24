@@ -13,10 +13,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const fetchFollowSuggestion = ()=>{
 
-  let option = {
-      method: 'GET',
-      credentials: "include" as RequestCredentials,
-  }
+  let options = {
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+  } 
 
   const DEVELOP = "http://localhost:3535"
   const PRODUCTION = "https://book-face-backend.vercel.app"
@@ -27,7 +31,7 @@ const fetchFollowSuggestion = ()=>{
 
       try {
   
-        let response = await fetch(URL,option)
+        let response = await fetch(URL,options)
         let data:ResponseMsg = await response.json()
 
         let persons = []
@@ -60,10 +64,14 @@ const fetchFollowSuggestion = ()=>{
 
 const fetchFollows = (u_tag:string)=>{
 
-  let option = {
+  let options = {
     method: 'GET',
-    credentials: "include" as RequestCredentials,
-}
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+  } 
 
 const DEVELOP = "http://localhost:3535"
 const PRODUCTION = "https://book-face-backend.vercel.app"
@@ -74,7 +82,7 @@ return new Promise<ResponseMsg>(async (resolve, reject) => {
 
     try {
 
-        let response = await fetch(URL,option)
+        let response = await fetch(URL,options)
         let data:ResponseMsg = await response.json()
         console.log(u_tag);
         
@@ -108,10 +116,14 @@ return new Promise<ResponseMsg>(async (resolve, reject) => {
 
 const fetchFollowers = (u_tag:string)=>{
 
-    let option = {
-      method: 'GET',
-      credentials: "include" as RequestCredentials,
-  }
+  let options = {
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+  } 
   
   const DEVELOP = "http://localhost:3535"
   const PRODUCTION = "https://book-face-backend.vercel.app"
@@ -122,7 +134,7 @@ const fetchFollowers = (u_tag:string)=>{
   
       try {
   
-        let response = await fetch(URL,option)
+        let response = await fetch(URL,options)
         let data:ResponseMsg = await response.json()
 
         let persons = []
@@ -158,10 +170,14 @@ const fetchFollowers = (u_tag:string)=>{
 
   const fetchFollow = (u_tag:string)=>{
 
-    let option = {
+    let options = {
       method: 'GET',
-      credentials: "include" as RequestCredentials,
-  }
+      headers: {
+          'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+      },
+    } 
   
   const DEVELOP = "http://localhost:3535"
   const PRODUCTION = "https://book-face-backend.vercel.app"
@@ -172,7 +188,7 @@ const fetchFollowers = (u_tag:string)=>{
   
       try {
   
-        let response = await fetch(URL,option)
+        let response = await fetch(URL,options)
         let data:ResponseMsg = await response.json()
       
         resolve({

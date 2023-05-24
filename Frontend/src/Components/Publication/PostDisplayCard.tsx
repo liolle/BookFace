@@ -51,18 +51,19 @@ const fetchLike = (context_id:number,type="posts")=>{
     
     */
 
-    let option = {
-        method: 'POST',
+  
+
+    let options = {
+        method: 'GET',
         headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-        
+            'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
         },
         credentials: "include" as RequestCredentials,
         body: JSON.stringify({
             context_id:context_id
         }),
-    
     }
 
     const DEVELOP = "http://localhost:3535"
@@ -74,7 +75,7 @@ const fetchLike = (context_id:number,type="posts")=>{
 
         try {
     
-          let response = await fetch(URL,option)
+          let response = await fetch(URL,options)
           let data:ResponseMsg = await response.json()
     
           resolve(data) 
@@ -104,19 +105,31 @@ const fetchRegister = (context_id:number)=>{
     
     */
 
-    let option = {
+    // let option = {
+    //     method: 'POST',
+    //     headers: {
+    //     'accept': 'application/json',
+    //     'Content-Type': 'application/json',
+        
+    //     },
+    //     credentials: "include" as RequestCredentials,
+    //     body: JSON.stringify({
+    //         posts_id:context_id
+    //     }),
+    
+    // }
+
+    let options = {
         method: 'POST',
         headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-        
+            'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
         },
-        credentials: "include" as RequestCredentials,
         body: JSON.stringify({
             posts_id:context_id
-        }),
-    
-    }
+        })
+      } 
 
     const DEVELOP = "http://localhost:3535"
     const PRODUCTION = "https://book-face-backend.vercel.app"
@@ -127,7 +140,7 @@ const fetchRegister = (context_id:number)=>{
 
         try {
     
-          let response = await fetch(URL,option)
+          let response = await fetch(URL,options)
           let data:ResponseMsg = await response.json()
     
           resolve(data) 
@@ -294,9 +307,14 @@ const PRODUCTION = "https://book-face-backend.vercel.app"
 
 const fetchComment = async (post_id:number)=>{
 
-    let option = {
-        method: 'GET',
-        credentials: "include" as RequestCredentials
+    let options = {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        
     }
 
     return new Promise<CommentType[]>(async (resolve, reject) => {
@@ -304,7 +322,7 @@ const fetchComment = async (post_id:number)=>{
 
         let URL = `${DEVELOP}/posts/comment?post_id=${post_id}` 
         
-        let response = await fetch(URL,option)
+        let response = await fetch(URL,options)
         let data = await response.json() as ResponseMsg
 
         if (data.status == 100){
@@ -354,27 +372,25 @@ const CommentSection =  ({post_id,comRerender}:{post_id:number,comRerender:numbe
 const addComment = async (content:string, post_id:number,parent=-1)=>{
     let url = `${DEVELOP}/comments/add`
 
-    let option = {
+    let options = {
         method: 'POST',
         headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-        
+            'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
         },
-        credentials: "include" as RequestCredentials,
         body: JSON.stringify({
-        content: content,
-        post_id: post_id,
-        parent_comment: parent
+            content: content,
+            post_id: post_id,
+            parent_comment: parent
         }),
-    
     }
 
     return new Promise<ResponseMsg>(async (resolve, reject) => {
 
         try {
     
-          let response = await fetch(url,option)
+          let response = await fetch(url,options)
           let data:ResponseMsg = await response.json()
     
           resolve(data) 

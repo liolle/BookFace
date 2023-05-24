@@ -159,7 +159,6 @@ class Follow extends dbConnect_1.default {
                     });
                     return;
                 }
-                console.log(rows);
                 resolve({
                     status: 100,
                     message: Type.StatusTypes[100],

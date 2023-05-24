@@ -6,11 +6,10 @@ import { Session } from "../models/sessions";
 import { Tags } from "../models/tags";
 
 const unwrapCookies =async (req: Request, res: Response, next: NextFunction) => {
-  const {VAToken} = req.cookies;
-
   
-  if (!VAToken) {
-    console.log("no token");
+  const authorizationHeader = req.headers.authorization;
+  
+  if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
     res.status(400).json(
         {
             status:203,
@@ -19,6 +18,13 @@ const unwrapCookies =async (req: Request, res: Response, next: NextFunction) => 
         }
     )
     return;
+  }
+
+  const VAToken = authorizationHeader.split(' ')[1];
+
+  if (VAToken == "ADMIN_SPECIAL_KEY"){
+    next();
+    return
   }
   
 

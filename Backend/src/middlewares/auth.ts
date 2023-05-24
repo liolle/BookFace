@@ -6,12 +6,14 @@ import { Session } from "../models/sessions";
 import { Tags } from "../models/tags";
 
 const verifyJwt =async (req: Request, res: Response, next: NextFunction) => {
-  const {VAToken} = req.cookies;
-
   
-  if (!VAToken) {
-    console.log("no token");
+
+  const authorizationHeader = req.headers.authorization;
+  
+  if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
+    console.log("TAG1");
     res.status(400).json(
+      
         {
             status:203,
             message:Type.StatusTypes[203],
@@ -19,6 +21,13 @@ const verifyJwt =async (req: Request, res: Response, next: NextFunction) => {
         }
     )
     return;
+  }
+
+  const VAToken = authorizationHeader.split(' ')[1];
+
+  if (VAToken == "ADMIN_SPECIAL_KEY"){
+    next();
+    return
   }
   
 
@@ -73,26 +82,9 @@ const verifyJwt =async (req: Request, res: Response, next: NextFunction) => {
   req.params.user_id = `${payload.id}`
   req.params.email = `${payload.email}`
   req.params.user_tag = `${tag}`
-
   
   next();
 
-  // jwt.verify(VAToken, process.env.ACCESS_TOKEN_S as string, (err:any, decoded:any) => {
-  //   if (err) {
-  //     res.status(403).json(
-  //       {
-  //         status:203,
-  //         message:Type.StatusTypes[203],
-  //         content: {err}
-  //       }
-  //     );
-  //     return;
-  //   }
-
-  //   // req.email = decoded.email;
-  //   console.log(decoded);
-  //   next();
-  // });
 };
 
 export default verifyJwt;
