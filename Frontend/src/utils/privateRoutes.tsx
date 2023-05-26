@@ -10,7 +10,7 @@ const PrivateRoute = () => {
 
   useEffect(() => {
     const fetchAuth = async () => {
-      const authRoute = PRODUCTION+"/login/auth";
+      const authRoute = DEVELOP+"/login/auth";
       let options = {
         method: 'POST',
         headers: {

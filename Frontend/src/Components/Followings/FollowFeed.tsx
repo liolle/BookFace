@@ -24,7 +24,7 @@ const fetchFollowSuggestion = ()=>{
 
   const DEVELOP = "http://localhost:3535"
   const PRODUCTION = "https://book-face-backend.vercel.app"
-  let URL = `${PRODUCTION}/users/suggest` 
+  let URL = `${DEVELOP}/users/suggest` 
 
   
   return new Promise<ResponseMsg>(async (resolve, reject) => {
@@ -75,7 +75,7 @@ const fetchFollows = (u_tag:string)=>{
 
 const DEVELOP = "http://localhost:3535"
 const PRODUCTION = "https://book-face-backend.vercel.app"
-let URL = `${PRODUCTION}/users/follows?user=${u_tag ||"self"}` 
+let URL = `${DEVELOP}/users/follows?user=${u_tag ||"self"}` 
 
 
 return new Promise<ResponseMsg>(async (resolve, reject) => {
@@ -84,7 +84,6 @@ return new Promise<ResponseMsg>(async (resolve, reject) => {
 
         let response = await fetch(URL,options)
         let data:ResponseMsg = await response.json()
-        console.log(u_tag);
         
         let persons = []
 
@@ -127,7 +126,7 @@ const fetchFollowers = (u_tag:string)=>{
   
   const DEVELOP = "http://localhost:3535"
   const PRODUCTION = "https://book-face-backend.vercel.app"
-  let URL = `${PRODUCTION}/users/followers?user=${u_tag ||"self"}` 
+  let URL = `${DEVELOP}/users/followers?user=${u_tag ||"self"}` 
   
   
   return new Promise<ResponseMsg>(async (resolve, reject) => {
@@ -181,7 +180,7 @@ const fetchFollowers = (u_tag:string)=>{
   
   const DEVELOP = "http://localhost:3535"
   const PRODUCTION = "https://book-face-backend.vercel.app"
-  let URL = `${PRODUCTION}/users/follow?user=${u_tag }` 
+  let URL = `${DEVELOP}/users/follow?user=${u_tag }` 
   
   
   return new Promise<ResponseMsg>(async (resolve, reject) => {
@@ -231,7 +230,6 @@ const FFeed = ({vCardRerender, user_tag, type}:{vCardRerender:Function, user_tag
     if (type == "Follows"){
         fetchFollows(user_tag)
         .then(data=>{
-            console.log(data);
             setUsers(data.content as Person[])
         })
     }
@@ -239,7 +237,6 @@ const FFeed = ({vCardRerender, user_tag, type}:{vCardRerender:Function, user_tag
 
         fetchFollowers(user_tag)
         .then(data=>{
-            console.log(data);
             
             setUsers(data.content as Person[])
             

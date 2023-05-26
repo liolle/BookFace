@@ -47,7 +47,8 @@ export const addComment = async (req:Request, res:Response)=>{
 }
 
 export const getComment =async (req:Request, res:Response) => {
-
+    console.log("Get comment ");
+    
     const {post_id} = req.query 
 
     if (!post_id){
