@@ -403,7 +403,7 @@ class Post extends dbConnect_1.default {
                 GROUP BY context_id
             ) likes ON regPost.post_id = likes.context_id 
             WHERE regUTag.tag = '${u_tag}'
-            GROUP BY id, RUTAG, publisher,avatar, posts.content, posts.media_id, posts.created_at, likes.likes;
+            GROUP BY id, RUTAG, publisher,avatar, posts.content, posts.media_id, posts.created_at, likes.likes
             `);
     }
     SELECT_PUBLIC() {
@@ -431,7 +431,7 @@ class Post extends dbConnect_1.default {
                 GROUP BY context_id
             ) likes ON posts.id = likes.context_id 
             WHERE gPosts.post_id is null and UTags.type = 'USER'
-            GROUP BY posts.id, UTags.tag, Media.link, posts.content, posts.media_id, posts.created_at, likes.likes;
+            GROUP BY posts.id, UTags.tag, Media.link, posts.content, posts.media_id, posts.created_at, likes.likes
             `);
     }
     SELECT_GROUP_ALL(user_id) {
