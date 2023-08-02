@@ -60,6 +60,7 @@ const addComment = async (req, res) => {
 };
 exports.addComment = addComment;
 const getComment = async (req, res) => {
+    console.log("Get comment ");
     const { post_id } = req.query;
     if (!post_id) {
         res.status(400).json({

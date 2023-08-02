@@ -32,19 +32,6 @@ const Type = __importStar(require("./types"));
 const time_1 = require("../utils/time");
 const user_1 = require("./user");
 class Post extends dbConnect_1.default {
-    /*
-
-    CREATE TABLE bf_posts (
-        id int PRIMARY KEY AUTO_INCREMENT ,
-        user_id int not null,
-        media_id int not null,
-        content varchar(2048) ,
-        created_at datetime,
-        likes int DEFAULT 0
-    );
-
-
-    */
     constructor() {
         super();
     }
@@ -301,48 +288,6 @@ class Post extends dbConnect_1.default {
             });
         });
     }
-    // async getUser(user_id:number,timestamp:string){
-    //     let find_query = `
-    //     SELECT * FROM bf_posts 
-    //     WHERE user_id = ${user_id} AND created_at = TIMESTAMP('${timestamp}','0:0:0')
-    //     `
-    //     return new Promise<Type.ResponseMsg>((resolve, reject) => {
-    //         this.connection.query(find_query, (err:any, rows:any, fields:any)=>{
-    //             if (err){
-    //                 console.log(err)
-    //                 resolve({
-    //                     status:404,
-    //                     message:Type.StatusTypes[404],
-    //                     content: {error: err}
-    //                 })
-    //                 return
-    //             }
-    //             if (rows.length == 0){
-    //                 resolve({
-    //                     status:201,
-    //                     message:Type.StatusTypes[201],
-    //                     content: {}
-    //                 })
-    //                 return
-    //             }
-    //             let post = {
-    //                 post_id: rows[0]['id'],
-    //                 user: rows[0]['user_id'],
-    //                 media: rows[0]['media_id'],
-    //                 content: rows[0]['content'],
-    //                 created_at: rows[0]['created_at'],
-    //                 likes: rows[0]['likes']
-    //             }
-    //             resolve({
-    //                 status:100,
-    //                 message:Type.StatusTypes[100],
-    //                 content: {
-    //                     post:post
-    //                 }
-    //             })
-    //         })
-    //     })
-    // }
     async delete(post_id) {
         let find_query = `
         DELETE FROM bf_posts
@@ -440,9 +385,11 @@ class Post extends dbConnect_1.default {
             COALESCE(Media.link, '') AS avatar,
             posts.content, 
             posts.media_id, posts.created_at, 
-            COALESCE(likes.likes, 0) AS likes
+            COALESCE(likes.likes, 0) AS likes,
+            COUNT(posts.id) AS com_number,
             FROM bf_registeredposts regPost 
             INNER JOIN bf_tags regUTag on regPost.user_id = regUTag.context_id
+            LEFT JOIN bf_comments Comments ON Comments.post_id = posts.id
             LEFT JOIN bf_posts posts ON regPost.post_id = posts.id 
             LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id 
             LEFT JOIN bf_users User 
@@ -456,6 +403,7 @@ class Post extends dbConnect_1.default {
                 GROUP BY context_id
             ) likes ON regPost.post_id = likes.context_id 
             WHERE regUTag.tag = '${u_tag}'
+            GROUP BY id, RUTAG, publisher,avatar, posts.content, posts.media_id, posts.created_at, likes.likes;
             `);
     }
     SELECT_PUBLIC() {
@@ -466,8 +414,10 @@ class Post extends dbConnect_1.default {
             posts.content, 
             posts.media_id, 
             posts.created_at, 
-            COALESCE(likes.likes, 0) AS likes
+            COALESCE(likes.likes, 0) AS likes,
+            COUNT(posts.id) AS com_number,
             from  bf_posts posts
+            LEFT JOIN bf_comments Comments ON Comments.post_id = posts.id
             left join bf_groupposts gPosts  on gPosts.post_id = posts.id
             LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id 
             LEFT JOIN bf_users User 
@@ -481,6 +431,7 @@ class Post extends dbConnect_1.default {
                 GROUP BY context_id
             ) likes ON posts.id = likes.context_id 
             WHERE gPosts.post_id is null and UTags.type = 'USER'
+            GROUP BY posts.id, UTags.tag, Media.link, posts.content, posts.media_id, posts.created_at, likes.likes;
             `);
     }
     SELECT_GROUP_ALL(user_id) {
