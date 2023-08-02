@@ -390,7 +390,7 @@ class Post extends dbConnect_1.default {
                 COUNT(posts.id) AS com_number
             FROM bf_registeredposts regPost 
             INNER JOIN bf_tags regUTag on regPost.user_id = regUTag.context_id
-            LEFT JOIN bf_comments Comments ON Comments.post_id = posts.id
+            LEFT JOIN bf_comments Comments ON Comments.post_id = regPost.post_id
             LEFT JOIN bf_posts posts ON regPost.post_id = posts.id 
             LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id 
             LEFT JOIN bf_users User 
