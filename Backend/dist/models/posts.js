@@ -381,12 +381,12 @@ class Post extends dbConnect_1.default {
     SELECT_USER(u_tag) {
         return (`
             SELECT regPost.post_id AS id, regUTag.tag AS RUTAG, 
-            UTags.tag AS publisher , 
-            COALESCE(Media.link, '') AS avatar,
-            posts.content, 
-            posts.media_id, posts.created_at, 
-            COALESCE(likes.likes, 0) AS likes,
-            COUNT(posts.id) AS com_number,
+                UTags.tag AS publisher , 
+                COALESCE(Media.link, '') AS avatar,
+                posts.content, 
+                posts.media_id, posts.created_at, 
+                COALESCE(likes.likes, 0) AS likes,
+                COUNT(posts.id) AS com_number
             FROM bf_registeredposts regPost 
             INNER JOIN bf_tags regUTag on regPost.user_id = regUTag.context_id
             LEFT JOIN bf_comments Comments ON Comments.post_id = posts.id
@@ -409,14 +409,14 @@ class Post extends dbConnect_1.default {
     SELECT_PUBLIC() {
         return (`
             SELECT posts.id, 
-            UTags.tag AS publisher , 
-            COALESCE(Media.link, '') AS avatar,
-            posts.content, 
-            posts.media_id, 
-            posts.created_at, 
-            COALESCE(likes.likes, 0) AS likes,
-            COUNT(posts.id) AS com_number,
-            from  bf_posts posts
+                UTags.tag AS publisher , 
+                COALESCE(Media.link, '') AS avatar,
+                posts.content, 
+                posts.media_id, 
+                posts.created_at, 
+                COALESCE(likes.likes, 0) AS likes,
+                COUNT(posts.id) AS com_number
+            FROM  bf_posts posts
             LEFT JOIN bf_comments Comments ON Comments.post_id = posts.id
             left join bf_groupposts gPosts  on gPosts.post_id = posts.id
             LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id 
