@@ -28,7 +28,8 @@ type PostType = {
     content:string,
     media:number,
     likes:number,
-    created_at:string
+    created_at:string,
+    com_number:number
 }
 
 type CommentType = {

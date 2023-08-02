@@ -43,16 +43,6 @@ type ResponseMsg = {
 
 const fetchLike = (context_id:number,type="posts")=>{
 
-    /*
-    
-    {
-    "context_id": 7
-    }
-    
-    */
-
-  
-
     let options = {
         method: 'POST',
         headers: {
@@ -96,28 +86,6 @@ const fetchLike = (context_id:number,type="posts")=>{
 }
 
 const fetchRegister = (context_id:number)=>{
-
-    /*
-    
-    {
-    "context_id": 7
-    }
-    
-    */
-
-    // let option = {
-    //     method: 'POST',
-    //     headers: {
-    //     'accept': 'application/json',
-    //     'Content-Type': 'application/json',
-        
-    //     },
-    //     credentials: "include" as RequestCredentials,
-    //     body: JSON.stringify({
-    //         posts_id:context_id
-    //     }),
-    
-    // }
 
     let options = {
         method: 'POST',
@@ -201,12 +169,6 @@ const ComDisplayCard = ({com_info,post_id,setComRerender}:{com_info:CommentType,
             })
         }
         
-    };
-
-    const handleSave = () => {
-    };
-
-    const handleComment = (value:boolean) => {
     };
 
     const handleProfileSwitch = (u_tag = "")=>{
@@ -407,9 +369,7 @@ const addComment = async (content:string, post_id:number,parent=-1)=>{
 }
 
 const PostDisplayCard = ({post_info,isReg=false}:{post_info:PostType,isReg:boolean})=>{
-    const [isSaved, setIsSaved] = useState(false);
     const [isCommenting, setIsCommenting] = useState(false);
-    const [comment_n, setComment_n] = useState(0);
     const [commentText,setCommentText] = useState("")
     const [isOpenResponse,setIsOpenResponse] = useState(false)
     const [comRerender, setComRerender] = useState(0)
@@ -457,9 +417,6 @@ const PostDisplayCard = ({post_info,isReg=false}:{post_info:PostType,isReg:boole
         
     };
 
-    const handleRspSection = () => {
-        
-    };
 
     const handleSave = async () => {
         let response = await fetchRegister(post_info.post_id)
@@ -489,6 +446,8 @@ const PostDisplayCard = ({post_info,isReg=false}:{post_info:PostType,isReg:boole
     const handleProfileSwitch = (u_tag = "")=>{
         navigate(`/PProfile/${u_tag}`,{ replace: true })
     }
+    
+    console.log(post_info);
     
 
     return (
@@ -522,7 +481,7 @@ const PostDisplayCard = ({post_info,isReg=false}:{post_info:PostType,isReg:boole
                         </button>
                         <button onClick={()=>handleComment(!isCommenting)} className="flex items-center text-green-600 hover:text-green-900">
                             <FaComment className="w-5 h-5 mr-2" />
-                            {/* <span>{comment_n}</span> */}
+                            {}
                         </button>
                         {
                             ! isReg && 

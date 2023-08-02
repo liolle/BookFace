@@ -67,7 +67,8 @@ export type PostType = {
     media: number
     content: string,
     created_at: string,
-    likes:number
+    likes:number,
+    com_number:number
 }
 
 export type CommentType = {
