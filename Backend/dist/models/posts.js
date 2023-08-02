@@ -277,7 +277,8 @@ class Post extends dbConnect_1.default {
                         content: x['content'],
                         created_at: x['created_at'],
                         likes: x['likes'],
-                        gp_tag: selection == 'GROUP_ALL' ? x['G_tag'] : ""
+                        gp_tag: selection == 'GROUP_ALL' ? x['G_tag'] : "",
+                        com_number: x['com_number'] || 0
                     });
                 }
                 resolve({
