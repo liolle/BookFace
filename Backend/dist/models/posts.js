@@ -387,7 +387,7 @@ class Post extends dbConnect_1.default {
                 posts.content, 
                 posts.media_id, posts.created_at, 
                 COALESCE(likes.likes, 0) AS likes,
-                COUNT(posts.id) AS com_number
+                SUM(CASE WHEN Comments.post_id IS NOT NULL THEN 1 ELSE 0 END) AS com_number
             FROM bf_registeredposts regPost 
             INNER JOIN bf_tags regUTag on regPost.user_id = regUTag.context_id
             LEFT JOIN bf_comments Comments ON Comments.post_id = regPost.post_id
@@ -409,30 +409,36 @@ class Post extends dbConnect_1.default {
     }
     SELECT_PUBLIC() {
         return (`
-            SELECT posts.id, 
-                UTags.tag AS publisher , 
+            SELECT
+                posts.id,
+                UTags.tag AS publisher,
                 COALESCE(Media.link, '') AS avatar,
-                posts.content, 
-                posts.media_id, 
-                posts.created_at, 
+                posts.content,
+                posts.media_id,
+                posts.created_at,
                 COALESCE(likes.likes, 0) AS likes,
-                COUNT(posts.id) AS com_number
-            FROM  bf_posts posts
+                SUM(CASE WHEN Comments.post_id IS NOT NULL THEN 1 ELSE 0 END) AS com_number
+            FROM bf_posts posts
             LEFT JOIN bf_comments Comments ON Comments.post_id = posts.id
-            left join bf_groupposts gPosts  on gPosts.post_id = posts.id
-            LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id 
-            LEFT JOIN bf_users User 
-                ON User.id = posts.user_id
-            LEFT JOIN bf_media Media 
-                ON Media.id = User.picture
+            LEFT JOIN bf_groupposts gPosts ON gPosts.post_id = posts.id
+            LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id
+            LEFT JOIN bf_users User ON User.id = posts.user_id
+            LEFT JOIN bf_media Media ON Media.id = User.picture
             LEFT JOIN (
-                SELECT context_id, count(*) AS likes , type
-                FROM bf_likes 
+                SELECT context_id, COUNT(*) AS likes, type
+                FROM bf_likes
                 WHERE type = 'POST'
                 GROUP BY context_id
-            ) likes ON posts.id = likes.context_id 
-            WHERE gPosts.post_id is null and UTags.type = 'USER'
-            GROUP BY posts.id, UTags.tag, Media.link, posts.content, posts.media_id, posts.created_at, likes.likes
+            ) likes ON posts.id = likes.context_id
+            WHERE gPosts.post_id IS NULL AND UTags.type = 'USER'
+            GROUP BY
+                posts.id,
+                UTags.tag,
+                Media.link,
+                posts.content,
+                posts.media_id,
+                posts.created_at,
+                likes.likes;
             `);
     }
     SELECT_GROUP_ALL(user_id) {
