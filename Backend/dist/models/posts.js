@@ -438,7 +438,9 @@ class Post extends dbConnect_1.default {
                 posts.content,
                 posts.media_id,
                 posts.created_at,
-                likes.likes;
+                likes.likes
+
+
             `);
     }
     SELECT_GROUP_ALL(user_id) {
