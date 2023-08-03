@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { BiSave } from "react-icons/bi";
-import { FaComment, FaEllipsisH, FaHeart, FaShare } from "react-icons/fa";
+import { FaComment, FaHeart, FaShare } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+const DEVELOP = "http://localhost:3535"
+const PRODUCTION = "https://book-face-backend.vercel.app"
 
 type PostType = {
     post_id:number
@@ -57,8 +58,7 @@ const fetchLike = (context_id:number,type="posts")=>{
         }),
     }
 
-    const DEVELOP = "http://localhost:3535"
-    const PRODUCTION = "https://book-face-backend.vercel.app"
+    
     let URL = `${PRODUCTION}/${type}/like` 
 
     
@@ -81,9 +81,6 @@ const fetchLike = (context_id:number,type="posts")=>{
         
       })
 
-
-
-
 }
 
 const fetchRegister = (context_id:number)=>{
@@ -100,8 +97,7 @@ const fetchRegister = (context_id:number)=>{
         })
       } 
 
-    const DEVELOP = "http://localhost:3535"
-    const PRODUCTION = "https://book-face-backend.vercel.app"
+    
     let URL = `${PRODUCTION}/posts/register` 
 
     
@@ -264,9 +260,6 @@ const SPIN1 = ()=>{
         </div>
     )
 }
-
-const DEVELOP = "http://localhost:3535"
-const PRODUCTION = "https://book-face-backend.vercel.app"
 
 const fetchComment = async (post_id:number)=>{
 
@@ -458,7 +451,6 @@ const PostDisplayCard = ({post_info,isReg=false}:{post_info:PostType,isReg:boole
                     <div className="flex items-center">
                         <img onClick={()=>handleProfileSwitch(post_info.publisher)} src={post_info.avatar} alt="Avatar" className=" w-12 h-12 rounded-full mr-4 flex items-center hover:cursor-pointer" />
                     </div>
-                    {/* <FaEllipsisH className="w-5 h-5  text-green-800 mr-1 ml-1" /> */}
                 </div>
 
                 <div className=" select-none flex flex-col gap-2 flex-1">

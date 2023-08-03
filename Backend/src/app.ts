@@ -1,16 +1,11 @@
-/* Package imports */
 import express from 'express';
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import verifyJwt from './middlewares/auth';
 import path from 'path'
 import dotenv from "dotenv";
 
-
-
 let ENV = process.env.ENVIRONNEMENT || ""
 if (ENV == "production"){
-
     dotenv.config(
         { 
             path: path.join(__dirname, '..','.env.production') ,
@@ -21,8 +16,6 @@ if (ENV == "production"){
 
 }
 else{
-
-    
     dotenv.config(
         { 
             path: path.join(__dirname, '..','.env') ,
@@ -32,9 +25,7 @@ else{
     );
 }
 
-
 const PORT = 3535
-
 const  whitelist = ['https://liolle.github.io','http://localhost:5173','http://localhost:4173']
 
 var corsOptions = {
@@ -47,12 +38,9 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors(corsOptions));
 
-
-
 app.use('/login',require('./routes/login.routes'))
 app.use('/register',require('./routes/register.routes'))
 app.use('/logout',require('./routes/logout.routes'))
-
 
 app.use('/posts',require('./routes/posts.routes'))
 app.use('/comments',require('./routes/comments.routes'))
@@ -60,7 +48,6 @@ app.use('/profiles',require('./routes/profiles.routes'))
 app.use('/media',require('./routes/medias.routes'))
 app.use('/users',require('./routes/follows.routes'))
 app.use('/groups',require('./routes/groups.routes'))
-
 
 app.listen(PORT,() =>{
     let ENV = process.env.ENVIRONNEMENT == 'production' ? 'PRODUCTION':'DEVELOPMENT' 

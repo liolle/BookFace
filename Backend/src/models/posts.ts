@@ -3,17 +3,17 @@ import * as Type from "./types";
 import { getTimeStamp } from "../utils/time";
 import { User } from "./user";
 
-export class Post extends DbConnect{
+export class Post extends DbConnect {
 
-    constructor(){
+    constructor() {
         super();
     }
 
-    async register(user_id:number,post_id:number){
+    async register(user_id: number, post_id: number) {
 
-        return new Promise<Type.ResponseMsg>( async (resolve, reject) => {
-            
-            let register_post_query =`
+        return new Promise<Type.ResponseMsg>(async (resolve, reject) => {
+
+            let register_post_query = `
             INSERT INTO bf_registeredposts (user_id, post_id) 
             SELECT user_id, post_id 
             FROM (
@@ -29,35 +29,35 @@ export class Post extends DbConnect{
             DELETE FROM bf_registeredposts
             WHERE do_delete = true;
             `
-            
-            this.connection.query(register_post_query, (err:any, rows:any, fields:any)=>{
-                let {affectedRows} = rows
-                if (err){
+
+            this.connection.query(register_post_query, (err: any, rows: any, fields: any) => {
+                let { affectedRows } = rows
+                if (err) {
 
                     resolve({
-                        status:404,
-                        message:Type.StatusTypes[404],
-                        content: {error: err}
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: { error: err }
                     })
                     return
                 }
 
-                this.connection.query(del_query,(err:any, rows:any, fields:any)=>{
-                    
-                    if (err){
+                this.connection.query(del_query, (err: any, rows: any, fields: any) => {
+
+                    if (err) {
                         resolve({
-                            status:404,
-                            message:Type.StatusTypes[404],
-                            content: {error: err}
+                            status: 404,
+                            message: Type.StatusTypes[404],
+                            content: { error: err }
                         })
                         return
                     }
                 })
-                
-                
+
+
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
+                    status: 100,
+                    message: Type.StatusTypes[100],
                     content: {
                         isReg: affectedRows == 1
                     }
@@ -71,44 +71,44 @@ export class Post extends DbConnect{
 
     }
 
-    async addGroupPost(group_id:number,user_id:number,content:string,media_id = 0,timestamp = getTimeStamp() ){
-        
-        let add_response = await this.add(user_id,content,media_id,timestamp)
-        
+    async addGroupPost(group_id: number, user_id: number, content: string, media_id = 0, timestamp = getTimeStamp()) {
 
-        return new Promise<Type.ResponseMsg>( async (resolve, reject) => {
-            
-            if ( add_response.status != 100){
+        let add_response = await this.add(user_id, content, media_id, timestamp)
+
+
+        return new Promise<Type.ResponseMsg>(async (resolve, reject) => {
+
+            if (add_response.status != 100) {
                 resolve(add_response)
                 return
             }
-            
+
             let last_id_query = `
                 SELECT LAST_INSERT_ID() AS id;
             `
-            
-            this.connection.query(last_id_query, (err:any, rows:any, fields:any)=>{
-                
-                if (err){
+
+            this.connection.query(last_id_query, (err: any, rows: any, fields: any) => {
+
+                if (err) {
                     resolve({
-                        status:404,
-                        message:Type.StatusTypes[404],
-                        content: {error: err}
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: { error: err }
                     })
                     return
                 }
-                
+
                 const id = rows[0]['id'] || 0
-                
-                if (id == 0){
+
+                if (id == 0) {
                     resolve({
-                        status:404,
-                        message:Type.StatusTypes[404],
+                        status: 404,
+                        message: Type.StatusTypes[404],
                         content: {}
                     })
                     return
                 }
-                
+
                 let add_group_query = `
                     INSERT INTO bf_groupposts (post_id, group_id)
                     SELECT ${id}, ${group_id}
@@ -116,20 +116,20 @@ export class Post extends DbConnect{
                     WHERE groupL.id = ${group_id};
                 
                 `
-                this.connection.query(add_group_query, (err:any, rows:any, fields:any)=>{
-                    if (err){
+                this.connection.query(add_group_query, (err: any, rows: any, fields: any) => {
+                    if (err) {
                         resolve({
-                            status:404,
-                            message:Type.StatusTypes[404],
-                            content: {error: err}
+                            status: 404,
+                            message: Type.StatusTypes[404],
+                            content: { error: err }
                         })
                         return
                     }
                 })
-                
+
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
+                    status: 100,
+                    message: Type.StatusTypes[100],
                     content: {}
                 })
 
@@ -139,39 +139,39 @@ export class Post extends DbConnect{
         })
 
     }
-    
-    async add(user_id:number,content:string,media_id = 0,timestamp = getTimeStamp() ){
+
+    async add(user_id: number, content: string, media_id = 0, timestamp = getTimeStamp()) {
 
         let add_query = `
         INSERT INTO bf_posts (user_id,media_id,content,created_at)
         VALUES('${user_id}',${media_id},'${content}',TIMESTAMP('${timestamp}','0:0:0'))
         `
 
-        return new Promise<Type.ResponseMsg>( async (resolve, reject) => {
+        return new Promise<Type.ResponseMsg>(async (resolve, reject) => {
 
             let user = new User()
             let userResponse = await user.getById(user_id)
             user.close()
 
-            if ( userResponse.status != 100){
+            if (userResponse.status != 100) {
                 resolve(userResponse)
                 return
             }
 
-            this.connection.query(add_query, (err:any, rows:any, fields:any)=>{
-                
-                if (err){
+            this.connection.query(add_query, (err: any, rows: any, fields: any) => {
+
+                if (err) {
                     resolve({
-                        status:404,
-                        message:Type.StatusTypes[404],
-                        content: {error: err}
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: { error: err }
                     })
                     return
                 }
-                
+
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
+                    status: 100,
+                    message: Type.StatusTypes[100],
                     content: {}
                 })
 
@@ -181,8 +181,8 @@ export class Post extends DbConnect{
         })
     }
 
-    async get(post_id:number ){
-        
+    async get(post_id: number) {
+
         let get_query = `
         SELECT * FROM bf_posts
         WHERE id = ${post_id}
@@ -191,55 +191,53 @@ export class Post extends DbConnect{
 
         return new Promise<Type.ResponseMsg>((resolve, reject) => {
 
-            this.connection.query(get_query, 
-                (err:any, rows:any, fields:any)=>{
+            this.connection.query(get_query,
+                (err: any, rows: any, fields: any) => {
 
-                if (err){
-                    console.log(err)
+                    if (err) {
+                        console.log(err)
+                        resolve({
+                            status: 404,
+                            message: Type.StatusTypes[404],
+                            content: { error: err }
+                        })
+                        return
+                    }
+
+                    if (rows == 0) {
+
+                        resolve({
+                            status: 201,
+                            message: Type.StatusTypes[201],
+                            content: {}
+                        })
+                        return
+                    }
+
+                    let post = {
+                        post_id: rows[0]['id'],
+                        publisher: rows[0]['user_id'],
+                        media: rows[0]['media_id'],
+                        content: rows[0]['content'],
+                        created_at: rows[0]['created_at'],
+                        likes: rows[0]['likes']
+                    }
+
                     resolve({
-                        status:404,
-                        message:Type.StatusTypes[404],
-                        content: {error: err}
+                        status: 100,
+                        message: Type.StatusTypes[100],
+                        content: { post: post }
                     })
-                    return
-                }
 
-                if (rows == 0){
-
-                    resolve({
-                        status:201,
-                        message:Type.StatusTypes[201],
-                        content: {}
-                    })
-                    return 
-                }
-
-                let post = {
-                    post_id: rows[0]['id'],
-                    publisher: rows[0]['user_id'],
-                    media: rows[0]['media_id'],
-                    content: rows[0]['content'],
-                    created_at: rows[0]['created_at'],
-                    likes: rows[0]['likes']
-                }
-    
-                resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
-                    content: { post:post}
                 })
-
-            })
 
         })
 
     }
 
-    private createSelectQuery(order:Type.PostOrderType,select:Type.PostSelectionType,tag:string,n:number,user_id:number){
+    private createSelectQuery(order: Type.PostOrderType, select: Type.PostSelectionType, tag: string, n: number, user_id: number) {
 
         let base_query = ""
-
-        // base 
 
         switch (select) {
             case 'GROUP':
@@ -254,18 +252,15 @@ export class Post extends DbConnect{
             case 'PUBLIC':
                 base_query = this.SELECT_PUBLIC()
                 break;
-            
+
             case 'PUBLIC':
                 base_query = this.SELECT_TARGET(tag)
                 break;
-        
+
             default:
                 break;
         }
 
-        
-
-        // order + limit
         switch (order) {
             case 'LATEST':
                 base_query += `
@@ -279,7 +274,7 @@ export class Post extends DbConnect{
                 LIMIT ${n}
                 `
                 break;
-        
+
             default:
                 break;
         }
@@ -288,38 +283,30 @@ export class Post extends DbConnect{
 
     }
 
-    async select(tag:string,order:Type.PostOrderType = 'LATEST',
-    selection:Type.PostSelectionType ='PUBLIC',n=5,user_id:number){
-
-        let get_query = this.createSelectQuery(order,selection,tag,n,user_id)
-        
-        return new Promise<Type.ResponseMsg>( async (resolve, reject) => {
-
-
-            this.connection.query(get_query, (err:any, rows:[], fields:any)=>{
-                
-                if (err){
+    async select(tag: string, order: Type.PostOrderType = 'LATEST',
+        selection: Type.PostSelectionType = 'PUBLIC', n = 5, user_id: number) {
+        let get_query = this.createSelectQuery(order, selection, tag, n, user_id)
+        return new Promise<Type.ResponseMsg>(async (resolve, reject) => {
+            this.connection.query(get_query, (err: any, rows: [], fields: any) => {
+                if (err) {
                     resolve({
-                        status:404,
-                        message:Type.StatusTypes[404],
-                        content: {error: err}
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: { error: err }
                     })
                     return
                 }
 
-                if (rows.length == 0){
+                if (rows.length == 0) {
                     resolve({
-                        status:201,
-                        message:Type.StatusTypes[201],
+                        status: 201,
+                        message: Type.StatusTypes[201],
                         content: []
                     })
                     return
                 }
-
                 let output = []
-
-                for( let x of rows){
-                    
+                for (let x of rows) {
                     output.push(
                         {
                             post_id: x['id'],
@@ -329,15 +316,15 @@ export class Post extends DbConnect{
                             content: x['content'],
                             created_at: x['created_at'],
                             likes: x['likes'],
-                            gp_tag: selection == 'GROUP_ALL'? x['G_tag'] : "",
+                            gp_tag: selection == 'GROUP_ALL' ? x['G_tag'] : "",
                             com_number: x['com_number'] || 0
                         }
                     )
                 }
-                
+
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
+                    status: 100,
+                    message: Type.StatusTypes[100],
                     content: output
                 })
 
@@ -347,7 +334,7 @@ export class Post extends DbConnect{
         })
     }
 
-    async delete(post_id:number){
+    async delete(post_id: number) {
 
         let find_query = `
         DELETE FROM bf_posts
@@ -358,35 +345,35 @@ export class Post extends DbConnect{
 
             let postResponse = await this.get(post_id)
 
-            if (postResponse.status != 100){
+            if (postResponse.status != 100) {
                 resolve(postResponse)
                 return
             }
-            
-            this.connection.query(find_query, (err:any, rows:any, fields:any)=>{
 
-                if (err){
+            this.connection.query(find_query, (err: any, rows: any, fields: any) => {
+
+                if (err) {
                     console.log(err)
                     resolve({
-                        status:404,
-                        message:Type.StatusTypes[404],
-                        content: {error: err}
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: { error: err }
                     })
                     return
                 }
 
-                if (rows.length == 0){
+                if (rows.length == 0) {
                     resolve({
-                        status:201,
-                        message:Type.StatusTypes[201],
+                        status: 201,
+                        message: Type.StatusTypes[201],
                         content: {}
                     })
                     return
                 }
 
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
+                    status: 100,
+                    message: Type.StatusTypes[100],
                     content: {}
                 })
 
@@ -394,8 +381,8 @@ export class Post extends DbConnect{
         })
     }
 
-    private SELECT_GROUP(gp_tag:string){
-        return(
+    private SELECT_GROUP(gp_tag: string) {
+        return (
             `
             SELECT gpost.post_id AS id, 
             tags.tag AS GP_TAG , 
@@ -427,9 +414,9 @@ export class Post extends DbConnect{
             `
 
         )
-    } 
+    }
 
-    private SELECT_TARGET(u_tag:string){
+    private SELECT_TARGET(u_tag: string) {
         return (
             `
             SELECT
@@ -454,8 +441,8 @@ export class Post extends DbConnect{
         )
     }
 
-    private SELECT_USER(u_tag:string){
-        return(
+    private SELECT_USER(u_tag: string) {
+        return (
             `
             SELECT regPost.post_id AS id, regUTag.tag AS RUTAG, 
                 UTags.tag AS publisher , 
@@ -463,7 +450,7 @@ export class Post extends DbConnect{
                 posts.content, 
                 posts.media_id, posts.created_at, 
                 COALESCE(likes.likes, 0) AS likes,
-                COUNT(posts.id) AS com_number
+                SUM(CASE WHEN Comments.post_id IS NOT NULL THEN 1 ELSE 0 END) AS com_number
             FROM bf_registeredposts regPost 
             INNER JOIN bf_tags regUTag on regPost.user_id = regUTag.context_id
             LEFT JOIN bf_comments Comments ON Comments.post_id = regPost.post_id
@@ -484,41 +471,46 @@ export class Post extends DbConnect{
             `
 
         )
-    } 
+    }
 
-    private SELECT_PUBLIC(){
-        return(
+    private SELECT_PUBLIC() {
+        return (
             `
-            SELECT posts.id, 
-                UTags.tag AS publisher , 
+            SELECT
+                posts.id,
+                UTags.tag AS publisher,
                 COALESCE(Media.link, '') AS avatar,
-                posts.content, 
-                posts.media_id, 
-                posts.created_at, 
+                posts.content,
+                posts.media_id,
+                posts.created_at,
                 COALESCE(likes.likes, 0) AS likes,
-                COUNT(posts.id) AS com_number
-            FROM  bf_posts posts
+                SUM(CASE WHEN Comments.post_id IS NOT NULL THEN 1 ELSE 0 END) AS com_number
+            FROM bf_posts posts
             LEFT JOIN bf_comments Comments ON Comments.post_id = posts.id
-            left join bf_groupposts gPosts  on gPosts.post_id = posts.id
-            LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id 
-            LEFT JOIN bf_users User 
-                ON User.id = posts.user_id
-            LEFT JOIN bf_media Media 
-                ON Media.id = User.picture
+            LEFT JOIN bf_groupposts gPosts ON gPosts.post_id = posts.id
+            LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id
+            LEFT JOIN bf_users User ON User.id = posts.user_id
+            LEFT JOIN bf_media Media ON Media.id = User.picture
             LEFT JOIN (
-                SELECT context_id, count(*) AS likes , type
-                FROM bf_likes 
+                SELECT context_id, COUNT(*) AS likes, type
+                FROM bf_likes
                 WHERE type = 'POST'
                 GROUP BY context_id
-            ) likes ON posts.id = likes.context_id 
-            WHERE gPosts.post_id is null and UTags.type = 'USER'
-            GROUP BY posts.id, UTags.tag, Media.link, posts.content, posts.media_id, posts.created_at, likes.likes
+            ) likes ON posts.id = likes.context_id
+            WHERE gPosts.post_id IS NULL AND UTags.type = 'USER'
+            GROUP BY
+                posts.id,
+                UTags.tag,
+                Media.link,
+                posts.content,
+                posts.media_id,
+                posts.created_at,
+                likes.likes
             `
-
         )
-    } 
+    }
 
-    private SELECT_GROUP_ALL (user_id:number){
+    private SELECT_GROUP_ALL(user_id: number) {
         return (
             `
             SELECT 
@@ -546,5 +538,5 @@ export class Post extends DbConnect{
             `
         )
     }
-    
+
 }
