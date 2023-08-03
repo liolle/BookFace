@@ -329,7 +329,8 @@ export class Post extends DbConnect{
                             content: x['content'],
                             created_at: x['created_at'],
                             likes: x['likes'],
-                            gp_tag: selection == 'GROUP_ALL'? x['G_tag'] : ""
+                            gp_tag: selection == 'GROUP_ALL'? x['G_tag'] : "",
+                            com_number: x['com_number'] || 0
                         }
                     )
                 }
@@ -457,15 +458,15 @@ export class Post extends DbConnect{
         return(
             `
             SELECT regPost.post_id AS id, regUTag.tag AS RUTAG, 
-            UTags.tag AS publisher , 
-            COALESCE(Media.link, '') AS avatar,
-            posts.content, 
-            posts.media_id, posts.created_at, 
-            COALESCE(likes.likes, 0) AS likes,
-            COUNT(posts.id) AS com_number,
+                UTags.tag AS publisher , 
+                COALESCE(Media.link, '') AS avatar,
+                posts.content, 
+                posts.media_id, posts.created_at, 
+                COALESCE(likes.likes, 0) AS likes,
+                COUNT(posts.id) AS com_number
             FROM bf_registeredposts regPost 
             INNER JOIN bf_tags regUTag on regPost.user_id = regUTag.context_id
-            LEFT JOIN bf_comments Comments ON Comments.post_id = posts.id
+            LEFT JOIN bf_comments Comments ON Comments.post_id = regPost.post_id
             LEFT JOIN bf_posts posts ON regPost.post_id = posts.id 
             LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id 
             LEFT JOIN bf_users User 
@@ -479,7 +480,7 @@ export class Post extends DbConnect{
                 GROUP BY context_id
             ) likes ON regPost.post_id = likes.context_id 
             WHERE regUTag.tag = '${u_tag}'
-            GROUP BY id, RUTAG, publisher,avatar, posts.content, posts.media_id, posts.created_at, likes.likes;
+            GROUP BY id, RUTAG, publisher,avatar, posts.content, posts.media_id, posts.created_at, likes.likes
             `
 
         )
@@ -489,14 +490,14 @@ export class Post extends DbConnect{
         return(
             `
             SELECT posts.id, 
-            UTags.tag AS publisher , 
-            COALESCE(Media.link, '') AS avatar,
-            posts.content, 
-            posts.media_id, 
-            posts.created_at, 
-            COALESCE(likes.likes, 0) AS likes,
-            COUNT(posts.id) AS com_number,
-            from  bf_posts posts
+                UTags.tag AS publisher , 
+                COALESCE(Media.link, '') AS avatar,
+                posts.content, 
+                posts.media_id, 
+                posts.created_at, 
+                COALESCE(likes.likes, 0) AS likes,
+                COUNT(posts.id) AS com_number
+            FROM  bf_posts posts
             LEFT JOIN bf_comments Comments ON Comments.post_id = posts.id
             left join bf_groupposts gPosts  on gPosts.post_id = posts.id
             LEFT JOIN bf_tags UTags ON UTags.context_id = posts.user_id 
@@ -511,7 +512,7 @@ export class Post extends DbConnect{
                 GROUP BY context_id
             ) likes ON posts.id = likes.context_id 
             WHERE gPosts.post_id is null and UTags.type = 'USER'
-            GROUP BY posts.id, UTags.tag, Media.link, posts.content, posts.media_id, posts.created_at, likes.likes;
+            GROUP BY posts.id, UTags.tag, Media.link, posts.content, posts.media_id, posts.created_at, likes.likes
             `
 
         )

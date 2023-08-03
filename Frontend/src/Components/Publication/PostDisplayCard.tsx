@@ -12,7 +12,8 @@ type PostType = {
     content:string,
     media:number,
     likes:number,
-    created_at:string
+    created_at:string,
+    com_number:number
 }
 
 type CommentType = {
@@ -376,7 +377,7 @@ const PostDisplayCard = ({post_info,isReg=false}:{post_info:PostType,isReg:boole
     const [likes,setLikes] =  useState(post_info.likes)
     const [HColor, setHColor] = useState(600);
     let navigate = useNavigate()
-
+    
     const handleLike = async () => {
         let resp_like = await fetchLike(post_info.post_id)
         let {isLiked} = resp_like.content as {isLiked :boolean}
@@ -447,8 +448,6 @@ const PostDisplayCard = ({post_info,isReg=false}:{post_info:PostType,isReg:boole
         navigate(`/PProfile/${u_tag}`,{ replace: true })
     }
     
-    console.log(post_info);
-    
 
     return (
         <div className=" flex flex-col rounded-md overflow-hidden shadow-md bg-white p-3 ">
@@ -481,7 +480,7 @@ const PostDisplayCard = ({post_info,isReg=false}:{post_info:PostType,isReg:boole
                         </button>
                         <button onClick={()=>handleComment(!isCommenting)} className="flex items-center text-green-600 hover:text-green-900">
                             <FaComment className="w-5 h-5 mr-2" />
-                            {}
+                            <span>{post_info.com_number}</span>
                         </button>
                         {
                             ! isReg && 
@@ -543,7 +542,7 @@ const PostDisplayCard = ({post_info,isReg=false}:{post_info:PostType,isReg:boole
             }
             
         </div>
-    )
+    )               
 
 }
 

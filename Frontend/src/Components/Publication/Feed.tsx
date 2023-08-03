@@ -113,6 +113,8 @@ const Feed = ( {type,rerender_feed, isReg}:{type:number,rerender_feed:number,isR
         fetchPost(type,"")
         .then(data=>{
             setPost(data)
+            console.log(data);
+            
         })
         .catch(err=>console.log(err))
         
@@ -120,7 +122,7 @@ const Feed = ( {type,rerender_feed, isReg}:{type:number,rerender_feed:number,isR
 
     return(
         <div className=" flex flex-col gap-4 mb-4"> 
-            {posts.map((post)=><PostDisplayCard isReg={isReg} key={post.post_id} post_info={post}></PostDisplayCard>)}
+            {posts.map((post)=><PostDisplayCard isReg={isReg} key={post.post_id} post_info={post} ></PostDisplayCard>)}
         </div>
     )
 
