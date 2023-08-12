@@ -131,15 +131,18 @@ function Login() {
     <div className="h-screen flex justify-center items-center py-4" style={backgroundImageStyle}>
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row lg:flex-row w-9/12 md:w-11/12 lg:w-8/12 bg-green-50 rounded-xl mx-auto overflow-hidden" style={{ boxShadow: "10px 10px 20px #888888" }}>
-          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center">
+          {/* <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center">
             <img src={GlobeImage}></img>
-          </div>
+          </div> */}
 
-          <div className="w-full lg:w-1/2 py-10 px-12">
+          <div className="w-full lg:w-1/2 py-10 px-12 ">
+            <button type='button'
+              className=' bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mb-4'
+              onClick={() => navigate("/register", { replace: true })}>
+              <span>{'<-- '}</span>
+              <span>Register</span>
+            </button>
             <h2 className="text-3xl mb-4 font-bold text-green-800">Log In</h2>
-
-
-
 
             <div className="mt-5">
               <input type="email" placeholder="Email" name="Email" onChange={e => setEmail(e.target.value)} className="border border-gray-400 py-1 px-2 w-full" />
@@ -155,10 +158,6 @@ function Login() {
             <div className="mt-5">
               <button onClick={() => handleSubmit()} className="bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mr-4">Log In</button>
             </div>
-            <div>
-              <div className="text-green-900 pt-5"><span> First time visit on PHYSYS ? <Link to="/Register" className="font-semibold">Sign In</Link></span></div>
-            </div>
-
 
           </div>
         </div>

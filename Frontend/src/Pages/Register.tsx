@@ -36,14 +36,11 @@ function Register() {
     resetErrors()
     if (!Email) {
       setEmailError('Enter a valid email')
-      console.log("here");
       return
     }
 
     if (!Password) {
       setPasswordError('Enter a password')
-      console.log("here");
-
       return
     }
 
@@ -86,14 +83,21 @@ function Register() {
     <div className="h-screen py-40" style={backgroundImageStyle}>
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row lg:flex-row w-9/12 md:w-11/12 lg:w-8/12 bg-green-50 rounded-xl mx-auto overflow-hidden" style={{ boxShadow: "10px 10px 20px #888888" }}>
-          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center">
+          {/* <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center">
             <img src={GlobeImage}></img>
-          </div>
+          </div> */}
 
           <div className="w-full lg:w-1/2 py-10 px-12">
-            <h2 className="text-3xl mb-4 font-bold text-green-800">Register</h2>
+            <div className=' flex justify-end'>
 
-            <p className="mb-4 w-48 text-green-800">Create your account.</p>
+              <button type='button'
+                className=' bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mb-4 '
+                onClick={() => navigate("/login", { replace: true })}>
+                <span>Login</span>
+                <span>{' -->'}</span>
+              </button>
+            </div>
+            <h2 className="text-3xl mb-4 font-bold text-green-800">Register</h2>
 
             <div className="mt-5">
               <input type="email" placeholder="Email" name="Email" onChange={e => setEmail(e.target.value)} className="border border-gray-400 py-1 px-2 w-full" />
