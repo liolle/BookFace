@@ -1,20 +1,10 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import GreenWave2 from '../images/GreenWave2.jpg'
-import GlobeImage from '../images/GlobeImage.png'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { checkEmail, checkPassword, fetchReg } from '../utils/library';
 
 function Register() {
-
-
-  const backgroundImageStyle = {
-    backgroundImage: `url("${GreenWave2}")`,
-    backgroundSize: 'cover',
-
-  };
-
 
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
@@ -73,21 +63,13 @@ function Register() {
 
   }
 
-
-
-
-
   return (
 
+    <div className="h-screen py-40 bg-main-background bg-cover p-10" >
+      <div className=" mx-auto max-w-[600px]">
+        <div className="flex flex-col md:flex-row bg-green-50 rounded-xl mx-auto overflow-hidden" style={{ boxShadow: "10px 10px 20px #888888" }}>
 
-    <div className="h-screen py-40" style={backgroundImageStyle}>
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row lg:flex-row w-9/12 md:w-11/12 lg:w-8/12 bg-green-50 rounded-xl mx-auto overflow-hidden" style={{ boxShadow: "10px 10px 20px #888888" }}>
-          {/* <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center">
-            <img src={GlobeImage}></img>
-          </div> */}
-
-          <div className="w-full lg:w-1/2 py-10 px-12">
+          <div className="w-full py-10 px-12">
             <div className=' flex justify-end'>
 
               <button type='button'
@@ -97,7 +79,7 @@ function Register() {
                 <span>{' -->'}</span>
               </button>
             </div>
-            <h2 className="text-3xl mb-4 font-bold text-green-800">Register</h2>
+            <span className="text-3xl mb-4 font-bold text-green-800">Register</span>
 
             <div className="mt-5">
               <input type="email" placeholder="Email" name="Email" onChange={e => setEmail(e.target.value)} className="border border-gray-400 py-1 px-2 w-full" />
