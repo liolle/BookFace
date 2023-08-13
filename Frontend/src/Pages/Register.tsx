@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GlobeImage from '../images/GlobeImage.png'
 import { checkEmail, checkPassword, fetchReg } from '../utils/library';
 
 function Register() {
@@ -70,10 +71,10 @@ function Register() {
         <div className="flex flex-col md:flex-row bg-green-50 rounded-xl mx-auto overflow-hidden" style={{ boxShadow: "10px 10px 20px #888888" }}>
 
           <div className="w-full py-10 px-12">
-            <div className=' flex justify-end'>
-
+            <div className=' flex justify-between items-center mb-2'>
+              <img className=' justify-self-start self-start max-h-[50px]' src={GlobeImage} alt="" />
               <button type='button'
-                className=' bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mb-4 '
+                className=' bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 '
                 onClick={() => navigate("/login", { replace: true })}>
                 <span>Login</span>
                 <span>{' -->'}</span>
