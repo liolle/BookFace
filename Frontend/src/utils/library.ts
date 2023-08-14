@@ -3,38 +3,83 @@ import { ResponseMsg } from "./typess"
 const DEVELOP = "http://localhost:3535"
 const PRODUCTION = "https://book-face-backend.vercel.app"
 
-
+/**
+ * 
+ * 
+ */
 export const fetchDisconnect = () => {
     let url = `${PRODUCTION}/logout`
-  
+
     let options = {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
     }
-  
+
     return new Promise<ResponseMsg>(async (resolve, reject) => {
-  
-      try {
-        let response = await fetch(url, options)
-        let data: ResponseMsg = await response.json()
-  
-        resolve(data)
-  
-      } catch (err) {
-        resolve({
-          status: 404,
-          message: "System error",
-          content: { err }
-        })
-      }
-  
+
+        try {
+            let response = await fetch(url, options)
+            let data: ResponseMsg = await response.json()
+
+            resolve(data)
+
+        } catch (err) {
+            resolve({
+                status: 404,
+                message: "System error",
+                content: { err }
+            })
+        }
+
     })
-  }
-  
+}
+
+/**
+ * 
+ * 
+ */
+export const fetchLogin = async (email: string, pwd: string) => {
+    let url = `${PRODUCTION}/login/`
+    let options = {
+        method: 'POST',
+        headers: {
+
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        credentials: "include" as RequestCredentials,
+        body: JSON.stringify({
+            email: email,
+            pwd: pwd
+        }),
+
+    }
+
+
+    return new Promise<ResponseMsg>(async (resolve, reject) => {
+
+        try {
+
+            let response = await fetch(url, options)
+            let data: ResponseMsg = await response.json()
+
+            resolve(data)
+
+        } catch (err) {
+            resolve({
+                status: 404,
+                message: "System error",
+                content: { err }
+            })
+        }
+
+    })
+
+}
 
 /**
  * 
@@ -63,10 +108,21 @@ export const fetchReg = async (email: string, pwd: string): Promise<ResponseMsg>
         try {
             let response = await fetch(URL, options)
             let data: ResponseMsg = await response.json()
+
+            if (data.message != "Success") {
+                console.log('HERE');
+
+                reject({
+                    status: data.status,
+                    message: data.message,
+                    content: data.content
+                })
+                return
+            }
             resolve(data)
 
         } catch (err) {
-            resolve({
+            reject({
                 status: 404,
                 message: "System error",
                 content: { err }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast'
 import GlobeImage from '../images/GlobeImage.png'
 import { checkEmail, checkPassword, fetchReg } from '../utils/library';
+import { ResponseMsg } from '../utils/typess';
 
 function Register() {
 
@@ -47,18 +47,11 @@ function Register() {
     setConfPasswordError(" ")
 
 
-    let response = await fetchReg(Email, Password)
-    if (response.status == 100) {
-      navigate("/login", { replace: true })
-    }
-    else {
-      toast.error(response.message, {
-        position: "top-center",
-        hideProgressBar: true,
-        pauseOnHover: true,
-        autoClose: 3000
-      })
-
+    try {
+      const fetcher: ResponseMsg = await fetchReg(Email, Password)
+      toast.success(`${fetcher.message}`)
+    } catch (error) {
+      toast.error(`${error.message}`)
     }
 
 
@@ -67,6 +60,10 @@ function Register() {
   return (
 
     <div className="h-screen py-40 bg-main-background bg-cover p-10" >
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <div className=" mx-auto max-w-[600px]">
         <div className="flex flex-col md:flex-row bg-green-50 rounded-xl mx-auto overflow-hidden" style={{ boxShadow: "10px 10px 20px #888888" }}>
 
