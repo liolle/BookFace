@@ -6,7 +6,7 @@ import GlobeImage from '../images/GlobeImage.png'
 import toast, { Toaster } from 'react-hot-toast'
 import React from 'react';
 import { fetchLogin, fetchReg } from '../utils/library';
-
+import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 type ResponseMsg = {
   status: number,
@@ -65,9 +65,9 @@ function Login() {
             <div className=' flex justify-between'>
 
               <button type='button'
-                className=' bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mb-4'
+                className=' flex items-center gap-2 bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mb-4'
                 onClick={() => navigate("/register", { replace: true })}>
-                <span>{'<-- '}</span>
+                <AiOutlineArrowLeft />
                 <span>Register</span>
               </button>
               <img className=' justify-self-start self-start max-h-[50px]' src={GlobeImage} alt="" />

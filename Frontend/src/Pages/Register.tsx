@@ -4,6 +4,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import GlobeImage from '../images/GlobeImage.png'
 import { checkEmail, checkPassword, fetchReg } from '../utils/library';
 import { ResponseMsg } from '../utils/typess';
+import { AiOutlineArrowRight } from 'react-icons/ai';
 
 function Register() {
 
@@ -71,10 +72,10 @@ function Register() {
             <div className=' flex justify-between items-center mb-2'>
               <img className=' justify-self-start self-start max-h-[50px]' src={GlobeImage} alt="" />
               <button type='button'
-                className=' bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 '
+                className=' flex items-center gap-2 bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 '
                 onClick={() => navigate("/login", { replace: true })}>
                 <span>Login</span>
-                <span>{' -->'}</span>
+                <AiOutlineArrowRight/>
               </button>
             </div>
             <span className="text-3xl mb-4 font-bold text-green-800">Register</span>
