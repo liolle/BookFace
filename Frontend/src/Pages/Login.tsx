@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import GreenWave2 from '../images/GreenWave2.jpg'
 import GlobeImage from '../images/GlobeImage.png'
-import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
@@ -20,10 +19,6 @@ const PRODUCTION = "https://book-face-backend.vercel.app"
 
 const fetchReg = async (email: string, pwd: string) => {
   let url = `${PRODUCTION}/login/`
-
-
-
-
   let options = {
     method: 'POST',
     headers: {

@@ -3,6 +3,39 @@ import { ResponseMsg } from "./typess"
 const DEVELOP = "http://localhost:3535"
 const PRODUCTION = "https://book-face-backend.vercel.app"
 
+
+export const fetchDisconnect = () => {
+    let url = `${PRODUCTION}/logout`
+  
+    let options = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }
+  
+    return new Promise<ResponseMsg>(async (resolve, reject) => {
+  
+      try {
+        let response = await fetch(url, options)
+        let data: ResponseMsg = await response.json()
+  
+        resolve(data)
+  
+      } catch (err) {
+        resolve({
+          status: 404,
+          message: "System error",
+          content: { err }
+        })
+      }
+  
+    })
+  }
+  
+
 /**
  * 
  * Assume that the input is well formatted, return the response of the register endpoint with the given arguments.

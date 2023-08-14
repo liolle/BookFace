@@ -4,41 +4,8 @@ import { FaHome, FaUser } from 'react-icons/fa';
 import { ResponseMsg } from '../../utils/typess';
 import { toast } from 'react-toastify';
 import { IoExitOutline } from "react-icons/io5";
+import { fetchDisconnect } from '../../utils/library';
 
-
-const DEVELOP = "http://localhost:3535"
-const PRODUCTION = "https://book-face-backend.vercel.app"
-
-const fetchDisconnect = () => {
-  let url = `${PRODUCTION}/logout`
-
-  let options = {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
-      'accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  }
-
-  return new Promise<ResponseMsg>(async (resolve, reject) => {
-
-    try {
-      let response = await fetch(url, options)
-      let data: ResponseMsg = await response.json()
-
-      resolve(data)
-
-    } catch (err) {
-      resolve({
-        status: 404,
-        message: "System error",
-        content: { err }
-      })
-    }
-
-  })
-}
 
 
 const BottomNavigationBar: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -88,6 +55,7 @@ const BottomNavigationBar: React.FC<{ children: React.ReactNode }> = ({ children
           <FaHome onClick={() => navHome()} className=' h-6  w-6 '></FaHome>
           Home
         </div>
+
         <div className=' flex flex-col items-center cursor-pointer select-none font-bold hover:text-green-900'>
           <FaUser onClick={() => navProfile()} className=' h-6  w-6 '></FaUser>
           Profile
@@ -103,3 +71,4 @@ const BottomNavigationBar: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 export default BottomNavigationBar;
+

@@ -1,10 +1,9 @@
-
-
 import SwaggerUI from "swagger-ui-react"
 import "swagger-ui-react/swagger-ui.css"
 import { getDoc } from "../api_doc"
 
 import { useState, useEffect } from 'react'
+import React from "react"
 const SAMPLE = ()=>{
     return (
         <div className=" h-screen bg-neutral-600 flex justify-center items-center"> <span className=" text-neutral-50 font-bold select-none"> ADD API DOC HERE </span> </div>
