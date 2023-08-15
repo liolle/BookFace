@@ -208,7 +208,6 @@ class Post extends dbConnect_1.default {
     }
     createSelectQuery(order, select, tag, n, user_id) {
         let base_query = "";
-        // base 
         switch (select) {
             case 'GROUP':
                 base_query = this.SELECT_GROUP(tag);
@@ -228,7 +227,6 @@ class Post extends dbConnect_1.default {
             default:
                 break;
         }
-        // order + limit
         switch (order) {
             case 'LATEST':
                 base_query += `
@@ -439,8 +437,6 @@ class Post extends dbConnect_1.default {
                 posts.media_id,
                 posts.created_at,
                 likes.likes
-
-
             `);
     }
     SELECT_GROUP_ALL(user_id) {
