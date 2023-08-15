@@ -15,6 +15,7 @@ function Register() {
   const [PasswordError, setPasswordError] = useState(' ')
   const [confPasswordError, setConfPasswordError] = useState(' ')
   const [EmailError, setEmailError] = useState(' ')
+  const [isRequesting,setIsRequesting] = useState(false)
 
   let navigate = useNavigate()
 
@@ -25,6 +26,8 @@ function Register() {
   }
 
   const handleSubmit = async () => {
+    if (isRequesting) return
+    
     resetErrors()
     if (!Email) {
       setEmailError('Enter a valid email')
@@ -47,12 +50,14 @@ function Register() {
     }
     setConfPasswordError(" ")
 
-
+    setIsRequesting(true)
     try {
       const fetcher: ResponseMsg = await fetchReg(Email, Password)
       toast.success(`${fetcher.message}`)
+      setIsRequesting(false)
     } catch (error) {
       toast.error(`${error.message}`)
+      setIsRequesting(false )
     }
 
 
