@@ -40,8 +40,14 @@ PHYSYS is a social media app designed for nature enthusiasts who want to share t
 </a>
 
 #### ERD :
-![](https://raw.githubusercontent.com/liolle/BookFace/main/Backend/imgs/dbERD.png)
+
+<a href=""> 
+<img src="https://raw.githubusercontent.com/liolle/BookFace/main/Backend/imgs/dbERD.png" style="border-radius:4px; width:300px"/>
+</a>
 
 #### API : (/api-doc)
-![https://liolle.github.io/BookFace/#/api-doc](https://raw.githubusercontent.com/liolle/BookFace/main/Backend/imgs/api_bookface.png)
+
+<a href="https://liolle.github.io/BookFace/#/api-doc"> 
+<img src="https://raw.githubusercontent.com/liolle/BookFace/main/Backend/imgs/api_bookface.png" style="border-radius:4px; width:300px"/>
+</a>
 
