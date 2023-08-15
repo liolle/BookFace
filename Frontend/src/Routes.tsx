@@ -21,6 +21,7 @@ import PrivateRoutes from "./utils/privateRoutes"
 import BookMarks from "./Pages/BookMarks"
 import LandingCheck from "./utils/reroot"
 import Prof from "./Pages/Prof"
+import React from "react"
 
 export function routes() {
     return <Routes>
