@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import PostDisplayCard from "./PostDisplayCard"
+import React from "react"
 
 enum FeedType {
     'PUBLIC',

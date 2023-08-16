@@ -1,6 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { Route, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import LandingPage from '../Pages/LandingPage';
+import React from 'react';
 
 const DEVELOP = "http://localhost:3535"
 const PRODUCTION = "https://book-face-backend.vercel.app"

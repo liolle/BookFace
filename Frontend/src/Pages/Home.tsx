@@ -7,6 +7,7 @@ import NatureCard from '../Components/GalleryCard/GalleryCard'
 import GreenWave2 from '../images/GreenWave2.jpg'
 import BottomNavigationBar from '../Components/BottomNavigationBar/BottomNavigationBar'
 import Feed from '../Components/Publication/Feed'
+import React from 'react'
 
 const Home = () => {
   const [isMobile, setIsMobile] = useState(false);

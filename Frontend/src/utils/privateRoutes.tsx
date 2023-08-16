@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { Route, Navigate, Outlet, useNavigate } from 'react-router-dom';
 
