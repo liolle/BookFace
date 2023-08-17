@@ -22,6 +22,7 @@ import BookMarks from "./Pages/BookMarks"
 import LandingCheck from "./utils/reroot"
 import Prof from "./Pages/Prof"
 import React from "react"
+import Settings from "./Pages/Settings"
 
 export function routes() {
     return <Routes>
@@ -33,6 +34,7 @@ export function routes() {
                 <Route path= '/Profile' element={<Profile/>} />
                 <Route path= '/Notifications' element={<Notifications/>} />
                 <Route path= '/Bookmark' element={<BookMarks/>} /> 
+                <Route path= '/settings' element={<Settings/>} /> 
             </Route>
 
             <Route path= '/Register' element={<Register/>} />
