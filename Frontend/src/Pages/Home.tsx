@@ -32,14 +32,9 @@ const Home = () => {
     };
   }, []);
 
-  const backgroundImageStyle = {
-    backgroundImage: `url("${GreenWave2}")`,
-    backgroundSize: 'cover',
-
-  };
   return (
 
-    <div className=' flex flex-col md:flex-row ' style={backgroundImageStyle}>
+    <div className=' flex flex-col md:flex-row bg-main-background bg-cover ' >
       {!isMobile && <SideBar children={undefined} />}
       <div className=' flex flex-col md:flex-[0_1_300px] gap-4  p-4'>
         <VCard vCardRerender={rerender_feed_VCard} />

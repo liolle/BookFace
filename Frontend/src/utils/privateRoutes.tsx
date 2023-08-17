@@ -27,7 +27,7 @@ const PrivateRoute = () => {
       setTimeout(() => {
 
         res.status === 200 ? setAuth(true) : setAuth(false);
-      }, 1000);
+      }, 500);
     };
 
 
@@ -40,8 +40,6 @@ const PrivateRoute = () => {
         <Loading />
     )
   }
-
-
 
   return auth ? <Outlet /> : <Navigate to="/Login" />
 
