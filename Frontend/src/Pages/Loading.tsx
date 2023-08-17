@@ -39,19 +39,10 @@ const S_BUTTON = ({ text, activeButton, setActiveButton }: buttonProps) => {
     )
 }
 
-const Settings = () => {
 
-    const [active, setActive] = useState(0);
+const Loading = () => {
 
-    const [post, setPost] = useState('');
-    const [post1, setPost1] = useState<null | React.ReactNode>(null);
-    const [post2, setPost2] = useState('');
     const [isMobile, setIsMobile] = useState(false);
-    const [rerender_feed_VCard, setRerenderFeedVCard] = useState(0)
-    const [activeButton, setActiveButton] = useState('Bookmarks')
-    const [rerender_feed, setRerenderFeed] = useState(0)
-    const [loading, setLoading] = useState(true);
-    const [reRender, setRerender] = useState(0)
 
     const backgroundImageStyle = {
         backgroundImage: `url("${GreenWave2}")`,
@@ -73,23 +64,18 @@ const Settings = () => {
     }, []);
 
     return (
-        <div className=' flex flex-col flex-1 md:flex-row  min-h-screen' style={backgroundImageStyle}>
+        <div className=' flex-1 flex flex-col md:flex-row  bg-main-background bg-cover min-h-screen'>
 
             {
                 !isMobile && <SideBar children={undefined} />
-
             }
 
             <div className=' flex-1 flex justify-center items-center'>
-            
-
+                <SPIN1 />
             </div>
-
-
 
             {
                 isMobile && <BottomNavigationBar children={undefined} />
-
             }
 
 
@@ -102,4 +88,4 @@ const Settings = () => {
 
 
 
-export default Settings;
+export default Loading;

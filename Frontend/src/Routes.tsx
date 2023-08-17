@@ -23,20 +23,23 @@ import LandingCheck from "./utils/reroot"
 import Prof from "./Pages/Prof"
 import React from "react"
 import Settings from "./Pages/Settings"
+import Loading from "./Pages/Loading"
 
 export function routes() {
     return <Routes>
 
             <Route element={<PrivateRoutes />}>
-                <Route path= '/PProfile' element={<Prof/>} />
                 <Route path= '/PProfile/:u_tag' element={<Prof/>} />
+                <Route path= '/PProfile' element={<Prof/>} />
                 <Route path= '/Home' element={<Home />} />
                 <Route path= '/Profile' element={<Profile/>} />
-                <Route path= '/Notifications' element={<Notifications/>} />
-                <Route path= '/Bookmark' element={<BookMarks/>} /> 
+                {/* <Route path= '/Notifications' element={<Notifications/>} />
+                <Route path= '/Bookmark' element={<BookMarks/>} />  */}
                 <Route path= '/settings' element={<Settings/>} /> 
             </Route>
 
+
+            <Route path= '/loading' element={<Loading/>} />
             <Route path= '/Register' element={<Register/>} />
             <Route path= '/Login' element={<Login/>} />
             <Route path= '/LandingPage' element={<LandingPage/>} />

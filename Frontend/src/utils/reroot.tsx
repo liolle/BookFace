@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import { Route, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import LandingPage from '../Pages/LandingPage';
 import React from 'react';
+import Loading from '../Pages/Loading';
 
 const DEVELOP = "http://localhost:3535"
 const PRODUCTION = "https://book-face-backend.vercel.app"
@@ -32,7 +33,7 @@ const LandingCheck = () => {
   }, []);
 
   if (auth === null) {
-    return <div>Loading...</div>;
+    return <Loading/>;
   }
 
   return auth ? <Outlet /> : <Navigate to="/LandingPage" />
