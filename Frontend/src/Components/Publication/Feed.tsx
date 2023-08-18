@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import PostDisplayCard from "./PostDisplayCard"
+import PostDisplayCard from "../Cards/PostDisplayCard"
 import React from "react"
 
 enum FeedType {

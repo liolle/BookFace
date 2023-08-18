@@ -1,16 +1,16 @@
 import { Routes, Route } from "react-router-dom"
 import Followings from "./Components/Followings/Followings"
-import PostCard from "./Components/Postcard/Postcard"
-import SideBar from "./Components/SideBar/SideBar"
-import VCard from "./Components/VCard/VCard"
+import PostCard from "./Components/Cards/Postcard"
+import SideBar from "./Components/Navigation/SideBar"
+import VCard from "./Components/Cards/VCard"
 import ModalCookies from "./Components/ModalCookies/ModalCookies"
 import LandingPage from './Pages/LandingPage'
 import Register from "./Pages/Register"
 import Login from "./Pages/Login"
 
 
-import NatureCard from "./Components/GalleryCard/GalleryCard"
-import NatureTrendCard from "./Components/NatureTrendCard/NatureTrendCard"
+import NatureCard from "./Components/Cards/GalleryCard"
+import NatureTrendCard from "./Components/Cards/NatureTrendCard"
 import Publication from "./Components/Publication/Publication"
 import Home from "./Pages/Home"
 

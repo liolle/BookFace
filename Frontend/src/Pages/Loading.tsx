@@ -7,9 +7,9 @@ import Publication from '../Components/Publication/Publication';
 import SideBarStat from '../Components/SideBar/SideBarStat';
 
 import GreenWave2 from '../images/GreenWave2.jpg'
-import BottomNavigationBar from '../Components/BottomNavigationBar/BottomNavigationBar';
-import SideBar from '../Components/SideBar/SideBar';
-import VCard from '../Components/VCard/VCard';
+import BottomNavigationBar from '../Components/Navigation/BottomNavigationBar';
+import SideBar from '../Components/Navigation/SideBar';
+import VCard from '../Components/Cards/VCard';
 import Feed from '../Components/Publication/Feed';
 import { FeedType } from '../utils/typess';
 import { SPIN1 } from '../Components/Loading/Spinner';

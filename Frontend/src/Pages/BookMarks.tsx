@@ -1,7 +1,7 @@
 import React from "react";
 // import GreenWave2 from '../images/GreenWave2.jpg'
-import BottomNavigationBar from "../Components/BottomNavigationBar/BottomNavigationBar";
-import SideBar from "../Components/SideBar/SideBar";
+import BottomNavigationBar from "../Components/Navigation/BottomNavigationBar";
+import SideBar from "../Components/Navigation/SideBar";
 import BookmarkPage from "../Components/BookMark/BookmarkPage";
 
 

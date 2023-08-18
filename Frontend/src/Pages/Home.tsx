@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import Followings from '../Components/Followings/Followings'
-import PostCard from "../Components/Postcard/Postcard"
-import VCard from "../Components/VCard/VCard"
-import SideBar from '../Components/SideBar/SideBar'
-import NatureCard from '../Components/GalleryCard/GalleryCard'
+import PostCard from "../Components/Cards/Postcard"
+import VCard from "../Components/Cards/VCard"
+import SideBar from '../Components/Navigation/SideBar'
+import NatureCard from '../Components/Cards/GalleryCard'
 import GreenWave2 from '../images/GreenWave2.jpg'
-import BottomNavigationBar from '../Components/BottomNavigationBar/BottomNavigationBar'
+import BottomNavigationBar from '../Components/Navigation/BottomNavigationBar'
 import Feed from '../Components/Publication/Feed'
 import React from 'react'
 
