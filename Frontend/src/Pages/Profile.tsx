@@ -1,86 +1,67 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-// import PostData from "../Components/Publication/PostData";
-
-
-import GreenWave2 from '../images/GreenWave2.jpg'
-import BottomNavigationBar from '../Components/Navigation/BottomNavigationBar';
-import SideBar from '../Components/Navigation/SideBar';
-import VCard from '../Components/Cards/VCard';
-import Feed from '../Components/Publication/Feed';
-import { FeedType } from '../utils/typess';
-import Resizer from './Resizer';
-
-
-type buttonProps = {
-    text: string,
-    activeButton: string,
-    setActiveButton: React.Dispatch<React.SetStateAction<string>>
-}
-
-const S_BUTTON = ({ text, activeButton, setActiveButton }: buttonProps) => {
-
-    let font_size = text == activeButton ? 'font-bold' : 'font-light '
-    let color = text == activeButton ? 'text-green-700' : 'text-neutral-700'
-    let border_bottom = text == activeButton ? ' border-b-4 rounded-b-sm border-green-700' : ''
-
-    return (
-        <button className={`flex justify-center items-center h-[75%] ${color} ${font_size}
-        select-none cursor-pointer rounded-t-md p-2 ${border_bottom}`}
-            onClick={() => setActiveButton(text)}>
-            {text}
-        </button>
-    )
-}
-
-
+import React, { useEffect, useState } from 'react';
+import ProfileCard from '../Components/Cards/ProfileCard';
+import { ProfileInfo } from '../utils/typess';
+import { getProfile } from '../utils/library';
 
 const Profile = () => {
 
-    const [active, setActive] = useState(0);
-
-    const [post, setPost] = useState('');
-    const [post1, setPost1] = useState<null | React.ReactNode>(null);
-    const [post2, setPost2] = useState('');
-    const [isMobile, setIsMobile] = useState(false);
-    const [rerender_feed_VCard, setRerenderFeedVCard] = useState(0)
-    const [activeButton, setActiveButton] = useState('Bookmarks')
-    const [rerender_feed, setRerenderFeed] = useState(0)
-    const [loading, setLoading] = useState(true);
-    const [reRender, setRerender] = useState(0)
-
-    const backgroundImageStyle = {
-        backgroundImage: `url("${GreenWave2}")`,
-        backgroundSize: 'cover',
-
-    };
+    const [profile, setProfile] = useState<ProfileInfo>({
+        tag: '@user',
+        username: 'name',
+        followers: 0,
+        following: 0,
+        avatar: 'https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg'
+    })
 
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
 
-        window.addEventListener('resize', handleResize);
-        handleResize();
+        getProfile()
+            .then(data => {
 
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+                let {
+
+                    tag,
+                    avatar,
+                    email,
+                    username,
+                    followers,
+                    follows,
+                    status,
+                    banner,
+                    created_at,
+
+                } = data.content as {
+                    tag: string,
+                    avatar: string,
+                    email: string,
+                    username: string,
+                    followers: number,
+                    follows: number,
+                    status: number,
+                    banner: number,
+                    created_at: string,
+                }
+
+                setProfile({
+                    tag: tag,
+                    username: username,
+                    followers: followers,
+                    following: follows,
+                    avatar: avatar
+                })
+
+
+
+            })
+            .catch(err => console.log(err))
+
+    }, [])
 
     return (
-        <div className=' ' >
-
-            
-
-
+        <div className=' flex flex-col ' >
+            <ProfileCard profileInfo={profile} />
         </div>
-
-
-
     );
 }
-
-
 
 export default Profile;

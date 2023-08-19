@@ -192,3 +192,38 @@ export const checkPassword = (password: string, callback: React.Dispatch<React.S
     return true;
 }
 
+export const getProfile = async () => {
+    let url = `${PRODUCTION}/profiles`
+
+    let options = {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+
+    }
+
+
+    return new Promise<ResponseMsg>(async (resolve, reject) => {
+
+        try {
+
+            let response = await fetch(url, options)
+            let data: ResponseMsg = await response.json()
+
+            resolve(data)
+
+        } catch (err) {
+            resolve({
+                status: 404,
+                message: "System error",
+                content: { err }
+            })
+        }
+
+    })
+
+}
+
