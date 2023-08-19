@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react'
 import Followings from '../Components/Followings/Followings'
 import PostCard from "../Components/Cards/Postcard"
 import VCard from "../Components/Cards/VCard"
-import SideBar from '../Components/Navigation/SideBar'
 import NatureCard from '../Components/Cards/GalleryCard'
-import GreenWave2 from '../images/GreenWave2.jpg'
-import BottomNavigationBar from '../Components/Navigation/BottomNavigationBar'
 import Feed from '../Components/Publication/Feed'
 import React from 'react'
 
@@ -18,37 +15,26 @@ const Home = () => {
     setRerenderFeed(Math.random)
   }
 
-  // Using window size to handle side bar & bottom bar visibility
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   return (
 
-    <div className=' flex flex-col md:flex-row bg-main-background bg-cover ' >
-      {!isMobile && <SideBar children={undefined} />}
-      <div className=' flex flex-col md:flex-[0_1_300px] gap-4  p-4'>
-        <VCard vCardRerender={rerender_feed_VCard} />
-        <Followings vCardRerender={setRerenderFeedVCard} />
-        <NatureCard />
+    <div className=' flex flex-col md:flex-row  justify-center overflow-y-scroll' >
+      <div className=' flex flex-col gap-4 md:flex-[0_1_25%]  p-4  '>
+        <div className=' h-40 w-full bg-green-500 rounded-lg flex justify-center items-center'>
+          <span> Put things here </span>
+        </div>
       </div>
-      <div className=' flex flex-col gap-4 md:flex-1  p-4  '>
-
-        <div className=' flex-1'>
+      <div className=' flex  flex-col gap-4 md:flex-[0_1_50%] p-4 h-screen ' >
+        <div className=' flex-1 w-full'>
           <PostCard profilePictureUrl="" feedFRender={feedFRender} />
         </div>
         <Feed type={0} rerender_feed={rerender_feed} isReg={false} ></Feed>
       </div>
-      {isMobile && <BottomNavigationBar children={undefined} />}
+      <div className=' flex flex-col gap-4 md:flex-[0_1_25%]  p-4  '>
+        <div className=' h-40 w-full bg-green-500 rounded-lg flex justify-center items-center'>
+          <span> Put things here </span>
+
+        </div>
+      </div>
 
     </div>
   )

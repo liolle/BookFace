@@ -140,9 +140,10 @@ const PostCard = ({ profilePictureUrl,feedFRender }:
     <div className=" rounded-md overflow-hidden shadow-md bg-white p-3">
       <div className="flex-1 ml-4 mr-4">
           <textarea
-            className="block w-full border-green-900 rounded-md shadow-sm focus:border-gray-500 focus:ring-gray-500 min-h-[5rem]"
+            className="block w-full border-green-900 rounded-md shadow-sm focus:border-gray-500 focus:ring-gray-500 min-h-[5rem] p-2"
             placeholder="What's happening?"
             value={text}
+            
             onChange={handleTextChange}
           />
           <div className="flex justify-between items-center mt-2 ml-2 mr-2">
