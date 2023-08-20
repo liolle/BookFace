@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProfileCard from '../Components/Cards/ProfileCard';
 import { ProfileInfo } from '../utils/typess';
 import { getProfile } from '../utils/library';
+import { Toaster } from 'react-hot-toast';
 
 const Profile = () => {
 
@@ -59,7 +60,11 @@ const Profile = () => {
 
     return (
         <div className=' flex flex-col p-4' >
-            <ProfileCard profileInfo={profile} />
+            <Toaster
+                position="top-right"
+                reverseOrder={false}
+            />
+            <ProfileCard profileInfo={profile} editable={true} />
         </div>
     );
 }

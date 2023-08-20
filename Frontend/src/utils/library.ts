@@ -192,6 +192,45 @@ export const checkPassword = (password: string, callback: React.Dispatch<React.S
     return true;
 }
 
+
+export const changeAvatar = async (key:string)=>{
+
+    return new Promise<ResponseMsg>(async (resolve, reject) => {
+        const URL = `${PRODUCTION}/profiles/avatar/update/`
+    
+        try {
+            const response = await fetch(URL, {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    key:key
+                }),
+            });
+
+            let response_json:ResponseMsg = await response.json();
+
+            if (response_json.status != 100){
+                reject(
+                    response_json.message
+                )
+                return
+            };
+
+            resolve(response_json);
+
+        } catch (error) {
+            reject(error);
+        }
+        
+    })
+
+
+}
+
 export const getProfile = async () => {
     let url = `${PRODUCTION}/profiles`
 
@@ -239,13 +278,15 @@ const requestPresignedURL = async (size: number, extension: string) => {
             })
             return
         }
-        const URL = "http://localhost:3000/api/upload"
+        const URL = `${PRODUCTION}/media/upload/`
 
         try {
             const response = await fetch(URL, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     extension: extension,
@@ -253,11 +294,19 @@ const requestPresignedURL = async (size: number, extension: string) => {
                 }),
             });
 
-            const { url, key } = await response.json() as { url: string, key: string }
-            
+            if (! response.ok){
+                reject({
+                    url: "",
+                    key: ""
+                })
+                return
+            }
+
+            const { content } = await response.json() as {content:{ url: string, key: string }}
+                        
             resolve({
-                url: url,
-                key: key
+                url: content.url,
+                key: content.key
             })
 
         } catch (error) {
@@ -298,14 +347,19 @@ const putS3 = async (url: string, data: File) => {
 }
 
 
-const upload = async (file: File) => {
+export const upload = async (file: File) => {
 
     return new Promise<string>((resolve, reject) => {
 
         try {
             setTimeout(async () => {
                 let presignedInfo = await requestPresignedURL(file.size, file.type.split("/")[1]);
-                let putStatus = await putS3(presignedInfo.url, file)
+                console.log(presignedInfo);
+                
+                let putStatus = await putS3(presignedInfo.url, file);
+                console.log(putStatus);
+                let changeStatus = await changeAvatar(presignedInfo.key);
+                console.log(changeStatus);
                 //TODO notify the server here.
             }, Math.floor(Math.random() * 101) + 50)
 
@@ -336,3 +390,42 @@ export const multiUpload = async (files: File[]) => {
     })
 }
 
+export interface FileValidator {
+    setSizeConstraint(size:number) : void;
+    validate(file:File|null):string;
+}
+
+
+export class ImageValidator implements FileValidator {
+
+    types = {
+        "images":true,
+        "image/jpeg" : true,
+        "image/png" : true,
+        "image/webp" : true,
+        "image/gif" : true,
+
+    }
+    size = Infinity
+
+    constructor (){
+    }
+
+    setSizeConstraint(size: number): void {
+        this.size = size
+    }
+    validate(file: File|null): string {
+        console.log("Test");
+        
+        if (!file || file == null) return "No file"
+        if (file.size>= this.size) return `Files: ${file.name} too big  expected size <= ${this.size}`
+
+        const filePart = file.type.split("/");
+        
+        //@ts-ignore
+        if (!this.types[filePart[0]] && !this.types[file.type] ) return `File not supported: ${file.type}`
+
+        return ""
+    }
+
+}

@@ -144,7 +144,7 @@ export const changeAvatar = async (req: Request, res: Response) => {
     let user_response = await user.changeAvatar(UID,URL)
     user.close()
 
-    if (user_response.status){
+    if (user_response.status != 100){
         res.status(400).json(
             {
                 status: user_response.status,
