@@ -28,7 +28,7 @@ export const TagTypes = {
     USER: 'USER',
     GROUP: 'GROUP',
     EVENT: 'EVENT'
-    
+
 };
 
 export const LikeType = {
@@ -36,16 +36,16 @@ export const LikeType = {
     POST: 'POST'
 };
 
-export type PostOrderType = 'LATEST'|'LIKES'
+export type PostOrderType = 'LATEST' | 'LIKES'
 export const PostOrder = {
     LATEST: 'LATEST',
     LIKES: 'LIKES'
 }
 
 
-export type PostSelectionType = 'PUBLIC'|'USER'|'GROUP'
+export type PostSelectionType = 'PUBLIC' | 'USER' | 'GROUP'
 export const PostSelection = {
-    PUBLIC:'PUBLIC',
+    PUBLIC: 'PUBLIC',
     USER: 'USER',
     GROUP: 'GROUP'
 }
@@ -72,31 +72,39 @@ export type PostType = {
     media: number
     content: string,
     created_at: string,
-    likes:number
+    likes: number
 }
 
 export type CommentType = {
-    id:number,
-    avatar:string,
+    id: number,
+    avatar: string,
     user: string,
     content: string,
     responses: CommentResponseType[]
     created_at: string,
-    likes:number
+    likes: number
 }
 
 export type CommentResponseType = {
-    id:number,
-    avatar:string,
+    id: number,
+    avatar: string,
     user: string,
     content: string,
     created_at: string,
-    likes:number
+    likes: number
 
 }
 
 export type Person = {
-    id:number
-    tag:string,
-    avatar:string
-  }
+    id: number
+    tag: string,
+    avatar: string
+}
+
+export type ProfileInfo = {
+    tag: string,
+    username: string,
+    followers: number,
+    following: number,
+    avatar: string
+}

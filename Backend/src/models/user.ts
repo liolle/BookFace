@@ -4,32 +4,18 @@ import { getTimeStamp } from "../utils/time";
 import { randomTag } from "../utils/random";
 
 import * as Type from "./types";
-import {Session} from "./sessions"
+import { Session } from "./sessions"
 import { Tags } from "./tags";
+import { Media } from "./media";
 
 export class User extends DbConnect {
 
-    /*
-    
-    CREATE TABLE users (
-        id int PRIMARY KEY AUTO_INCREMENT ,
-        banner int DEFAULT 0,
-        picture int DEFAULT 1,
-        username VARCHAR(100),
-        email VARCHAR(100) not null,
-        pwd VARCHAR(100) not null,
-        status int DEFAULT 0,
-        created_at datetime not null
-    );
-    
-    */
-
-    constructor(){
+    constructor() {
         super();
-        
+
     }
 
-    async getById(user_id:number){
+    async getById(user_id: number) {
 
 
         let userCheck_query = `
@@ -39,31 +25,31 @@ export class User extends DbConnect {
 
         return new Promise<Type.ResponseMsg>((resolve, reject) => {
 
-            this.connection.query(userCheck_query, (err:any, rows:any, fields:any)=>{
+            this.connection.query(userCheck_query, (err: any, rows: any, fields: any) => {
 
-                if (err){
-                    
+                if (err) {
+
                     console.log(err)
                     resolve({
-                        status:404,
-                        message:Type.StatusTypes[404],
-                        content: {error: err}
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: { error: err }
                     })
                     return
                 }
 
-                if (rows.length == 0){
+                if (rows.length == 0) {
                     resolve({
-                        status:201,
-                        message:Type.StatusTypes[201],
+                        status: 201,
+                        message: Type.StatusTypes[201],
                         content: {}
                     })
                     return
                 }
 
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
+                    status: 100,
+                    message: Type.StatusTypes[100],
                     content: {}
                 })
 
@@ -71,27 +57,27 @@ export class User extends DbConnect {
         })
 
     }
-    
 
-    async getTag(tag:string){
+
+    async getTag(tag: string) {
         let query = `
         SELECT * FROM bf_tags WHERE tag = '${tag}' 
         `
         return new Promise<Type.ResponseMsg>((resolve, reject) => {
-            this.connection.query(query, (err:any, rows:[], fields:any)=>{
-                if (err){
+            this.connection.query(query, (err: any, rows: [], fields: any) => {
+                if (err) {
                     resolve({
-                        status:202,
+                        status: 202,
                         message: Type.StatusTypes[202],
-                        content : {}
+                        content: {}
                     })
                     console.log(err)
                     return
                 }
 
-                if (rows.length > 0){
+                if (rows.length > 0) {
                     resolve({
-                        status:200,
+                        status: 200,
                         message: Type.StatusTypes[200],
                         content: {}
                     })
@@ -99,7 +85,7 @@ export class User extends DbConnect {
                 }
 
                 resolve({
-                    status:100,
+                    status: 100,
                     message: Type.StatusTypes[100],
                     content: rows
                 })
@@ -108,36 +94,36 @@ export class User extends DbConnect {
 
     }
 
-    async getProfile(tag:string){
+    async getProfile(tag: string) {
         let query = this.PROFILE_QUERY(tag)
         return new Promise<Type.ResponseMsg>((resolve, reject) => {
-            this.connection.query(query, (err:any, rows:any, fields:any)=>{
-                if (err || rows.length == 0){
+            this.connection.query(query, (err: any, rows: any, fields: any) => {
+                if (err || rows.length == 0) {
                     resolve({
-                        status:202,
+                        status: 202,
                         message: Type.StatusTypes[202],
-                        content : {}
+                        content: {}
                     })
                     console.log(err)
                     return
                 }
 
-               
-                
+
+
 
                 resolve({
-                    status:100,
+                    status: 100,
                     message: Type.StatusTypes[100],
                     content: {
-                        tag:rows[0]['tag'],
-                        avatar:rows[0]['avatar'],
-                        email:rows[0]['email'],
-                        username:rows[0]['username'],
-                        followers:rows[0]['followers']||0,
-                        follows:rows[0]['follows']||0,
-                        status:rows[0]['status']||0,
-                        banner:rows[0]['banner'],
-                        created_at:rows[0]['created_at'],
+                        tag: rows[0]['tag'],
+                        avatar: rows[0]['avatar'],
+                        email: rows[0]['email'],
+                        username: rows[0]['username'],
+                        followers: rows[0]['followers'] || 0,
+                        follows: rows[0]['follows'] || 0,
+                        status: rows[0]['status'] || 0,
+                        banner: rows[0]['banner'],
+                        created_at: rows[0]['created_at'],
 
                     }
                 })
@@ -146,113 +132,113 @@ export class User extends DbConnect {
 
     }
 
-    findRandomTag = async ( tagAttempt:string,attemptLeft=5):Promise<Type.ResponseMsg> =>{
+    findRandomTag = async (tagAttempt: string, attemptLeft = 5): Promise<Type.ResponseMsg> => {
         let current = tagAttempt || randomTag()
-        let output =  await this.getTag(current)
+        let output = await this.getTag(current)
 
-        if (current.length<4 || output.status != 100){
+        if (current.length < 4 || output.status != 100) {
             return new Promise<Type.ResponseMsg>((resolve, reject) => {
                 resolve({
-                    status:404,
-                    message:Type.StatusTypes[400],
+                    status: 404,
+                    message: Type.StatusTypes[400],
                     content: {}
                 })
             })
         }
 
-        if (output.status != 100 && attemptLeft ==0){
+        if (output.status != 100 && attemptLeft == 0) {
             return new Promise<Type.ResponseMsg>((resolve, reject) => {
                 resolve({
-                    status:404,
-                    message:Type.StatusTypes[400],
+                    status: 404,
+                    message: Type.StatusTypes[400],
                     content: {}
                 })
             })
         }
 
-        if (output.status == 100){
+        if (output.status == 100) {
             return new Promise<Type.ResponseMsg>((resolve, reject) => {
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
-                    content: {tagname:current}
+                    status: 100,
+                    message: Type.StatusTypes[100],
+                    content: { tagname: current }
                 })
             })
 
         }
-        else{
-            return this.findRandomTag("",attemptLeft -1)
+        else {
+            return this.findRandomTag("", attemptLeft - 1)
         }
-    
+
     }
 
-    async changeTag (old_tag:string,new_tag:string){
+    async changeTag(old_tag: string, new_tag: string) {
 
         // let resp_tag = await this.findRandomTag(new_tag,0)
 
         return new Promise<Type.ResponseMsg>(async (resolve, reject) => {
 
             let tag = new Tags()
-            let tagRes = await tag.updateTag(old_tag,new_tag)
+            let tagRes = await tag.updateTag(old_tag, new_tag)
             tag.close()
 
-            if (tagRes.status != 100 ){
+            if (tagRes.status != 100) {
                 resolve({
-                    status:tagRes.status,
-                    message:tagRes.message,
+                    status: tagRes.status,
+                    message: tagRes.message,
                     content: tagRes.content
                 })
             }
 
             resolve({
-                status:100,
-                message:Type.StatusTypes[100],
+                status: 100,
+                message: Type.StatusTypes[100],
                 content: {}
             })
         })
-        
+
 
     }
 
 
-    async register(email:string,pwd:string){
-        
+    async register(email: string, pwd: string) {
+
         let timestamp = getTimeStamp()
         let hashedPWD = await bcrypt.hash(pwd, 10)
-        
+
         // verify uniqueness of the timestamp return status accordingly 
-        let {tagname} = (await this.findRandomTag("",0)).content as {tagname:string}
+        let { tagname } = (await this.findRandomTag("", 0)).content as { tagname: string }
         let sql_register = `
         INSERT INTO bf_users (email,pwd,created_at)
         VALUES('${email}','${hashedPWD}',TIMESTAMP('${timestamp}','0:0:0'))
         `
         return new Promise<Type.ResponseMsg>((resolve, reject) => {
 
-            if (!tagname){
+            if (!tagname) {
                 resolve({
-                    status:202,
-                    message:Type.StatusTypes[202],
+                    status: 202,
+                    message: Type.StatusTypes[202],
                     content: {}
                 })
                 return
             }
 
-            this.connection.query(sql_register, async (err:any, rows:any, fields:any)=>{
-                if (err){
-                    let {code} = err
-                    if (code == 'ER_DUP_ENTRY'){
+            this.connection.query(sql_register, async (err: any, rows: any, fields: any) => {
+                if (err) {
+                    let { code } = err
+                    if (code == 'ER_DUP_ENTRY') {
                         resolve({
-                            status:200,
-                            message:Type.StatusTypes[200],
-                            content: {email:email}
+                            status: 200,
+                            message: Type.StatusTypes[200],
+                            content: { email: email }
                         })
                         return
                     }
 
                     resolve({
-                        status:202,
-                        message:Type.StatusTypes[202],
-                        content: {error: err}
+                        status: 202,
+                        message: Type.StatusTypes[202],
+                        content: { error: err }
                     })
                     return
                 }
@@ -261,35 +247,35 @@ export class User extends DbConnect {
 
                 let dbUser = await this.getUser(email)
 
-                if (dbUser.status != 100){
+                if (dbUser.status != 100) {
                     resolve({
-                        status:202,
-                        message:Type.StatusTypes[202],
+                        status: 202,
+                        message: Type.StatusTypes[202],
                         content: {}
                     })
                     return
                 }
 
-                let {id} = dbUser.content as {
-                    id:number
+                let { id } = dbUser.content as {
+                    id: number
                 }
-                
-                let tagRes = await tag.addTag(id,tagname,Type.TagTypes.USER)
+
+                let tagRes = await tag.addTag(id, tagname, Type.TagTypes.USER)
                 tag.close()
 
-                if ( tagRes.status != 100){
+                if (tagRes.status != 100) {
                     resolve({
-                        status:202,
-                        message:Type.StatusTypes[202],
+                        status: 202,
+                        message: Type.StatusTypes[202],
                         content: tagRes.content
                     })
                     return
                 }
-                
-                
+
+
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
+                    status: 100,
+                    message: Type.StatusTypes[100],
                     content: {}
                 })
             })
@@ -299,7 +285,7 @@ export class User extends DbConnect {
 
     }
 
-    async getUser (email:string){
+    async getUser(email: string) {
 
         let sql_get_user = `
         SELECT * FROM bf_users
@@ -308,37 +294,37 @@ export class User extends DbConnect {
 
         return new Promise<Type.ResponseMsg>((resolve, reject) => {
 
-            this.connection.query(sql_get_user, async (err:any, rows:any, fields:any)=>{
-                if (err){
+            this.connection.query(sql_get_user, async (err: any, rows: any, fields: any) => {
+                if (err) {
                     resolve({
-                        status:202,
-                        message:Type.StatusTypes[202],
-                        content: {error: err}
+                        status: 202,
+                        message: Type.StatusTypes[202],
+                        content: { error: err }
                     })
                     return
                 }
 
-                if (rows.length == 0){
+                if (rows.length == 0) {
                     resolve({
-                        status:201,
-                        message:Type.StatusTypes[201],
-                        content: {email:email}
+                        status: 201,
+                        message: Type.StatusTypes[201],
+                        content: { email: email }
                     })
                     return
                 }
 
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
+                    status: 100,
+                    message: Type.StatusTypes[100],
                     content: {
-                        id:rows[0]['id'],
-                        banner:rows[0]['banner'],
+                        id: rows[0]['id'],
+                        banner: rows[0]['banner'],
                         picture: rows[0]['picture'],
                         username: rows[0]['username'],
                         email: rows[0]['email'],
                         status: rows[0]['status'],
                         created_at: rows[0]['created_at'],
-                        pwd:rows[0]['pwd']
+                        pwd: rows[0]['pwd']
                     }
                 })
             })
@@ -347,55 +333,55 @@ export class User extends DbConnect {
 
     }
 
-    async removeUser (email:string){
+    async removeUser(email: string) {
 
         let sql_del_user = `
         DELETE FROM bf_users 
         WHERE email = '${email}'
         `
-        
+
         return new Promise<Type.ResponseMsg>(async (resolve, reject) => {
-            let {id} = (await this.getUser(email)).content as {
-                id:number
+            let { id } = (await this.getUser(email)).content as {
+                id: number
             }
-            
-            if (!id){
+
+            if (!id) {
                 resolve({
-                    status:201,
-                    message:Type.StatusTypes[201],
-                    content: {email:email}
+                    status: 201,
+                    message: Type.StatusTypes[201],
+                    content: { email: email }
                 })
                 return
             }
-            
-            let tag =new Tags()
+
+            let tag = new Tags()
 
             // let tagname = (await tag.getTagById(id,Type.TagTypes.USER)).content
             let del_tag = await tag.deleteTag(id)
-           if ( del_tag.status != 100){
+            if (del_tag.status != 100) {
                 resolve({
-                    status:del_tag.status,
-                    message:del_tag.message,
+                    status: del_tag.status,
+                    message: del_tag.message,
                     content: del_tag.content
                 })
                 return
-           }
+            }
 
-           tag.close()
+            tag.close()
 
-            this.connection.query(sql_del_user, async (err:any, rows:any, fields:any)=>{
-                if (err){
+            this.connection.query(sql_del_user, async (err: any, rows: any, fields: any) => {
+                if (err) {
                     resolve({
-                        status:202,
-                        message:Type.StatusTypes[202],
-                        content: {error: err}
+                        status: 202,
+                        message: Type.StatusTypes[202],
+                        content: { error: err }
                     })
                     return
                 }
 
                 resolve({
-                    status:100,
-                    message:Type.StatusTypes[100],
+                    status: 100,
+                    message: Type.StatusTypes[100],
                     content: {}
                 })
             })
@@ -404,114 +390,148 @@ export class User extends DbConnect {
 
     }
 
-    
-    async login(email:string,in_pwd:string){
+
+    async login(email: string, in_pwd: string) {
 
         return new Promise<Type.ResponseMsg>(async (resolve, reject) => {
 
             let session = new Session()
             let dbUser = await this.getUser(email)
 
-            if (dbUser.status != 100){
+            if (dbUser.status != 100) {
                 resolve({
-                    status:dbUser.status,
-                    message:dbUser.message,
+                    status: dbUser.status,
+                    message: dbUser.message,
                     content: dbUser.content
                 })
                 return
             }
 
-            let {id,pwd} = dbUser.content as {
-                id:number,
-                pwd:string
+            let { id, pwd } = dbUser.content as {
+                id: number,
+                pwd: string
             }
 
-            if (!bcrypt.compareSync(in_pwd,pwd)){
+            if (!bcrypt.compareSync(in_pwd, pwd)) {
                 resolve({
-                    status:401,
-                    message:Type.StatusTypes[401],
+                    status: 401,
+                    message: Type.StatusTypes[401],
                     content: {}
                 })
                 return
             }
 
-            let resSession = await session.getSession(id) 
-
-            // if ( resSession.status != 201){
-            //     resolve({
-            //         status:405,
-            //         message:Type.StatusTypes[405],
-            //         content: {email:email}
-            //     })
-                
-            //     session.close()
-            //     return
-            // }
-            let delSession = await session.deleteSession(id)
-           
-
+            let resSession = await session.getSession(id)
             resSession = await session.addSession(id)
             session.close()
-            if ( resSession.status != 100){
+            if (resSession.status != 100) {
                 resolve({
-                    status:202,
-                    message:Type.StatusTypes[202],
+                    status: 202,
+                    message: Type.StatusTypes[202],
                     content: resSession.content
                 })
                 return
             }
-            
-            resSession = await session.getUId(id) 
-            
+
+            resSession = await session.getUId(id)
+
             let content = resSession.content as [{
-                id:number,
-                user_id:number,
-                tag:string
+                id: number,
+                user_id: number,
+                tag: string
             }]
 
-            
-            
+
+
             resolve({
-                status:100,
-                message:Type.StatusTypes[100],
+                status: 100,
+                message: Type.StatusTypes[100],
                 content: {
-                    hashedPWD:pwd,
-                    user_id:id,
-                    user_tag:content[0]['tag'],
+                    hashedPWD: pwd,
+                    user_id: id,
+                    user_tag: content[0]['tag'],
                     session_id: content[0]['id']
                 }
             })
         })
-        
+
     }
 
-    //logout based on JWT
-    async logout(user_id:number){
+    async logout(user_id: number) {
 
         return new Promise<Type.ResponseMsg>(async (resolve, reject) => {
             let session = new Session()
 
             let resSession = await session.deleteSession(user_id)
             session.close()
-            if ( resSession.status != 100){
+            if (resSession.status != 100) {
                 resolve({
-                    status:202,
-                    message:Type.StatusTypes[202],
+                    status: 202,
+                    message: Type.StatusTypes[202],
                     content: resSession.content
                 })
                 return
             }
-            
+
             resolve({
-                status:100,
-                message:Type.StatusTypes[100],
+                status: 100,
+                message: Type.StatusTypes[100],
                 content: {}
             })
         })
 
     }
 
-    private PROFILE_QUERY = (u_tag:string)=>{
+    async changeAvatar(user_id: number, link: string) {
+
+
+
+
+        let media = new Media()
+        let media_response = await media.add(link)
+        media.close()
+
+
+        return new Promise<Type.ResponseMsg>((resolve, reject) => {
+            if (media_response.status != 100) {
+                resolve({
+                    status: media_response.status,
+                    message: media_response.message,
+                    content: media_response.content
+                })
+                return
+            }
+            const { id } = media_response.content as { id: number }
+
+            let update_query = `
+            UPDATE bf_users SET picture = ${id}
+            WHERE id = ${user_id};
+            `
+            this.connection.query(update_query, (err: any, rows: any, fields: any) => {
+                if (err || rows.length == 0) {
+                    resolve({
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: {}
+                    })
+                    console.log(err)
+                    return
+                }
+
+
+                resolve({
+                    status: 100,
+                    message: Type.StatusTypes[100],
+                    content: {
+
+                    }
+                })
+            })
+        })
+
+    }
+
+    private PROFILE_QUERY = (u_tag: string) => {
         return `
         SELECT 
         UTags.tag, 
@@ -537,6 +557,6 @@ export class User extends DbConnect {
         ) FTable
         WHERE UTags.tag = '${u_tag}' AND UTags.type = 'USER';
         `
-    } 
+    }
 
 }

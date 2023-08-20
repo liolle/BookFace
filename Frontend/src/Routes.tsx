@@ -1,16 +1,15 @@
 import { Routes, Route } from "react-router-dom"
 import Followings from "./Components/Followings/Followings"
-import PostCard from "./Components/Postcard/Postcard"
-import SideBar from "./Components/SideBar/SideBar"
-import VCard from "./Components/VCard/VCard"
-import ModalCookies from "./Components/ModalCookies/ModalCookies"
+import PostCard from "./Components/Cards/Postcard"
+import SideBar from "./Components/Navigation/SideBar"
+import VCard from "./Components/Cards/VCard"
 import LandingPage from './Pages/LandingPage'
 import Register from "./Pages/Register"
 import Login from "./Pages/Login"
 
 
-import NatureCard from "./Components/GalleryCard/GalleryCard"
-import NatureTrendCard from "./Components/NatureTrendCard/NatureTrendCard"
+import NatureCard from "./Components/Cards/GalleryCard"
+import NatureTrendCard from "./Components/Cards/NatureTrendCard"
 import Publication from "./Components/Publication/Publication"
 import Home from "./Pages/Home"
 
@@ -22,19 +21,25 @@ import BookMarks from "./Pages/BookMarks"
 import LandingCheck from "./utils/reroot"
 import Prof from "./Pages/Prof"
 import React from "react"
+import Settings from "./Pages/Settings"
+import Loading from "./Pages/Loading"
+import Resizer from "./Pages/Resizer"
 
 export function routes() {
     return <Routes>
 
             <Route element={<PrivateRoutes />}>
-                <Route path= '/PProfile' element={<Prof/>} />
-                <Route path= '/PProfile/:u_tag' element={<Prof/>} />
-                <Route path= '/Home' element={<Home />} />
-                <Route path= '/Profile' element={<Profile/>} />
-                <Route path= '/Notifications' element={<Notifications/>} />
-                <Route path= '/Bookmark' element={<BookMarks/>} /> 
+                <Route path= '/PProfile/:u_tag' element={<Resizer><Prof/></Resizer>} />
+                <Route path= '/PProfile' element={<Resizer><Prof/></Resizer>} />
+                <Route path= '/Home' element={<Resizer><Home /></Resizer>} />
+                <Route path= '/Profile' element={<Resizer><Profile/></Resizer>} />
+                {/* <Route path= '/Notifications' element={<Notifications/>} />
+                <Route path= '/Bookmark' element={<BookMarks/>} />  */}
+                <Route path= '/settings' element={<Resizer><Settings/></Resizer>} /> 
             </Route>
 
+
+            <Route path= '/loading' element={<Resizer><Loading/></Resizer>} />
             <Route path= '/Register' element={<Register/>} />
             <Route path= '/Login' element={<Login/>} />
             <Route path= '/LandingPage' element={<LandingPage/>} />

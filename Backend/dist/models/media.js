@@ -67,5 +67,44 @@ class Media extends dbConnect_1.default {
             });
         });
     }
+    async add(link, type = 'png') {
+        let media_query = `
+            INSERT INTO bf_media (type, link)
+            VALUES ('${type}', '${link}')
+        `;
+        let last_id_query = `
+                SELECT LAST_INSERT_ID() AS id;
+            `;
+        return new Promise(async (resolve, reject) => {
+            this.connection.query(media_query, (err, rows, fields) => {
+                if (err) {
+                    resolve({
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: { error: err }
+                    });
+                    return;
+                }
+                this.connection.query(last_id_query, (err, rows, fields) => {
+                    const id = rows[0]['id'] || 0;
+                    if (id == 0 || err) {
+                        resolve({
+                            status: 404,
+                            message: Type.StatusTypes[404],
+                            content: { err }
+                        });
+                        return;
+                    }
+                    resolve({
+                        status: 100,
+                        message: Type.StatusTypes[100],
+                        content: {
+                            id: id
+                        }
+                    });
+                });
+            });
+        });
+    }
 }
 exports.Media = Media;

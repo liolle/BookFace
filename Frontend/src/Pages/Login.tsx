@@ -18,12 +18,6 @@ function Login() {
 
   let navigate = useNavigate()
 
-  const backgroundImageStyle = {
-    backgroundImage: `url("${GreenWave2}")`,
-    backgroundSize: 'cover',
-
-  };
-
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
   const [formError, setFormError] = useState('')

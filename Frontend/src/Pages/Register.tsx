@@ -56,7 +56,7 @@ function Register() {
       toast.success(`${fetcher.message}`)
       setIsRequesting(false)
     } catch (error) {
-      toast.error(`${error.message}`)
+      toast.error(`${(error as ResponseMsg).message}`)
       setIsRequesting(false )
     }
 

@@ -34,21 +34,8 @@ const random_1 = require("../utils/random");
 const Type = __importStar(require("./types"));
 const sessions_1 = require("./sessions");
 const tags_1 = require("./tags");
+const media_1 = require("./media");
 class User extends dbConnect_1.default {
-    /*
-    
-    CREATE TABLE users (
-        id int PRIMARY KEY AUTO_INCREMENT ,
-        banner int DEFAULT 0,
-        picture int DEFAULT 1,
-        username VARCHAR(100),
-        email VARCHAR(100) not null,
-        pwd VARCHAR(100) not null,
-        status int DEFAULT 0,
-        created_at datetime not null
-    );
-    
-    */
     constructor() {
         super();
     }
@@ -372,16 +359,6 @@ class User extends dbConnect_1.default {
                 return;
             }
             let resSession = await session.getSession(id);
-            // if ( resSession.status != 201){
-            //     resolve({
-            //         status:405,
-            //         message:Type.StatusTypes[405],
-            //         content: {email:email}
-            //     })
-            //     session.close()
-            //     return
-            // }
-            let delSession = await session.deleteSession(id);
             resSession = await session.addSession(id);
             session.close();
             if (resSession.status != 100) {
@@ -406,7 +383,6 @@ class User extends dbConnect_1.default {
             });
         });
     }
-    //logout based on JWT
     async logout(user_id) {
         return new Promise(async (resolve, reject) => {
             let session = new sessions_1.Session();
@@ -424,6 +400,42 @@ class User extends dbConnect_1.default {
                 status: 100,
                 message: Type.StatusTypes[100],
                 content: {}
+            });
+        });
+    }
+    async changeAvatar(user_id, link) {
+        let media = new media_1.Media();
+        let media_response = await media.add(link);
+        media.close();
+        return new Promise((resolve, reject) => {
+            if (media_response.status != 100) {
+                resolve({
+                    status: media_response.status,
+                    message: media_response.message,
+                    content: media_response.content
+                });
+                return;
+            }
+            const { id } = media_response.content;
+            let update_query = `
+            UPDATE bf_users SET picture = ${id}
+            WHERE id = ${user_id};
+            `;
+            this.connection.query(update_query, (err, rows, fields) => {
+                if (err || rows.length == 0) {
+                    resolve({
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: {}
+                    });
+                    console.log(err);
+                    return;
+                }
+                resolve({
+                    status: 100,
+                    message: Type.StatusTypes[100],
+                    content: {}
+                });
             });
         });
     }

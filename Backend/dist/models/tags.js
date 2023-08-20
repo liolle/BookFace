@@ -165,16 +165,6 @@ class Tags extends dbConnect_1.default {
                     });
                     return;
                 }
-                if (!fields) {
-                    resolve({
-                        status: 200,
-                        message: Type.StatusTypes[200],
-                        content: {
-                            new_tag: new_tag
-                        }
-                    });
-                    return;
-                }
                 resolve({
                     status: 100,
                     message: Type.StatusTypes[100],

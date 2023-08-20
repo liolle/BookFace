@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeTag = exports.getProfile = exports.getPublicProfile = void 0;
+exports.changeAvatar = exports.changeTag = exports.getProfile = exports.getPublicProfile = void 0;
 const user_1 = require("../models/user");
 const Type = __importStar(require("../models/types"));
 const tags_1 = require("../models/tags");
@@ -94,3 +94,54 @@ const changeTag = async (req, res) => {
     });
 };
 exports.changeTag = changeTag;
+const changeAvatar = async (req, res) => {
+    const { key } = req.body;
+    const { user_id } = req.params;
+    if (!user_id) {
+        res.status(400).json({
+            status: 403,
+            message: Type.StatusTypes[403],
+            content: {}
+        });
+        return;
+    }
+    let UID = Number(user_id);
+    if (isNaN(UID)) {
+        res.status(400).json({
+            status: 404,
+            message: Type.StatusTypes[404],
+            content: {}
+        });
+        return;
+    }
+    if (!key) {
+        res.status(400).json({
+            status: 400,
+            message: Type.StatusTypes[400],
+            content: {
+                example: {
+                    key: "random-key.png"
+                }
+            }
+        });
+        return;
+    }
+    let URL = `https://${process.env.AWS_CDN}/${key}`;
+    let user = new user_1.User();
+    let user_response = await user.changeAvatar(UID, URL);
+    user.close();
+    if (user_response.status) {
+        res.status(400).json({
+            status: user_response.status,
+            message: user_response.message,
+            content: user_response.content
+        });
+        return;
+    }
+    res.status(200).json({
+        status: 100,
+        message: Type.StatusTypes[100],
+        content: {}
+    });
+};
+exports.changeAvatar = changeAvatar;

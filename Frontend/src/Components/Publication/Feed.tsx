@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import PostDisplayCard from "./PostDisplayCard"
+import PostDisplayCard from "../Cards/PostDisplayCard"
+import React from "react"
 
 enum FeedType {
     'PUBLIC',
@@ -121,7 +122,7 @@ const Feed = ( {type,rerender_feed, isReg}:{type:number,rerender_feed:number,isR
     },[rerender_feed])
 
     return(
-        <div className=" flex flex-col gap-4 mb-4"> 
+        <div className=" flex flex-col gap-4 mb-4 "> 
             {posts.map((post)=><PostDisplayCard isReg={isReg} key={post.post_id} post_info={post} ></PostDisplayCard>)}
         </div>
     )
