@@ -130,7 +130,7 @@ const changeAvatar = async (req, res) => {
     let user = new user_1.User();
     let user_response = await user.changeAvatar(UID, URL);
     user.close();
-    if (user_response.status) {
+    if (user_response.status != 100) {
         res.status(400).json({
             status: user_response.status,
             message: user_response.message,
