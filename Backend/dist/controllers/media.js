@@ -23,9 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMedia = void 0;
+exports.upload = exports.getMedia = void 0;
 const Type = __importStar(require("../models/types"));
 const media_1 = require("../models/media");
+const crypto_1 = require("crypto");
+const aws_1 = require("../utils/aws");
+const supportedExtension = ['png', 'jpg', 'jpeg', 'webp', 'gif'];
 const getMedia = async (req, res) => {
     const { media_id } = req.query;
     let m = parseInt(media_id);
@@ -55,3 +58,74 @@ const getMedia = async (req, res) => {
     });
 };
 exports.getMedia = getMedia;
+const upload = async (req, res) => {
+    const REGION = process.env.AWS_REGION;
+    const BUCKET = process.env.AWS_BUCKET_NAME;
+    const { extension, size } = await req.body;
+    if (!extension) {
+        res.status(400).json({
+            status: 400,
+            message: "Missing extension: expected jpg,jpeg, png, webp, gif ",
+            content: {}
+        });
+        return;
+    }
+    if (!supportedExtension.includes(extension)) {
+        res.status(400).json({
+            status: 401,
+            message: `Files extension not supported : expect ${supportedExtension} found: ${extension}`,
+            content: {}
+        });
+        return;
+    }
+    if (!size) {
+        res.status(400).json({
+            status: 401,
+            message: "Missing size: expected 0 < size <= 2000000 ",
+            content: {}
+        });
+        return;
+    }
+    if (size > 2000000) {
+        res.status(400).json({
+            status: 401,
+            message: "File to big: expected 0 < size <= 2000000 ",
+            content: {}
+        });
+        return;
+    }
+    const KEY = `${(0, crypto_1.randomUUID)()}.${extension}`;
+    if (!REGION || !BUCKET || !KEY) {
+        res.status(400).json({
+            status: 400,
+            message: "Missing access information",
+            content: {}
+        });
+        return;
+    }
+    try {
+        let clientUrl = await (0, aws_1.createPresignedUrlWithoutClient)({
+            region: REGION,
+            bucket: BUCKET,
+            key: KEY,
+        });
+        res.status(200).json({
+            status: 100,
+            message: "success",
+            content: {
+                url: clientUrl,
+                key: KEY
+            }
+        });
+        return;
+    }
+    catch (err) {
+        res.status(400).json({
+            status: 404,
+            message: err,
+            content: {}
+        });
+        return;
+    }
+};
+exports.upload = upload;

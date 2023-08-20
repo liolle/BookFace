@@ -10,4 +10,5 @@ const auth_1 = __importDefault(require("../middlewares/auth"));
 router.get('/:u_tag', profile_1.getPublicProfile);
 router.get('/', auth_1.default, profile_1.getProfile);
 router.post('/tag/update', auth_1.default, profile_1.changeTag);
+router.post('/avatar/update', auth_1.default, profile_1.changeAvatar);
 module.exports = router;
