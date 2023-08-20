@@ -148,7 +148,6 @@ export class Tags extends DbConnect{
                 
                 if (err){
                     console.log(err);
-
                     if (err.code == "ER_DUP_ENTRY"){
                         resolve({
                             status:200,
@@ -166,16 +165,6 @@ export class Tags extends DbConnect{
                     return 
                 }
 
-                if (!fields){
-                    resolve({
-                        status:200,
-                        message:Type.StatusTypes[200],
-                        content: {
-                            new_tag:new_tag
-                        }
-                    })
-                    return
-                }
 
                 resolve({
                     status:100,

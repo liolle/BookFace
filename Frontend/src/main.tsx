@@ -11,9 +11,7 @@ import Resizer from './Pages/Resizer';
 
 ReactDOM.render(
   <HashRouter >
-    <Resizer>
-      <App />
-    </Resizer>
+    <App />
     <ToastContainer />
   </HashRouter>,
   document.getElementById("root")

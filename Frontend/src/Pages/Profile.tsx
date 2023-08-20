@@ -58,7 +58,7 @@ const Profile = () => {
     }, [])
 
     return (
-        <div className=' flex flex-col ' >
+        <div className=' flex flex-col p-4' >
             <ProfileCard profileInfo={profile} />
         </div>
     );

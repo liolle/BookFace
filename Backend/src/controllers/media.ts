@@ -44,3 +44,7 @@ export const getMedia = async (req: Request, res: Response)=>{
     )
 }
 
+export const upload =  async (req: Request, res: Response)=>{
+    
+}
+
