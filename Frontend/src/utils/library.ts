@@ -415,7 +415,6 @@ export class ImageValidator implements FileValidator {
         this.size = size
     }
     validate(file: File|null): string {
-        console.log("Test");
         
         if (!file || file == null) return "No file"
         if (file.size>= this.size) return `Files: ${file.name} too big  expected size <= ${this.size}`
