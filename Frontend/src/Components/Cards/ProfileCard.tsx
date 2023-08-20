@@ -9,7 +9,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
     const inputElement = useRef<HTMLInputElement | null>(null);
     const [files, setFiles] = useState<File[]>([])
-    const [file, setFile] = useState<File>(null)
+    const [file, setFile] = useState<File|null>(null)
     const [isUploading, setIsUploading] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
     const [profileInfo, setProfileInfo] = useState<ProfileInfo>({
@@ -25,12 +25,21 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
         
         getProfile()
             .then(data => {
+                //@ts-ignore
+                let content:{
+                    tag:string,
+                    username:string,
+                    followers:number,
+                    follows:number,
+                    avatar:string,
+                } = data.content
+
                 setProfileInfo({
-                    tag: data.content['tag'],
-                    username: data.content['username'],
-                    followers: data.content['followers'],
-                    following: data.content['follows'],
-                    avatar: data.content['avatar']
+                    tag: content.tag,
+                    username: content.username,
+                    followers: content.followers,
+                    following: content.follows,
+                    avatar: content.avatar
                 })
 
             })
@@ -76,13 +85,14 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
         setFiles(files.filter(curFile => curFile !== file))
     }
 
-    const handleUpload = async (file: File) => {
+    const handleUpload = async (file: File |null) => {
 
         return new Promise<string>((resolve, reject) => {
             
-            if (!file) reject("no file")
+            if (!file || file == null) reject("no file")
             setIsUploading(true)
             toast.promise(
+                //@ts-ignore
                 upload(file),
                 {
                     loading: 'Saving...',

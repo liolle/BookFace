@@ -2,7 +2,6 @@ import React from "react";
 // import GreenWave2 from '../images/GreenWave2.jpg'
 import BottomNavigationBar from "../Components/Navigation/BottomNavigationBar";
 import SideBar from "../Components/Navigation/SideBar";
-import BookmarkPage from "../Components/BookMark/BookmarkPage";
 
 
 const BookMarks: React.FC = () => {
@@ -38,7 +37,6 @@ const BookMarks: React.FC = () => {
     )} 
     <div className="">
        
-        <BookmarkPage/>
      
     </div>
 </div>
