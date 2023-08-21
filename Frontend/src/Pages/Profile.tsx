@@ -3,6 +3,8 @@ import ProfileCard from '../Components/Cards/ProfileCard';
 import { ProfileInfo } from '../utils/typess';
 import { getProfile } from '../utils/library';
 import { Toaster } from 'react-hot-toast';
+import { useRef } from 'react';
+
 
 const Profile = () => {
 
@@ -13,6 +15,7 @@ const Profile = () => {
                 reverseOrder={false}
             />
             <ProfileCard editable={true} />
+
         </div>
     );
 }

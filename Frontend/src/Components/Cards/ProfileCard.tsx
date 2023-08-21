@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ProfileInfo } from '../../utils/typess';
-import { ImageValidator, getProfile, multiUpload, upload } from '../../utils/library';
+import { ImageValidator, changeTag, getProfile, multiUpload, upload } from '../../utils/library';
 import toast from 'react-hot-toast'
+import ProfileImage from '../ImageFrame/ProfileImage';
+import Followings from '../Stats/Following';
 
 const ProfileCard = ({ editable = false }: { editable: boolean }) => {
-    const [profileChanged, setProfileChanged] = useState(false)
 
+    const modalRef = useRef<HTMLDialogElement>()
     const inputElement = useRef<HTMLInputElement | null>(null);
+    const tagRef = useRef<HTMLInputElement | null>(null);
+
+    const [profileChanged, setProfileChanged] = useState(false)
     const [files, setFiles] = useState<File[]>([])
     const [file, setFile] = useState<File | null>(null)
     const [isUploading, setIsUploading] = useState(false)
-    const [isDragging, setIsDragging] = useState(false)
     const [profileInfo, setProfileInfo] = useState<ProfileInfo>({
         tag: '@user',
         username: 'name',
@@ -67,7 +70,6 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
             if (fileError == "") {
                 await handleUpload(newFile);
                 setTimeout(() => {
-
                     setProfileChanged(!profileChanged)
                 }, 5000);
 
@@ -111,43 +113,73 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
     }
 
+    const handleNameChange = (event: React.FormEvent) => {
+        event.preventDefault()
+        if (!tagRef || !tagRef.current || tagRef.current.value == '') {
+            modalRef.current.close()
+            return;
+        }
+
+        toast.promise(
+            //@ts-ignore
+            changeTag(tagRef.current.value),
+            {
+                loading: 'Saving...',
+                success: <b>Change successful</b>,
+                error: <b>Change failed</b>,
+            }
+        ).then(data => {
+            setTimeout(() => {
+                setProfileChanged(!profileChanged)
+            }, 5000);
+        }).catch(err => {
+        })
+
+        tagRef.current.value = ''
+        modalRef.current.close()
+    }
+
+    const openModal = () => {
+        if (!modalRef || !modalRef.current) return;
+        modalRef.current.showModal();
+    }
+
     return (
         <div className=" flex flex-col gap-4 p-4 w-fit">
 
-            <div className='relative'>
-                <div className=' flex justify-center items-center h-60 w-60 rounded-full 
-            overflow-hidden hover:cursor-pointer border-[2px] border-neutral-700'>
-                    <img className=' h-[100%]'
-                        src={profileInfo.avatar} alt="Profile picture" />
-                </div>
-                {
-                    editable &&
-                    <button className=' absolute py-1 px-3 bg-green-700 rounded-md border-neutral-500 
-            border-[1px] hover:border-neutral-300 text-neutral-100 bottom-[5%] right-[5%] ' type="button"
-                        onClick={() => clickInput()}>
-                        Edit
-                    </button>
-                }
+            <dialog className="modal bg-[#f4f4f450]" ref={modalRef}>
+                <form method="dialog" className="modal-box flex flex-col bg-neutral-100 gap-6 ">
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 " >✕</button>
+                    <div className="form-control w-full max-w-xs ">
+                        <label className="label">
+                            <span className="label-text w-full">What is your name?</span>
+                        </label>
+                        <input type="text" placeholder="Enter new tag" className="input input-bordered w-full " ref={tagRef} required />
+                        
 
-            </div>
+                    </div>
+                    <button onClick={handleNameChange} className="btn" >Save</button>
+                </form>
+            </dialog>
+
+            <ProfileImage editable={editable} onEdit={clickInput} profileInfo={profileInfo} />
             <div>
-                <button className=' hover:text-green-700' type='button' > {profileInfo.tag} </button >
+                <button className=' hover:text-green-700' type='button'
+                    onClick={() => openModal()}> {profileInfo.tag} </button >
             </div>
+
             <button className=' bg-green-700 rounded-md border-neutral-500 
             border-[1px] hover:border-neutral-300 text-neutral-100' type="button"
             >
                 Edit
             </button>
+
             <input multiple={false} type="file" className=" hidden" ref={inputElement}
                 onChange={() => handleChange()} />
-            <div className=' flex gap-4 justify-between'>
-                <button className=' hover:text-green-700' type='button' > {profileInfo.followers} followers </button >
-                <span> - </span>
-                <button className=' hover:text-green-700' type='button' > {profileInfo.following} following </button >
-            </div>
+
+            <Followings profileInfo={profileInfo} />
 
             <div>
-
                 <button type='button' className=' text-xs'> https://github/liolle </button>
             </div>
 
