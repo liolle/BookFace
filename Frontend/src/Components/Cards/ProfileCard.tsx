@@ -9,7 +9,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
     const inputElement = useRef<HTMLInputElement | null>(null);
     const [files, setFiles] = useState<File[]>([])
-    const [file, setFile] = useState<File|null>(null)
+    const [file, setFile] = useState<File | null>(null)
     const [isUploading, setIsUploading] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
     const [profileInfo, setProfileInfo] = useState<ProfileInfo>({
@@ -22,16 +22,16 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
     useEffect(() => {
         console.log('UseEffect');
-        
+
         getProfile()
             .then(data => {
                 //@ts-ignore
-                let content:{
-                    tag:string,
-                    username:string,
-                    followers:number,
-                    follows:number,
-                    avatar:string,
+                let content: {
+                    tag: string,
+                    username: string,
+                    followers: number,
+                    follows: number,
+                    avatar: string,
                 } = data.content
 
                 setProfileInfo({
@@ -67,14 +67,14 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
             if (fileError == "") {
                 await handleUpload(newFile);
                 setTimeout(() => {
-                    
+
                     setProfileChanged(!profileChanged)
                 }, 5000);
-                
+
             } else {
                 console.log(fileError);
             }
-            
+
         } catch (error) {
             console.log(error);
         }
@@ -85,10 +85,10 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
         setFiles(files.filter(curFile => curFile !== file))
     }
 
-    const handleUpload = async (file: File |null) => {
+    const handleUpload = async (file: File | null) => {
 
         return new Promise<string>((resolve, reject) => {
-            
+
             if (!file || file == null) reject("no file")
             setIsUploading(true)
             toast.promise(
@@ -120,11 +120,14 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
                     <img className=' h-[100%]'
                         src={profileInfo.avatar} alt="Profile picture" />
                 </div>
-                <button className=' absolute py-1 px-3 bg-green-700 rounded-md border-neutral-500 
+                {
+                    editable &&
+                    <button className=' absolute py-1 px-3 bg-green-700 rounded-md border-neutral-500 
             border-[1px] hover:border-neutral-300 text-neutral-100 bottom-[5%] right-[5%] ' type="button"
-                    onClick={() => clickInput()}>
-                    Edit
-                </button>
+                        onClick={() => clickInput()}>
+                        Edit
+                    </button>
+                }
 
             </div>
             <div>
