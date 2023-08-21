@@ -12,8 +12,8 @@ const ProfileImage= ({profileInfo,editable,onEdit}:{
         <div className='relative'>
                 <div className=' flex justify-center items-center h-60 w-60 rounded-full 
             overflow-hidden hover:cursor-pointer border-[2px] border-neutral-700'>
-                    <img className=' h-[100%]'
-                        src={profileInfo.avatar} alt="Profile picture" />
+                    <img className=' h-[100%] object-cover'
+                        src={profileInfo.avatar} alt="" />
                 </div>
                 {
                     editable &&

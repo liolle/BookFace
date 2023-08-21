@@ -438,7 +438,7 @@ const PostDisplayCard = ({ post_info, isReg = false }: { post_info: PostType, is
                 <div
                     className="flex items-start mb-4 mr-1 ml-1 ">
                     <div className="flex items-center">
-                        <img onClick={() => handleProfileSwitch(post_info.publisher)} src={post_info.avatar} alt="Avatar" className=" w-12 h-12 rounded-full mr-4 flex items-center hover:cursor-pointer" />
+                        <img onClick={() => handleProfileSwitch(post_info.publisher)} src={post_info.avatar} alt="Avatar" className=" object-cover w-12 h-12 rounded-full mr-4 flex items-center hover:cursor-pointer" />
                     </div>
                 </div>
 

@@ -20,7 +20,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
         username: 'name',
         followers: 0,
         following: 0,
-        avatar: 'https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg'
+        avatar: ''
     })
 
     useEffect(() => {
@@ -154,7 +154,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
                         <label className="label">
                             <span className="label-text w-full">What is your name?</span>
                         </label>
-                        <input type="text" placeholder="Enter new tag" className="input input-bordered w-full " ref={tagRef} required />
+                        <input type="text" placeholder="Enter new tag" className="input input-bordered w-full " ref={tagRef} />
                         
 
                     </div>
