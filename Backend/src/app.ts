@@ -26,7 +26,7 @@ else{
 }
 
 const PORT = 3535
-const  whitelist = ['https://liolle.github.io','http://localhost:5173','http://localhost:4173']
+const  whitelist = ['https://liolle.github.io','http://localhost:5173','http://localhost:4173','http://localhost:4200']
 
 var corsOptions = {
   credentials: true,
