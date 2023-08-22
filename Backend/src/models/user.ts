@@ -488,7 +488,7 @@ export class User extends DbConnect {
 
 
         let media = new Media()
-        let media_response = await media.add(link)
+        let media_response = await media.add(link,user_id)
         media.close()
 
 
