@@ -231,6 +231,44 @@ export const changeAvatar = async (key:string)=>{
 
 }
 
+export const changeTag = async (new_tag:string)=>{
+
+    return new Promise<ResponseMsg>(async (resolve, reject) => {
+        const URL = `${PRODUCTION}/profiles/tag/update/`
+    
+        try {
+            const response = await fetch(URL, {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("VAToken") || ""}`,
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    new_tag:new_tag
+                }),
+            });
+
+            let response_json:ResponseMsg = await response.json();
+
+            if (response_json.status != 100){
+                reject(
+                    response_json.message
+                )
+                return
+            };
+
+            resolve(response_json);
+
+        } catch (error) {
+            reject(error);
+        }
+        
+    })
+
+
+}
+
 export const getProfile = async () => {
     let url = `${PRODUCTION}/profiles`
 
@@ -415,7 +453,6 @@ export class ImageValidator implements FileValidator {
         this.size = size
     }
     validate(file: File|null): string {
-        console.log("Test");
         
         if (!file || file == null) return "No file"
         if (file.size>= this.size) return `Files: ${file.name} too big  expected size <= ${this.size}`

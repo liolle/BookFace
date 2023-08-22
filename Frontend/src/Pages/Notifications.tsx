@@ -1,5 +1,4 @@
 import React from "react";
-import NotificationsPage from "../Components/Notif/NotificationsPage";
 import GreenWave2 from '../images/GreenWave2.jpg'
 import BottomNavigationBar from "../Components/Navigation/BottomNavigationBar";
 import SideBar from "../Components/Navigation/SideBar";
@@ -38,7 +37,6 @@ const Notifications: React.FC = () => {
     )} 
     <div className="">
        
-        <NotificationsPage/>
      
     </div>
 </div>

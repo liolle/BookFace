@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import GreenWave2 from '../images/GreenWave2.jpg'
 import GlobeImage from '../images/GlobeImage.png'
-import ModalCookies from '../Components/ModalCookies/ModalCookies';
 import React, { useState, useEffect } from "react";
 
 

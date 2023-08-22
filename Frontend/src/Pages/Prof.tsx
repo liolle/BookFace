@@ -11,6 +11,8 @@ import VCard from '../Components/Cards/VCard';
 import FFeed from '../Components/Followings/FollowFeed';
 import { useLocation, useParams } from 'react-router-dom';
 import PublicVCard from '../Components/Cards/PublicVCard';
+import { Toaster } from 'react-hot-toast';
+import ProfileCard from '../Components/Cards/ProfileCard';
 
 // interface ProfileCardProps {
 //     data: PostData;
@@ -59,20 +61,6 @@ const Prof = () => {
   };
 
 
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   useEffect(() => {
     console.log(location.pathname.split('/'));
 
@@ -83,13 +71,13 @@ const Prof = () => {
   return (
     <div className=' flex flex-col md:flex-row ' style={backgroundImageStyle}>
 
-      {
-        !isMobile && <SideBar children={undefined} />
-
-      }
 
       <div className=' flex flex-col md:flex-[0_1_300px] gap-4  p-4'>
-        <PublicVCard u_tag={uu_tag} vCardRerender={rerender_feed_VCard} />
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+        />
+        <ProfileCard editable={false} />
       </div>
       <div className=" flex-1 flex flex-col p-3 ">
         <div className=" flex items-end gap-8 flex-[0_1_5%] pl-2 ">
@@ -110,11 +98,6 @@ const Prof = () => {
 
         </div>
       </div>
-
-      {
-        isMobile && <BottomNavigationBar children={undefined} />
-
-      }
 
 
     </div>
