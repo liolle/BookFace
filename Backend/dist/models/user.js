@@ -405,7 +405,7 @@ class User extends dbConnect_1.default {
     }
     async changeAvatar(user_id, link) {
         let media = new media_1.Media();
-        let media_response = await media.add(link);
+        let media_response = await media.add(link, user_id);
         media.close();
         return new Promise((resolve, reject) => {
             if (media_response.status != 100) {
