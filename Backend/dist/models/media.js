@@ -121,14 +121,6 @@ class Media extends dbConnect_1.default {
                     });
                     return;
                 }
-                if (rows.length == 0) {
-                    resolve({
-                        status: 201,
-                        message: Type.StatusTypes[201],
-                        content: {}
-                    });
-                    return;
-                }
                 resolve({
                     status: 100,
                     message: Type.StatusTypes[100],
