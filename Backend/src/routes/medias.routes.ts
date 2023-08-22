@@ -5,7 +5,7 @@ import verifyJwt from '../middlewares/auth';
 
 
 router.get('/',verifyJwt,getMedia)
-router.post('/user',verifyJwt,getUserMedia)
+router.get('/all',verifyJwt,getUserMedia)
 router.post('/upload',verifyJwt,upload)
 
 module.exports = router

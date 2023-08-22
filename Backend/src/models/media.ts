@@ -128,15 +128,6 @@ export class Media extends DbConnect {
                         return
                     }
 
-                    if (rows.length == 0) {
-                        resolve({
-                            status: 201,
-                            message: Type.StatusTypes[201],
-                            content: {}
-                        })
-                        return
-                    }
-
                     resolve({
                         status: 100,
                         message: Type.StatusTypes[100],
