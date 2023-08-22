@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.upload = exports.getUserMedia = exports.getMedia = void 0;
+exports.claim = exports.upload = exports.getUserMedia = exports.getMedia = void 0;
 const Type = __importStar(require("../models/types"));
 const media_1 = require("../models/media");
 const crypto_1 = require("crypto");
@@ -158,3 +158,45 @@ const upload = async (req, res) => {
     }
 };
 exports.upload = upload;
+const claim = async (req, res) => {
+    const { user_id } = req.params;
+    const { key } = req.body;
+    if (!user_id) {
+        res.status(400).json({
+            status: 403,
+            message: Type.StatusTypes[403],
+            content: {}
+        });
+        return;
+    }
+    if (!key) {
+        res.status(400).json({
+            status: 400,
+            message: Type.StatusTypes[400],
+            content: {
+                example: {
+                    key: "random-key.png"
+                }
+            }
+        });
+        return;
+    }
+    let UID = Number(user_id);
+    if (isNaN(UID)) {
+        res.status(400).json({
+            status: 404,
+            message: Type.StatusTypes[404],
+            content: {}
+        });
+        return;
+    }
+    let media = new media_1.Media();
+    let resp = await media.add(`https://${process.env.AWS_CDN}/${key}`, UID);
+    media.close();
+    res.status(resp.status != 100 ? 200 : 400).json({
+        status: resp.status,
+        message: resp.message,
+        content: resp.status != 100 ? resp.content : { ...resp.content, link: `https://${process.env.AWS_CDN}/${key}` }
+    });
+};
+exports.claim = claim;

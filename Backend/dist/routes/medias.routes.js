@@ -10,4 +10,5 @@ const auth_1 = __importDefault(require("../middlewares/auth"));
 router.get('/', auth_1.default, media_1.getMedia);
 router.get('/all', auth_1.default, media_1.getUserMedia);
 router.post('/upload', auth_1.default, media_1.upload);
+router.post('/claim', auth_1.default, media_1.claim);
 module.exports = router;
