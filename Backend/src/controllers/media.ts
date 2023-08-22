@@ -239,7 +239,7 @@ export const claim = async (req: Request, res: Response) => {
     let resp = await media.add(`https://${process.env.AWS_CDN}/${key}`,UID)
     media.close()
 
-    res.status(resp.status != 100 ? 200 : 400).json(
+    res.status(resp.status != 100 ? 400 : 200).json(
         {
             status: resp.status,
             message: resp.message,
