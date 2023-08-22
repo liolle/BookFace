@@ -55,11 +55,11 @@ export class Media extends DbConnect {
 
     }
 
-    async add(link: string,owner:number, type = 'png') {
+    async add(link: string, owner: number, type = 'png') {
 
         let media_query = `
-            INSERT INTO bf_media (type, link)
-            VALUES ('${type}', '${link}')
+            INSERT INTO bf_media (type, link,owner)
+            VALUES ('${type}', '${link}', '${owner}')
         `
 
         let last_id_query = `
@@ -72,6 +72,15 @@ export class Media extends DbConnect {
                 (err: any, rows: any, fields: any) => {
 
                     if (err) {
+                        let { code } = err
+                        if (code == 'ER_DUP_ENTRY') {
+                            resolve({
+                                status: 200,
+                                message: Type.StatusTypes[200],
+                                content: {  }
+                            })
+                            return
+                        }
                         resolve({
                             status: 404,
                             message: Type.StatusTypes[404],
@@ -80,14 +89,14 @@ export class Media extends DbConnect {
                         return
                     }
 
-                    this.connection.query(last_id_query,(err: any, rows: any, fields: any) =>{
+                    this.connection.query(last_id_query, (err: any, rows: any, fields: any) => {
 
                         const id = rows[0]['id'] || 0
                         if (id == 0 || err) {
                             resolve({
                                 status: 404,
                                 message: Type.StatusTypes[404],
-                                content: {err}
+                                content: { err }
                             })
                             return
                         }
@@ -96,7 +105,7 @@ export class Media extends DbConnect {
                             status: 100,
                             message: Type.StatusTypes[100],
                             content: {
-                                id : id
+                                id: id
                             }
                         })
                     })
@@ -106,7 +115,7 @@ export class Media extends DbConnect {
         })
     }
 
-    async getAll(user_id:number){
+    async getAll(user_id: number) {
 
         let media_query = `
             select * from bf_media
