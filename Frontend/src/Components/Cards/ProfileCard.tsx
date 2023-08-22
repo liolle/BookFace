@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
 import { ProfileInfo } from '../../utils/typess';
 import { ImageValidator, changeTag, getProfile, multiUpload, upload } from '../../utils/library';
 import toast from 'react-hot-toast'
@@ -7,7 +7,7 @@ import Followings from '../Stats/Following';
 
 const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
-    const modalRef = useRef<HTMLDialogElement>()
+    const modalRef = useRef<HTMLDialogElement>(null)
     const inputElement = useRef<HTMLInputElement | null>(null);
     const tagRef = useRef<HTMLInputElement | null>(null);
 
@@ -116,7 +116,8 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
     const handleNameChange = (event: React.FormEvent) => {
         event.preventDefault()
         if (!tagRef || !tagRef.current || tagRef.current.value == '') {
-            if (modalRef.current)modalRef.current.close()
+            let dialog = modalRef.current as HTMLDialogElement
+            if (dialog)dialog.close()
             
             return;
         }
