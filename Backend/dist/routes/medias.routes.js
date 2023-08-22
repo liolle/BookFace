@@ -8,6 +8,6 @@ const router = express_1.default.Router();
 const media_1 = require("../controllers/media");
 const auth_1 = __importDefault(require("../middlewares/auth"));
 router.get('/', auth_1.default, media_1.getMedia);
-router.post('/user', auth_1.default, media_1.getUserMedia);
+router.get('/all', auth_1.default, media_1.getUserMedia);
 router.post('/upload', auth_1.default, media_1.upload);
 module.exports = router;
