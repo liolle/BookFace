@@ -116,7 +116,8 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
     const handleNameChange = (event: React.FormEvent) => {
         event.preventDefault()
         if (!tagRef || !tagRef.current || tagRef.current.value == '') {
-            modalRef.current.close()
+            if (modalRef.current)modalRef.current.close()
+            
             return;
         }
 
@@ -136,7 +137,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
         })
 
         tagRef.current.value = ''
-        modalRef.current.close()
+        if (modalRef.current)modalRef.current.close()
     }
 
     const openModal = () => {

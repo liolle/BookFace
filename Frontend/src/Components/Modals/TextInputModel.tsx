@@ -9,7 +9,7 @@ const TextInputModal= () => {
     };
 
     return (
-        <dialog className="modal bg-[#f4f4f450]" ref={modalRef} >
+        <dialog className="modal bg-[#f4f4f450]"  >
             <form method="dialog" className="modal-box bg-neutral-100">
 
                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" >✕</button>
