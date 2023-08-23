@@ -8,6 +8,7 @@ abstract class DbConnect {
   
 
   constructor() {
+    
     let connectString = process.env.DATABASE_URL || 'mysql://root:root@localhost/planetscale'
     this.connection = mysql.createConnection(connectString);
   }

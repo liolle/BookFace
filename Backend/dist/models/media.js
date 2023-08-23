@@ -67,10 +67,10 @@ class Media extends dbConnect_1.default {
             });
         });
     }
-    async add(link, type = 'png') {
+    async add(link, owner, type = 'png') {
         let media_query = `
-            INSERT INTO bf_media (type, link)
-            VALUES ('${type}', '${link}')
+            INSERT INTO bf_media (type, link,owner)
+            VALUES ('${type}', '${link}', '${owner}')
         `;
         let last_id_query = `
                 SELECT LAST_INSERT_ID() AS id;
@@ -78,6 +78,15 @@ class Media extends dbConnect_1.default {
         return new Promise(async (resolve, reject) => {
             this.connection.query(media_query, (err, rows, fields) => {
                 if (err) {
+                    let { code } = err;
+                    if (code == 'ER_DUP_ENTRY') {
+                        resolve({
+                            status: 200,
+                            message: Type.StatusTypes[200],
+                            content: {}
+                        });
+                        return;
+                    }
                     resolve({
                         status: 404,
                         message: Type.StatusTypes[404],
@@ -102,6 +111,29 @@ class Media extends dbConnect_1.default {
                             id: id
                         }
                     });
+                });
+            });
+        });
+    }
+    async getAll(user_id) {
+        let media_query = `
+            select * from bf_media
+            where owner = ${user_id}
+        `;
+        return new Promise(async (resolve, reject) => {
+            this.connection.query(media_query, (err, rows, fields) => {
+                if (err) {
+                    resolve({
+                        status: 404,
+                        message: Type.StatusTypes[404],
+                        content: { error: err }
+                    });
+                    return;
+                }
+                resolve({
+                    status: 100,
+                    message: Type.StatusTypes[100],
+                    content: rows
                 });
             });
         });
