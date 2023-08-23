@@ -1,6 +1,4 @@
-import { Post } from '../models/posts';
 import { Request, Response, response } from "express";
-import { User } from "../models/user";
 import * as Type from "../models/types";
 import { Tags } from '../models/tags';
 import { checkResponse } from '../utils/response';

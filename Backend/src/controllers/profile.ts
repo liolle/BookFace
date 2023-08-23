@@ -6,8 +6,6 @@ import { Tags } from "../models/tags";
 export const getPublicProfile = async (req: Request, res: Response) => {
     let { u_tag } = req.params
 
-
-
     if (!u_tag) {
         getProfile(req, res)
         return

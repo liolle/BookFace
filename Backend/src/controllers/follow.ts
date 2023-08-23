@@ -2,10 +2,7 @@ import { Request, Response } from "express";
 import { Follow } from "../models/follow";
 import * as Type from "../models/types";
 
-
 export const follow = async (req: Request, res: Response)=>{
-
-    
     const {user} = req.query
     
     if ( !user){
@@ -47,7 +44,6 @@ export const follow = async (req: Request, res: Response)=>{
 }
 
 export const getFollowers = async (req: Request, res: Response)=>{
-
     
     const {user} = req.query
     
@@ -92,7 +88,6 @@ export const getFollowers = async (req: Request, res: Response)=>{
 }
 
 export const getFollows = async (req: Request, res: Response)=>{
-
     
     const {user} = req.query
     
