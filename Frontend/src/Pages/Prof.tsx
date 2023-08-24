@@ -13,31 +13,12 @@ import { useLocation, useParams } from 'react-router-dom';
 import PublicVCard from '../Components/Cards/PublicVCard';
 import { Toaster } from 'react-hot-toast';
 import ProfileCard from '../Components/Cards/ProfileCard';
+import { S_BUTTON } from '../Components/Buttons/SButton';
 
 // interface ProfileCardProps {
 //     data: PostData;
 //   }
 
-type buttonProps = {
-  text: string,
-  activeButton: string,
-  setActiveButton: React.Dispatch<React.SetStateAction<string>>
-}
-
-const S_BUTTON = ({ text, activeButton, setActiveButton }: buttonProps) => {
-
-  let font_size = text == activeButton ? 'font-bold' : 'font-light '
-  let color = text == activeButton ? 'text-green-700' : 'text-neutral-700'
-  let border_bottom = text == activeButton ? ' border-b-4 rounded-b-sm border-green-700' : ''
-
-  return (
-    <button className={`flex justify-center items-center h-[75%] ${color} ${font_size}
-        select-none cursor-pointer rounded-t-md p-2 ${border_bottom}`}
-      onClick={() => setActiveButton(text)}>
-      {text}
-    </button>
-  )
-}
 
 
 const Prof = () => {
@@ -84,16 +65,14 @@ const Prof = () => {
           <S_BUTTON text="Followers" activeButton={activeButton} setActiveButton={setActiveButton} />
           <S_BUTTON text="Follows" activeButton={activeButton} setActiveButton={setActiveButton} />
 
-
-
         </div>
         <div className=" flex-[0_1_95%] md:w-[50%] rounded-lg ">
 
           {
-            activeButton == "Followers" && <FFeed vCardRerender={setRerenderFeedVCard} user_tag={uu_tag} type='Followers' />
+            activeButton == "Followers" && <FFeed user_tag={uu_tag} type='Followers' />
           }
           {
-            activeButton == "Follows" && <FFeed vCardRerender={setRerenderFeedVCard} user_tag={uu_tag} type='Follows' />
+            activeButton == "Follows" && <FFeed user_tag={uu_tag} type='Follows' />
           }
 
         </div>
