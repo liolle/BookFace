@@ -22,7 +22,7 @@ const Resizer = ({
     }, []);
 
     return (
-        <div className=' flex flex-col flex-1 md:flex-row  h-screen bg-main-background bg-cover' >
+        <div className=' flex flex-col flex-1 md:flex-row  h-screen bg-main-background bg-cover overflow-y-scroll' >
 
             {
                 !isMobile && <SideBar children={undefined} />
