@@ -13,8 +13,6 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
     const [editOpen,setEdiOpen] = useState(false)
     const [profileChanged, setProfileChanged] = useState(false)
-    const [files, setFiles] = useState<File[]>([])
-    const [file, setFile] = useState<File | null>(null)
     const [isUploading, setIsUploading] = useState(false)
     const [profileInfo, setProfileInfo] = useState<ProfileInfo>({
         tag: '@user',
@@ -190,7 +188,6 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
                     {/* <button type='button' className=' text-xs'> https://github/liolle </button> */}
                 </div>
             }
-
 
         </div>
     );

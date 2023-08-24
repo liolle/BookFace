@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProfileCard from '../Components/Cards/ProfileCard';
-import { ProfileInfo } from '../utils/typess';
-import { getProfile } from '../utils/library';
 import { Toaster } from 'react-hot-toast';
-import { useRef } from 'react';
 import FFeed from '../Components/Followings/FollowFeed';
 import { S_BUTTON } from '../Components/Buttons/SButton';
 
@@ -17,13 +14,8 @@ const Profile = () => {
     useEffect(() => {
 
         const VAToken = localStorage.getItem("VAToken");
-
         if (!VAToken) return
-
-        // Split the JWT into its three parts
         const [header, payload, signature] = VAToken.split(".");
-
-        // Decode and parse the payload
         const decodedPayload = JSON.parse(atob(payload));
 
         setUutag(decodedPayload.user_tag)

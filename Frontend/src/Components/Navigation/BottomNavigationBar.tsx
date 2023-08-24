@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHome, FaUser } from 'react-icons/fa';
-import { ResponseMsg } from '../../utils/typess';
 import { toast } from 'react-toastify';
 import { IoExitOutline,IoSettingsSharp } from "react-icons/io5";
 import { fetchDisconnect } from '../../utils/library';

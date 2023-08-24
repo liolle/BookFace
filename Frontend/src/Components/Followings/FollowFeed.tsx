@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Person, ResponseMsg, StatusTypes } from "../../utils/typess";
-import { SlUserFollow } from "react-icons/sl";
-import { useLocation, useNavigate } from "react-router-dom";
-import { fetchFollow, fetchFollowers, fetchFollows } from "../../utils/library";
+import { Person } from "../../utils/typess";
+import {  useNavigate } from "react-router-dom";
+import {  fetchFollowers, fetchFollows } from "../../utils/library";
 // import { Person } from "./people"; // importation de notre type Person
 
 

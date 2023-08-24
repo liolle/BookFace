@@ -1,24 +1,11 @@
 import { Routes, Route } from "react-router-dom"
-import Followings from "./Components/Followings/Followings"
-import PostCard from "./Components/Cards/Postcard"
-import SideBar from "./Components/Navigation/SideBar"
-import VCard from "./Components/Cards/VCard"
 import LandingPage from './Pages/LandingPage'
 import Register from "./Pages/Register"
 import Login from "./Pages/Login"
-
-
-import NatureCard from "./Components/Cards/GalleryCard"
-import NatureTrendCard from "./Components/Cards/NatureTrendCard"
-import Publication from "./Components/Publication/Publication"
 import Home from "./Pages/Home"
-
-import Notifications from "./Pages/Notifications"
 import { APIDoc } from "./Pages/API"
 import Profile from "./Pages/Profile"
 import PrivateRoutes from "./utils/privateRoutes"
-import BookMarks from "./Pages/BookMarks"
-import LandingCheck from "./utils/reroot"
 import Prof from "./Pages/Prof"
 import React from "react"
 import Settings from "./Pages/Settings"

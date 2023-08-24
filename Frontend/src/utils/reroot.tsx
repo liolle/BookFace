@@ -1,6 +1,5 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
-import { Route, Navigate, Outlet, useNavigate } from 'react-router-dom';
-import LandingPage from '../Pages/LandingPage';
+import { useState, useEffect } from 'react';
+import {  Navigate, Outlet, useNavigate } from 'react-router-dom';
 import React from 'react';
 import Loading from '../Pages/Loading';
 
