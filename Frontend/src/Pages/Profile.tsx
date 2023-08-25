@@ -40,7 +40,7 @@ const Profile = () => {
                     <S_BUTTON text="Follows" activeButton={activeButton} setActiveButton={setActiveButton} />
 
                 </div>
-                <div className=" flex justify-center flex-[0_1_95%]  rounded-lg overflow-y-scroll">
+                <div className=" flex justify-center flex-[0_1_95%]  rounded-lg ">
 
                     {
                         activeButton == "Followers" && <FFeed user_tag={uu_tag} type='Followers' />

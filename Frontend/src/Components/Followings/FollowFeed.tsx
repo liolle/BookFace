@@ -64,11 +64,8 @@ const FFeed = ({ user_tag, type }: {  user_tag: string, type: FFeedType }) => {
           <div className=" flex gap-2 justify-between flex-1">
 
             <div className=" hover:cursor-pointer select-none ">
-              <p className=" text-green-600 cursor-pointer select-none hover:text-green-900">{person.tag}</p>
+              <span className=" text-green-600 cursor-pointer select-none hover:text-green-900">{truncate(person.tag)}</span>
             </div>
-
-            
-
           </div>
         </div>
       ))}
