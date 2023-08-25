@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
 import { ProfileInfo } from '../../utils/typess';
 import { ImageValidator, changeTag, getProfile, multiUpload, upload } from '../../utils/library';
 import toast from 'react-hot-toast'
@@ -7,13 +7,12 @@ import Followings from '../Stats/Following';
 
 const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
-    const modalRef = useRef<HTMLDialogElement>()
+    const modalRef = useRef<HTMLDialogElement>(null)
     const inputElement = useRef<HTMLInputElement | null>(null);
     const tagRef = useRef<HTMLInputElement | null>(null);
 
+    const [editOpen,setEdiOpen] = useState(false)
     const [profileChanged, setProfileChanged] = useState(false)
-    const [files, setFiles] = useState<File[]>([])
-    const [file, setFile] = useState<File | null>(null)
     const [isUploading, setIsUploading] = useState(false)
     const [profileInfo, setProfileInfo] = useState<ProfileInfo>({
         tag: '@user',
@@ -24,7 +23,6 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
     })
 
     useEffect(() => {
-        console.log('UseEffect');
 
         getProfile()
             .then(data => {
@@ -83,8 +81,9 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
     }
 
-    const handleDeleFile = (file: File) => {
-        setFiles(files.filter(curFile => curFile !== file))
+    const handleEdit = () => {
+        if (! editable) return
+        setEdiOpen(!editOpen)
     }
 
     const handleUpload = async (file: File | null) => {
@@ -116,8 +115,9 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
     const handleNameChange = (event: React.FormEvent) => {
         event.preventDefault()
         if (!tagRef || !tagRef.current || tagRef.current.value == '') {
-            if (modalRef.current)modalRef.current.close()
-            
+            let dialog = modalRef.current as HTMLDialogElement
+            if (dialog) dialog.close()
+
             return;
         }
 
@@ -137,7 +137,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
         })
 
         tagRef.current.value = ''
-        if (modalRef.current)modalRef.current.close()
+        if (modalRef.current) modalRef.current.close()
     }
 
     const openModal = () => {
@@ -146,7 +146,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
     }
 
     return (
-        <div className=" flex flex-col gap-4 p-4 w-fit">
+        <div className=" flex flex-col gap-4 p-4 w-fit max-h-[100vh]">
 
             <dialog className="modal bg-[#f4f4f450]" ref={modalRef}>
                 <form method="dialog" className="modal-box flex flex-col bg-neutral-100 gap-6 ">
@@ -156,7 +156,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
                             <span className="label-text w-full">What is your name?</span>
                         </label>
                         <input type="text" placeholder="Enter new tag" className="input input-bordered w-full " ref={tagRef} />
-                        
+
 
                     </div>
                     <button onClick={handleNameChange} className="btn" >Save</button>
@@ -171,6 +171,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
             <button className=' bg-green-700 rounded-md border-neutral-500 
             border-[1px] hover:border-neutral-300 text-neutral-100' type="button"
+            onClick={()=>handleEdit()}
             >
                 Edit
             </button>
@@ -180,9 +181,13 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
             <Followings profileInfo={profileInfo} />
 
-            <div>
-                <button type='button' className=' text-xs'> https://github/liolle </button>
-            </div>
+            {
+                editOpen &&
+                <div className=' flex justify-center items-center h-[300px] '>
+                    <span> editable options </span>
+                    {/* <button type='button' className=' text-xs'> https://github/liolle </button> */}
+                </div>
+            }
 
         </div>
     );
