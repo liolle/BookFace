@@ -67,13 +67,13 @@ export default function Register() {
 
     return (
 
-        <div className="h-screen py-40 bg-main-background bg-cover p-10 select-none" >
+        <div className="h-screen flex justify-center items-center bg-main-background bg-cover p-10" >
             <Toaster
                 position="top-center"
                 reverseOrder={false}
             />
-            <div className=" mx-auto max-w-[600px]">
-                <div className="flex flex-col md:flex-row bg-green-50 rounded-xl mx-auto overflow-hidden" style={{ boxShadow: "10px 10px 20px #888888" }}>
+            <div className="container mx-auto max-w-[600px]">
+                <div className="flex flex-col md:flex-row bg-primary-white rounded-xl mx-auto overflow-hidden" style={{ boxShadow: "10px 10px 20px #888888" }}>
                     <div className="flex flex-col gap-6 w-full py-10 px-12">
                         <div className=' flex justify-between items-center '>
                             <img className=' justify-self-start self-start max-h-[50px]' src='/GlobeImage.png' alt="" />
@@ -100,9 +100,9 @@ export default function Register() {
                             <div className=' text-red-600'>{confPasswordError}</div>
                         </div>
 
-                        <NavButton route={'/login'} action={() => handleSubmit()}>
+                        <NavButton  action={() => handleSubmit()}>
                             <div className=' '>
-                                <span>Register Now</span>
+                                <span>Register</span>
                             </div>
                         </NavButton>
                     </div>

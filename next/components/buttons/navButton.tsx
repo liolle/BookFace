@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { ReactNode, forwardRef } from 'react';
 
 interface NavButtonProps {
-    route:string,
+    route?:string,
     text?:string,
     children?:ReactNode,
     action?:Function
