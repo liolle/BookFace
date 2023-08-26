@@ -1,32 +1,25 @@
 'use client'
-import Image from 'next/image'
-
-import { useRouter } from 'next/navigation'
-
+import NavButton from '../../components/buttons/navButton'
 export default function Main() {
 
-  const router = useRouter()
 
   return (
-    <div className="h-screen bg-main-background bg-cover select-none">
+    <div className=" flex flex-col gap-4 justify-center items-center h-screen bg-main-background bg-cover select-none">
 
-      <div className="container mx-auto px-4 pt-16">
-        <img src="/GlobeImage.png" alt="" className="mx-auto mb-5 pt-8 h-[350px] w-[400px]" />
-        <h1 className="text-3xl font-bold text-center mb-5 text-green-800"> PHYSYS</h1>
-        <p className="text-center text-xl mb-8 text-green-900">
-          Express Yourself For A Greener Future!
-        </p>
-        <div className="flex justify-center mb-12">
-          <button className="bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mr-4"
-            onClick={() => router.push("login")}>
-              <span>Login</span>
-          </button>
-          <button className="bg-white hover:bg-green-700 text-green-600 hover:text-white font-bold py-2 px-4 rounded border-2 border-green-600 mr-4"
-            onClick={() => router.push("register")}>
-              <span>Register</span>
-          </button>
-        </div>
+      <img src="/GlobeImage.png" alt="" className=" h-[350px] w-[400px]" />
+      <span className="text-3xl font-bold text-center  text-secondary-green">PHYSYS</span>
+      <span className="text-center text-xl  text-secondary-green">
+        Express Yourself For A Greener Future!
+      </span>
+      <div className="flex justify-center gap-4">
+        <NavButton route='/login'>
+          <span>Login</span>
+        </NavButton>
+        <NavButton route='/register'>
+          <span>Register</span>
+        </NavButton>
       </div>
+
     </div>
   )
 }
