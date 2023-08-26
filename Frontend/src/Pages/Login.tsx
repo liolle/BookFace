@@ -1,12 +1,10 @@
 
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import GreenWave2 from '../images/GreenWave2.jpg'
-import GlobeImage from '../images/GlobeImage.png'
-import toast, { Toaster } from 'react-hot-toast'
-import React from 'react';
-import { fetchLogin, fetchReg } from '../utils/library';
+import React, { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+import GlobeImage from '../images/GlobeImage.png';
+import { fetchLogin } from '../utils/library';
 
 type ResponseMsg = {
   status: number,
@@ -21,7 +19,6 @@ function Login() {
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
   const [formError, setFormError] = useState('')
-  const [checkBoxChecked, setCheckBoxChecked] = useState(false);
 
   const handleSubmit = async () => {
 
