@@ -10,7 +10,7 @@ export default function Login() {
     const { data: session, status } = useSession();
 
     useEffect(() => {
-        if (status !== 'authenticated') return router.push('/api/auth/signin');
+        if (status !== 'authenticated') return router.replace('/api/auth/signin');
         router.push('/home');
     }, [status])
 
