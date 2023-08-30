@@ -16,7 +16,8 @@ const Profile = () => {
         const VAToken = localStorage.getItem("VAToken");
         if (!VAToken) return
         const [header, payload, signature] = VAToken.split(".");
-        const decodedPayload = JSON.parse(atob(payload));
+        
+        const decodedPayload = JSON.parse(window.atob(payload));
 
         setUutag(decodedPayload.user_tag)
 
