@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import NavButton from '../../../../../components/buttons/navButton';
+import NavButton from '../../../../components/buttons/navButton';
 import BaseInput from '../../../../../components/inputs/baseinput';
 
 export default function Login() {

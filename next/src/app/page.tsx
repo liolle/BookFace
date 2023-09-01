@@ -1,5 +1,5 @@
 'use client'
-import NavButton from '../../components/buttons/navButton'
+import NavButton from '../components/buttons/navButton'
 export default function Main() {
 
 

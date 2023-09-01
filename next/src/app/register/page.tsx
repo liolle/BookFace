@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlineArrowRight } from 'react-icons/ai';
-import NavButton from '../../../components/buttons/navButton';
+import NavButton from '../../components/buttons/navButton';
 import { checkEmail, checkPassword, fetchReg } from '../../../utils/library';
 import { ResponseMsg } from '../../../utils/types';
 import BaseInput from '../../../components/inputs/baseinput';
