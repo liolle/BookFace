@@ -4,8 +4,7 @@ const DEVELOP = "http://localhost:3535"
 const PRODUCTION = "https://book-face-backend.vercel.app"
 
 /**
- * 
- * 
+ *  Need to rethink this to work with NextAuth
  */
 export const fetchDisconnect = () => {
     let url = `${PRODUCTION}/logout`
@@ -39,8 +38,7 @@ export const fetchDisconnect = () => {
 }
 
 /**
- * 
- * 
+ *  Need to rethink this to work with NextAuth
  */
 export const fetchLogin = async (email: string, pwd: string) => {
     let url = `${PRODUCTION}/login/`
@@ -82,7 +80,6 @@ export const fetchLogin = async (email: string, pwd: string) => {
 }
 
 /**
- * 
  * Assume that the input is well formatted, return the response of the register endpoint with the given arguments.
  */
 export const fetchReg = async (email: string, pwd: string): Promise<ResponseMsg> => {
@@ -327,7 +324,11 @@ export const checkPassword = (password: string, callback: React.Dispatch<React.S
     return true;
 }
 
-
+/**
+ * 
+ * @param key The file key
+ * @returns 
+ */
 export const changeAvatar = async (key: string) => {
 
     return new Promise<ResponseMsg>(async (resolve, reject) => {
@@ -366,6 +367,11 @@ export const changeAvatar = async (key: string) => {
 
 }
 
+/**
+ * 
+ * @param new_tag New_tag 
+ * @returns 
+ */
 export const changeTag = async (new_tag: string) => {
 
     return new Promise<ResponseMsg>(async (resolve, reject) => {
@@ -417,7 +423,6 @@ export const getProfile = async () => {
 
     }
 
-
     return new Promise<ResponseMsg>(async (resolve, reject) => {
 
         try {
@@ -439,9 +444,7 @@ export const getProfile = async () => {
 
 }
 
-
 const requestPresignedURL = async (size: number, extension: string) => {
-
 
     return new Promise<{ url: string, key: string }>(async (resolve, reject) => {
         if (!['png', 'jpg', 'jpeg', 'webp', 'gif'].includes(extension)) {
@@ -491,7 +494,6 @@ const requestPresignedURL = async (size: number, extension: string) => {
 
 }
 
-
 const putS3 = async (url: string, data: File) => {
 
     return new Promise<string>(async (resolve, reject) => {
@@ -519,7 +521,11 @@ const putS3 = async (url: string, data: File) => {
 
 }
 
-
+/**
+ * 
+ * @param file Upload file to S3
+ * @returns 
+ */
 export const upload = async (file: File) => {
 
     return new Promise<string>((resolve, reject) => {
@@ -563,6 +569,7 @@ export const multiUpload = async (files: File[]) => {
     })
 }
 
+// should implement MIME file validation
 export interface FileValidator {
     setSizeConstraint(size: number): void;
     validate(file: File | null): string;
