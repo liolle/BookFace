@@ -33,9 +33,7 @@ export function routes() {
             <Route path= '/' element={<LandingPage />} />
            
             
-            {/* <Route element={<ReRoot />}>
-                <Route path= '/' element={<LandingCheck />} />
-            </Route> */}
+            
 
           
             <Route path= '/api-doc' element={<APIDoc/>} />
