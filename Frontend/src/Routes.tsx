@@ -20,21 +20,14 @@ export function routes() {
                 <Route path= '/PProfile' element={<Resizer><Prof/></Resizer>} />
                 <Route path= '/Home' element={<Resizer><Home /></Resizer>} />
                 <Route path= '/Profile' element={<Resizer><Profile/></Resizer>} />
-                {/* <Route path= '/Notifications' element={<Notifications/>} />
-                <Route path= '/Bookmark' element={<BookMarks/>} />  */}
                 <Route path= '/settings' element={<Resizer><Settings/></Resizer>} /> 
             </Route>
-
 
             <Route path= '/loading' element={<Resizer><Loading/></Resizer>} />
             <Route path= '/Register' element={<Register/>} />
             <Route path= '/Login' element={<Login/>} />
             <Route path= '/LandingPage' element={<LandingPage/>} />
             <Route path= '/' element={<LandingPage />} />
-           
-            
-            
-
           
             <Route path= '/api-doc' element={<APIDoc/>} />
         
