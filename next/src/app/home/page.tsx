@@ -25,14 +25,10 @@ const page = () => {
         <div className=' flex flex-col md:flex-row justify-center overflow-y-scroll bg-main-background bg-cover h-screen'>
 
             {
-                status === 'loading' &&
-                <Loading/>
-                
+                status === 'loading' && <Loading/>
             }
             {
-                status === 'authenticated' &&
-                <span className=' text-secondary-green'>  authenticated </span>
-
+                status === 'authenticated' &&<span className=' text-secondary-green'>  authenticated </span>
             }
 
         </div>
