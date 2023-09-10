@@ -1,12 +1,22 @@
 import { ResponseMsg, StatusTypes } from "./types"
 
-const DEVELOP = "http://localhost:3535"
-const PRODUCTION = "https://book-face-backend.vercel.app"
+// const DEVELOP = "http://localhost:3535"
+// const PRODUCTION = "https://book-face-backend.vercel.app"
+
+const  getServerURL = async ()=> {
+    new Promise<string>( async (resolve, reject) => {
+        let response = await fetch('/api/variables')
+        let data = await response.json()
+        const {backend_url} = data 
+        resolve(backend_url || "")
+    })
+}
 
 /**
  *  Need to rethink this to work with NextAuth
  */
-export const fetchDisconnect = () => {
+export const fetchDisconnect = async () => {
+    const PRODUCTION = await getServerURL()
     let url = `${PRODUCTION}/logout`
 
     let options = {
@@ -41,6 +51,7 @@ export const fetchDisconnect = () => {
  *  Need to rethink this to work with NextAuth
  */
 export const fetchLogin = async (email: string, pwd: string) => {
+    const PRODUCTION = await getServerURL()
     let url = `${PRODUCTION}/login/`
     let options = {
         method: 'POST',
@@ -83,6 +94,7 @@ export const fetchLogin = async (email: string, pwd: string) => {
  * Assume that the input is well formatted, return the response of the register endpoint with the given arguments.
  */
 export const fetchReg = async (email: string, pwd: string): Promise<ResponseMsg> => {
+    const PRODUCTION = await getServerURL()
     let URL = `${PRODUCTION}/register/`
 
     let options = {
@@ -130,7 +142,7 @@ export const fetchReg = async (email: string, pwd: string): Promise<ResponseMsg>
 
 }
 
-export const fetchFollows = (u_tag: string) => {
+export const fetchFollows = async (u_tag: string) => {
 
     let options = {
         method: 'GET',
@@ -140,6 +152,8 @@ export const fetchFollows = (u_tag: string) => {
             'Content-Type': 'application/json',
         },
     }
+
+    const PRODUCTION = await getServerURL()
 
     let URL = `${PRODUCTION}/users/follows?user=${u_tag || "self"}`
 
@@ -178,7 +192,7 @@ export const fetchFollows = (u_tag: string) => {
 
 }
 
-export const fetchFollowers = (u_tag: string) => {
+export const fetchFollowers = async (u_tag: string) => {
 
     let options = {
         method: 'GET',
@@ -188,6 +202,8 @@ export const fetchFollowers = (u_tag: string) => {
             'Content-Type': 'application/json',
         },
     }
+
+    const PRODUCTION = await getServerURL()
 
     let URL = `${PRODUCTION}/users/followers?user=${u_tag || "self"}`
 
@@ -227,7 +243,7 @@ export const fetchFollowers = (u_tag: string) => {
 }
 
 
-export const fetchFollow = (u_tag: string) => {
+export const fetchFollow = async (u_tag: string) => {
 
     let options = {
         method: 'GET',
@@ -237,6 +253,8 @@ export const fetchFollow = (u_tag: string) => {
             'Content-Type': 'application/json',
         },
     }
+
+    const PRODUCTION = await getServerURL()
 
     let URL = `${PRODUCTION}/users/follow?user=${u_tag}`
 
@@ -330,7 +348,7 @@ export const checkPassword = (password: string, callback: React.Dispatch<React.S
  * @returns 
  */
 export const changeAvatar = async (key: string) => {
-
+    const PRODUCTION = await getServerURL()
     return new Promise<ResponseMsg>(async (resolve, reject) => {
         const URL = `${PRODUCTION}/profiles/avatar/update/`
 
@@ -373,7 +391,7 @@ export const changeAvatar = async (key: string) => {
  * @returns 
  */
 export const changeTag = async (new_tag: string) => {
-
+    const PRODUCTION = await getServerURL()
     return new Promise<ResponseMsg>(async (resolve, reject) => {
         const URL = `${PRODUCTION}/profiles/tag/update/`
 
@@ -411,6 +429,7 @@ export const changeTag = async (new_tag: string) => {
 }
 
 export const getProfile = async () => {
+    const PRODUCTION = await getServerURL()
     let url = `${PRODUCTION}/profiles`
 
     let options = {
@@ -454,6 +473,8 @@ const requestPresignedURL = async (size: number, extension: string) => {
             })
             return
         }
+
+        const PRODUCTION = await getServerURL()
         const URL = `${PRODUCTION}/media/upload/`
 
         try {

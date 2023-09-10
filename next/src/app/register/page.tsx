@@ -6,7 +6,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai';
 import NavButton from '../../components/buttons/navButton';
 import { checkEmail, checkPassword, fetchReg } from '../../../utils/library';
 import { ResponseMsg } from '../../../utils/types';
-import BaseInput from '../../../components/inputs/baseinput';
+import BaseInput from '@/components/inputs/baseinput';
 
 export default function Register() {
 
