@@ -11,7 +11,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
     const inputElement = useRef<HTMLInputElement | null>(null);
     const tagRef = useRef<HTMLInputElement | null>(null);
 
-    const [editOpen,setEdiOpen] = useState(false)
+    const [editOpen, setEdiOpen] = useState(false)
     const [profileChanged, setProfileChanged] = useState(false)
     const [isUploading, setIsUploading] = useState(false)
     const [profileInfo, setProfileInfo] = useState<ProfileInfo>({
@@ -82,7 +82,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
     }
 
     const handleEdit = () => {
-        if (! editable) return
+        if (!editable) return
         setEdiOpen(!editOpen)
     }
 
@@ -171,7 +171,7 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
 
             <button className=' bg-green-700 rounded-md border-neutral-500 
             border-[1px] hover:border-neutral-300 text-neutral-100' type="button"
-            onClick={()=>handleEdit()}
+                onClick={() => handleEdit()}
             >
                 Edit
             </button>
