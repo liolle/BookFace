@@ -1,24 +1,13 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import PostData from "../Components/Publication/PostData";
-import { FaHome, FaMapMarkerAlt } from "react-icons/fa";
 
 
-import GreenWave2 from '../images/GreenWave2.jpg'
-import BottomNavigationBar from '../Components/Navigation/BottomNavigationBar';
-import SideBar from '../Components/Navigation/SideBar';
-import VCard from '../Components/Cards/VCard';
-import FFeed from '../Components/Followings/FollowFeed';
-import { useLocation, useParams } from 'react-router-dom';
-import PublicVCard from '../Components/Cards/PublicVCard';
 import { Toaster } from 'react-hot-toast';
-import ProfileCard from '../Components/Cards/ProfileCard';
+import { useLocation, useParams } from 'react-router-dom';
 import { S_BUTTON } from '../Components/Buttons/SButton';
-
-// interface ProfileCardProps {
-//     data: PostData;
-//   }
-
+import ProfileCard from '../Components/Cards/ProfileCard';
+import FFeed from '../Components/Followings/FollowFeed';
+import GreenWave2 from '../images/GreenWave2.jpg';
 
 
 const Prof = () => {
