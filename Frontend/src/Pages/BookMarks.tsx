@@ -20,14 +20,6 @@ const BookMarks: React.FC = () => {
       };
     }, []);
 
-
-    // const backgroundImageStyle = {
-    //     backgroundImage: `url("${GreenWave2}")`,
-    //     backgroundSize: 'cover', 
-
-    //   };
- 
-
   return (
 <div className=' flex flex-1 '>
     {isMobile ? (
