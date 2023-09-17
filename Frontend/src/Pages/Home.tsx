@@ -18,7 +18,7 @@ const Home = () => {
   return (
 
     <div className=' flex flex-col md:flex-row  justify-center overflow-y-scroll' >
-      <div className=' flex flex-col gap-4 md:flex-[0_1_25%]  p-4  '>
+      <div className=' hidden md:flex flex-col gap-4 md:flex-[0_1_25%]  p-4  '>
         <div className=' h-40 w-full bg-green-500 rounded-lg flex justify-center items-center'>
           <span> Put things here </span>
         </div>
@@ -29,7 +29,7 @@ const Home = () => {
         </div>
         <Feed type={0} rerender_feed={rerender_feed} isReg={false} ></Feed>
       </div>
-      <div className=' flex flex-col gap-4 md:flex-[0_1_25%]  p-4  '>
+      <div className=' hidden md:flex flex-col gap-4 md:flex-[0_1_25%]  p-4  '>
         <div className=' h-40 w-full bg-green-500 rounded-lg flex justify-center items-center'>
           <span> Put things here </span>
 

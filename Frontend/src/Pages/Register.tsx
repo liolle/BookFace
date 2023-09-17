@@ -89,12 +89,14 @@ function Register() {
               <input type="email" placeholder="Email" name="Email" onChange={e => setEmail(e.target.value)} className="border border-gray-400 py-1 px-2 w-full" />
               <div className=' text-red-600'>{EmailError}</div>
             </div>
+            
             <div className="mt-5">
               <input type="password" placeholder="Password" name="Password" value={Password}
                 onChange={e => setPassword(e.target.value)}
                 className="border border-gray-400 py-1 px-2 w-full" />
               <div className=' text-red-600'>{PasswordError}</div>
             </div>
+
             <div className="mt-5">
               <input type="password" placeholder="Confirm Password" name="ConfPassword" value={ConfPassword}
                 onChange={e => setConfPassword(e.target.value)} className="border border-gray-400 py-1 px-2 w-full" />

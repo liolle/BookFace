@@ -11,6 +11,7 @@ import React from "react"
 import Settings from "./Pages/Settings"
 import Loading from "./Pages/Loading"
 import Resizer from "./Pages/Resizer"
+import Share from "./Pages/Share"
 
 export function routes() {
     return <Routes>
@@ -20,22 +21,17 @@ export function routes() {
                 <Route path= '/PProfile' element={<Resizer><Prof/></Resizer>} />
                 <Route path= '/Home' element={<Resizer><Home /></Resizer>} />
                 <Route path= '/Profile' element={<Resizer><Profile/></Resizer>} />
-                {/* <Route path= '/Notifications' element={<Notifications/>} />
-                <Route path= '/Bookmark' element={<BookMarks/>} />  */}
                 <Route path= '/settings' element={<Resizer><Settings/></Resizer>} /> 
             </Route>
-
 
             <Route path= '/loading' element={<Resizer><Loading/></Resizer>} />
             <Route path= '/Register' element={<Register/>} />
             <Route path= '/Login' element={<Login/>} />
             <Route path= '/LandingPage' element={<LandingPage/>} />
             <Route path= '/' element={<LandingPage />} />
-           
+            <Route path= '/Referral' element={ <Resizer><Share/></Resizer>} />
             
-            {/* <Route element={<ReRoot />}>
-                <Route path= '/' element={<LandingCheck />} />
-            </Route> */}
+            {/* <Route path= '/:referral' element={<LandingPage />} /> */}
 
           
             <Route path= '/api-doc' element={<APIDoc/>} />

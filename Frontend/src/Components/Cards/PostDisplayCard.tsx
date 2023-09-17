@@ -122,9 +122,6 @@ const fetchRegister = (context_id: number) => {
 
     })
 
-
-
-
 }
 
 const ComDisplayCard = ({ com_info, post_id, setComRerender }: { com_info: CommentType, post_id: number, setComRerender: React.Dispatch<React.SetStateAction<number>> }) => {
