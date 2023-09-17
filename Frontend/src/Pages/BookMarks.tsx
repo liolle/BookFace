@@ -9,7 +9,7 @@ const BookMarks: React.FC = () => {
 
     React.useEffect(() => {
       const handleResize = () => {
-        setIsMobile(window.innerWidth <= 768); // Modifier cette valeur en fonction de votre définition d'un écran de téléphone
+        setIsMobile(window.innerWidth <= 768); 
       };
   
       window.addEventListener('resize', handleResize);
