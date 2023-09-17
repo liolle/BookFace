@@ -90,40 +90,7 @@ exports.getUserMedia = getUserMedia;
 const upload = async (req, res) => {
     const REGION = process.env.AWS_REGION;
     const BUCKET = process.env.AWS_BUCKET_NAME;
-    const { extension, size } = await req.body;
-    if (!extension) {
-        res.status(400).json({
-            status: 400,
-            message: "Missing extension: expected jpg,jpeg, png, webp, gif ",
-            content: {}
-        });
-        return;
-    }
-    if (!supportedExtension.includes(extension)) {
-        res.status(400).json({
-            status: 401,
-            message: `Files extension not supported : expect ${supportedExtension} found: ${extension}`,
-            content: {}
-        });
-        return;
-    }
-    if (!size) {
-        res.status(400).json({
-            status: 401,
-            message: "Missing size: expected 0 < size <= 2000000 ",
-            content: {}
-        });
-        return;
-    }
-    if (size > 2000000) {
-        res.status(400).json({
-            status: 401,
-            message: "File to big: expected 0 < size <= 2000000 ",
-            content: {}
-        });
-        return;
-    }
-    const KEY = `${(0, crypto_1.randomUUID)()}.${extension}`;
+    const KEY = `${(0, crypto_1.randomUUID)()}`;
     if (!REGION || !BUCKET || !KEY) {
         res.status(400).json({
             status: 400,
