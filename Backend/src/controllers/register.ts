@@ -3,7 +3,6 @@ import { User } from "../models/user";
 import * as Type from "../models/types";
 
 export const register = async (req:Request, res:Response)=>{
-    //TODO
     const { email, pwd } = req.body;
     if (!email || !pwd) {
       res.status(400).json({

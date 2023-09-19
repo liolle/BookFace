@@ -185,7 +185,6 @@ const ProfileCard = ({ editable = false }: { editable: boolean }) => {
                 editOpen &&
                 <div className=' flex justify-center items-center h-[300px] '>
                     <span> editable options </span>
-                    {/* <button type='button' className=' text-xs'> https://github/liolle </button> */}
                 </div>
             }
 
