@@ -27,7 +27,6 @@ exports.register = void 0;
 const user_1 = require("../models/user");
 const Type = __importStar(require("../models/types"));
 const register = async (req, res) => {
-    //TODO
     const { email, pwd } = req.body;
     if (!email || !pwd) {
         res.status(400).json({
