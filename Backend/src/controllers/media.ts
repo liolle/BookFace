@@ -6,193 +6,160 @@ import { Media } from "../models/media";
 import { randomUUID } from "crypto";
 import { createPresignedUrlWithoutClient } from "../utils/aws";
 
-const supportedExtension = ['png', 'jpg', 'jpeg', 'webp', 'gif']
+const supportedExtension = ["png", "jpg", "jpeg", "webp", "gif"];
 
 export const getMedia = async (req: Request, res: Response) => {
+  const { media_id } = req.query;
 
-    const { media_id } = req.query
+  let m = parseInt(media_id as string);
 
-    let m = parseInt(media_id as string)
+  if (isNaN(m)) {
+    res.status(400).json({
+      status: 401,
+      message: Type.StatusTypes[401],
+      content: {},
+    });
+    return;
+  }
 
-    if (isNaN(m)) {
-        res.status(400).json(
-            {
-                status: 401,
-                message: Type.StatusTypes[401],
-                content: {}
-            }
-        )
-        return
-    }
+  let media = new Media();
+  let resp = await media.get(m);
+  media.close();
+  if (resp.status != 100) {
+    res.status(400).json({
+      status: resp.status,
+      message: resp.message,
+      content: {},
+    });
+    return;
+  }
 
-    let media = new Media()
-    let resp = await media.get(m)
-    media.close()
-    if (resp.status != 100) {
-        res.status(400).json(
-            {
-                status: resp.status,
-                message: resp.message,
-                content: {}
-            }
-        )
-        return
-    }
-
-    res.status(200).json(
-        {
-            status: resp.status,
-            message: resp.message,
-            content: resp.content
-        }
-    )
-}
+  res.status(200).json({
+    status: resp.status,
+    message: resp.message,
+    content: resp.content,
+  });
+};
 
 export const getUserMedia = async (req: Request, res: Response) => {
-    const { user_id } = req.params
+  const { user_id } = req.params;
 
-    if (!user_id) {
-        res.status(400).json(
-            {
-                status: 403,
-                message: Type.StatusTypes[403],
-                content: {
-                }
-            }
-        )
-        return
-    }
+  if (!user_id) {
+    res.status(400).json({
+      status: 403,
+      message: Type.StatusTypes[403],
+      content: {},
+    });
+    return;
+  }
 
-    let UID = Number(user_id);
-    if (isNaN(UID)) {
-        res.status(400).json(
-            {
-                status: 404,
-                message: Type.StatusTypes[404],
-                content: {
-                }
-            }
-        )
-        return
-    }
+  let UID = Number(user_id);
+  if (isNaN(UID)) {
+    res.status(400).json({
+      status: 404,
+      message: Type.StatusTypes[404],
+      content: {},
+    });
+    return;
+  }
 
-    let media = new Media()
-    let resp = await media.getAll(UID)
-    media.close()
+  let media = new Media();
+  let resp = await media.getAll(UID);
+  media.close();
 
-    res.status(resp.status != 100 ? 200 : 400).json(
-        {
-            status: resp.status,
-            message: resp.message,
-            content: resp.content
-        }
-    )
-
-}
+  res.status(resp.status != 100 ? 200 : 400).json({
+    status: resp.status,
+    message: resp.message,
+    content: resp.content,
+  });
+};
 
 export const upload = async (req: Request, res: Response) => {
-    const REGION = process.env.AWS_REGION;
-    const BUCKET = process.env.AWS_BUCKET_NAME;
+  const REGION = process.env.AWS_REGION;
+  const BUCKET = process.env.AWS_BUCKET_NAME;
 
-    const KEY = `${randomUUID()}`;
+  const KEY = `${randomUUID().split("-")[0]}`;
 
-    if (!REGION || !BUCKET || !KEY) {
-        res.status(400).json(
-            {
-                status: 400,
-                message: "Missing access information",
-                content: {}
-            }
-        )
-        return
-    }
+  if (!REGION || !BUCKET || !KEY) {
+    res.status(400).json({
+      status: 400,
+      message: "Missing access information",
+      content: {},
+    });
+    return;
+  }
 
-    try {
+  try {
+    let clientUrl = await createPresignedUrlWithoutClient({
+      region: REGION,
+      bucket: BUCKET,
+      key: KEY,
+    });
 
-        let clientUrl = await createPresignedUrlWithoutClient({
-            region: REGION,
-            bucket: BUCKET,
-            key: KEY,
-        });
-
-        res.status(200).json(
-            {
-                status: 100,
-                message: "success",
-                content: {
-                    url: clientUrl,
-                    key: KEY
-                }
-            }
-        )
-        return
-
-    } catch (err) {
-
-        res.status(400).json(
-            {
-                status: 404,
-                message: err,
-                content: {}
-            }
-        )
-        return
-    }
-}
+    res.status(200).json({
+      status: 100,
+      message: "success",
+      content: {
+        url: clientUrl,
+        key: KEY,
+      },
+    });
+    return;
+  } catch (err) {
+    res.status(400).json({
+      status: 404,
+      message: err,
+      content: {},
+    });
+    return;
+  }
+};
 
 export const claim = async (req: Request, res: Response) => {
-    const { user_id } = req.params
-    const { key } = req.body
-    if (!user_id) {
-        res.status(400).json(
-            {
-                status: 403,
-                message: Type.StatusTypes[403],
-                content: {
-                }
-            }
-        )
-        return
-    }
+  const { user_id } = req.params;
+  const { key } = req.body;
+  if (!user_id) {
+    res.status(400).json({
+      status: 403,
+      message: Type.StatusTypes[403],
+      content: {},
+    });
+    return;
+  }
 
-    if (!key) {
-        res.status(400).json(
-            {
-                status: 400,
-                message: Type.StatusTypes[400],
-                content: {
-                    example: {
-                        key: "random-key.png"
-                    }
-                }
-            }
-        )
-        return
-    }
+  if (!key) {
+    res.status(400).json({
+      status: 400,
+      message: Type.StatusTypes[400],
+      content: {
+        example: {
+          key: "random-key.png",
+        },
+      },
+    });
+    return;
+  }
 
-    let UID = Number(user_id);
-    if (isNaN(UID)) {
-        res.status(400).json(
-            {
-                status: 404,
-                message: Type.StatusTypes[404],
-                content: {
-                }
-            }
-        )
-        return
-    }
+  let UID = Number(user_id);
+  if (isNaN(UID)) {
+    res.status(400).json({
+      status: 404,
+      message: Type.StatusTypes[404],
+      content: {},
+    });
+    return;
+  }
 
-    let media = new Media()
-    let resp = await media.add(`https://${process.env.AWS_CDN}/${key}`,UID)
-    media.close()
+  let media = new Media();
+  let resp = await media.add(`https://${process.env.AWS_CDN}/${key}`, UID);
+  media.close();
 
-    res.status(resp.status != 100 ? 400 : 200).json(
-        {
-            status: resp.status,
-            message: resp.message,
-            content:resp.status != 100 ? resp.content : {...resp.content,link:`https://${process.env.AWS_CDN}/${key}`}
-        }
-    )
-}
-
+  res.status(resp.status != 100 ? 400 : 200).json({
+    status: resp.status,
+    message: resp.message,
+    content:
+      resp.status != 100
+        ? resp.content
+        : { ...resp.content, link: `https://${process.env.AWS_CDN}/${key}` },
+  });
+};
