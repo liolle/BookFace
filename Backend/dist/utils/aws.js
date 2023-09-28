@@ -7,9 +7,9 @@ const url_parser_1 = require("@smithy/url-parser");
 const hash_node_1 = require("@smithy/hash-node");
 const protocol_http_1 = require("@smithy/protocol-http");
 const util_format_url_1 = require("@aws-sdk/util-format-url");
-const createPresignedUrlWithoutClient = async ({ region, bucket, key }) => {
+const createPresignedUrlWithoutClient = async ({ region, bucket, key, }) => {
     const url = (0, url_parser_1.parseUrl)(`https://${bucket}.s3.${region}.amazonaws.com/${key}`);
-    console.log((key));
+    console.log(key);
     const presigner = new s3_request_presigner_1.S3RequestPresigner({
         credentials: (0, credential_providers_1.fromEnv)(),
         region,
@@ -17,10 +17,8 @@ const createPresignedUrlWithoutClient = async ({ region, bucket, key }) => {
     });
     return new Promise(async (resolve, reject) => {
         try {
-            setTimeout(async () => {
-                const signedUrlObject = await presigner.presign(new protocol_http_1.HttpRequest({ ...url, method: "PUT" }));
-                resolve((0, util_format_url_1.formatUrl)(signedUrlObject));
-            }, Math.floor(Math.random() * 2001) + 50);
+            const signedUrlObject = await presigner.presign(new protocol_http_1.HttpRequest({ ...url, method: "PUT" }));
+            resolve((0, util_format_url_1.formatUrl)(signedUrlObject));
         }
         catch (error) {
             reject(error);
