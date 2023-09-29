@@ -4,8 +4,6 @@ import { parseUrl } from "@smithy/url-parser";
 import { Hash } from "@smithy/hash-node";
 import { HttpRequest } from "@smithy/protocol-http";
 import { formatUrl } from "@aws-sdk/util-format-url";
-import https from "https";
-import { randomUUID } from "crypto";
 
 export const createPresignedUrlWithoutClient = async ({
   region,
