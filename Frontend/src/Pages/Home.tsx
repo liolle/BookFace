@@ -31,7 +31,7 @@ const Home = () => {
       </div>
       <div className=' hidden md:flex flex-col gap-4 md:flex-[0_1_25%]  p-4  '>
         <div className=' h-40 w-full bg-green-500 rounded-lg flex justify-center items-center'>
-          <span> Put things here </span>
+          <span> Context SideBar </span>
 
         </div>
       </div>

@@ -28,7 +28,7 @@ const Type = __importStar(require("../models/types"));
 const media_1 = require("../models/media");
 const crypto_1 = require("crypto");
 const aws_1 = require("../utils/aws");
-const supportedExtension = ['png', 'jpg', 'jpeg', 'webp', 'gif'];
+const supportedExtension = ["png", "jpg", "jpeg", "webp", "gif"];
 const getMedia = async (req, res) => {
     const { media_id } = req.query;
     let m = parseInt(media_id);
@@ -36,7 +36,7 @@ const getMedia = async (req, res) => {
         res.status(400).json({
             status: 401,
             message: Type.StatusTypes[401],
-            content: {}
+            content: {},
         });
         return;
     }
@@ -47,14 +47,14 @@ const getMedia = async (req, res) => {
         res.status(400).json({
             status: resp.status,
             message: resp.message,
-            content: {}
+            content: {},
         });
         return;
     }
     res.status(200).json({
         status: resp.status,
         message: resp.message,
-        content: resp.content
+        content: resp.content,
     });
 };
 exports.getMedia = getMedia;
@@ -64,7 +64,7 @@ const getUserMedia = async (req, res) => {
         res.status(400).json({
             status: 403,
             message: Type.StatusTypes[403],
-            content: {}
+            content: {},
         });
         return;
     }
@@ -73,7 +73,7 @@ const getUserMedia = async (req, res) => {
         res.status(400).json({
             status: 404,
             message: Type.StatusTypes[404],
-            content: {}
+            content: {},
         });
         return;
     }
@@ -83,52 +83,19 @@ const getUserMedia = async (req, res) => {
     res.status(resp.status != 100 ? 200 : 400).json({
         status: resp.status,
         message: resp.message,
-        content: resp.content
+        content: resp.content,
     });
 };
 exports.getUserMedia = getUserMedia;
 const upload = async (req, res) => {
     const REGION = process.env.AWS_REGION;
     const BUCKET = process.env.AWS_BUCKET_NAME;
-    const { extension, size } = await req.body;
-    if (!extension) {
-        res.status(400).json({
-            status: 400,
-            message: "Missing extension: expected jpg,jpeg, png, webp, gif ",
-            content: {}
-        });
-        return;
-    }
-    if (!supportedExtension.includes(extension)) {
-        res.status(400).json({
-            status: 401,
-            message: `Files extension not supported : expect ${supportedExtension} found: ${extension}`,
-            content: {}
-        });
-        return;
-    }
-    if (!size) {
-        res.status(400).json({
-            status: 401,
-            message: "Missing size: expected 0 < size <= 2000000 ",
-            content: {}
-        });
-        return;
-    }
-    if (size > 2000000) {
-        res.status(400).json({
-            status: 401,
-            message: "File to big: expected 0 < size <= 2000000 ",
-            content: {}
-        });
-        return;
-    }
-    const KEY = `${(0, crypto_1.randomUUID)()}.${extension}`;
+    const KEY = `${(0, crypto_1.randomUUID)().split("-")[0]}`;
     if (!REGION || !BUCKET || !KEY) {
         res.status(400).json({
             status: 400,
             message: "Missing access information",
-            content: {}
+            content: {},
         });
         return;
     }
@@ -143,8 +110,8 @@ const upload = async (req, res) => {
             message: "success",
             content: {
                 url: clientUrl,
-                key: KEY
-            }
+                key: KEY,
+            },
         });
         return;
     }
@@ -152,7 +119,7 @@ const upload = async (req, res) => {
         res.status(400).json({
             status: 404,
             message: err,
-            content: {}
+            content: {},
         });
         return;
     }
@@ -165,7 +132,7 @@ const claim = async (req, res) => {
         res.status(400).json({
             status: 403,
             message: Type.StatusTypes[403],
-            content: {}
+            content: {},
         });
         return;
     }
@@ -175,9 +142,9 @@ const claim = async (req, res) => {
             message: Type.StatusTypes[400],
             content: {
                 example: {
-                    key: "random-key.png"
-                }
-            }
+                    key: "random-key.png",
+                },
+            },
         });
         return;
     }
@@ -186,7 +153,7 @@ const claim = async (req, res) => {
         res.status(400).json({
             status: 404,
             message: Type.StatusTypes[404],
-            content: {}
+            content: {},
         });
         return;
     }
@@ -196,7 +163,9 @@ const claim = async (req, res) => {
     res.status(resp.status != 100 ? 400 : 200).json({
         status: resp.status,
         message: resp.message,
-        content: resp.status != 100 ? resp.content : { ...resp.content, link: `https://${process.env.AWS_CDN}/${key}` }
+        content: resp.status != 100
+            ? resp.content
+            : { ...resp.content, link: `https://${process.env.AWS_CDN}/${key}` },
     });
 };
 exports.claim = claim;

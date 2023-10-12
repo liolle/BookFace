@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Toaster } from "react-hot-toast";
 import { useLocation, useParams } from "react-router-dom";
 import { S_BUTTON } from "../Components/Buttons/SButton";

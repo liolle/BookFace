@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import Loading from '../../../components/loading/loading';
+import Loading from '@/components/loading/loading';
 import { useSession } from 'next-auth/react';
 
 export default function Login() {

@@ -11,6 +11,7 @@ import React from "react"
 import Settings from "./Pages/Settings"
 import Loading from "./Pages/Loading"
 import Resizer from "./Pages/Resizer"
+import Share from "./Pages/Share"
 
 export function routes() {
     return <Routes>
@@ -28,6 +29,10 @@ export function routes() {
             <Route path= '/Login' element={<Login/>} />
             <Route path= '/LandingPage' element={<LandingPage/>} />
             <Route path= '/' element={<LandingPage />} />
+            <Route path= '/Referral' element={ <Resizer><Share/></Resizer>} />
+            
+            {/* <Route path= '/:referral' element={<LandingPage />} /> */}
+
           
             <Route path= '/api-doc' element={<APIDoc/>} />
         
